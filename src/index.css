@@ -1,0 +1,25 @@
+
+
+/*AdelleSans-Regular*/ 
+@font-face {font-family: "adelle";
+  font-weight: 400;
+  src: url("fonts/adelle.woff");
+}
+/*AdelleSans-SemiBold*/
+@font-face {font-family: "adelle";
+  font-weight: 600;
+  src: url("fonts/adellesemi.woff2");
+}
+  body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'adelle', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
