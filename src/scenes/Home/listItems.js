@@ -16,18 +16,20 @@ import { Link } from 'react-router-dom';
 export const mainListItems = (
   <div>
     <ListItem button
-    to="/newproject" 
+    to="/" 
     component={Link}>
       <ListItemText primary="Dashboard" />
     </ListItem>
 
     <ListItem button
-    to="/" 
+    to="/orders" 
     component={Link}>
       <ListItemText primary="Orders" />
     </ListItem>
-    <ListItem button>
-      <ListItemText primary="Customers" />
+    <ListItem button
+    to="/stepper" 
+    component={Link}>
+      <ListItemText primary="Stepper" />
     </ListItem>
     <ListItem button>
       <ListItemText primary="Reports" />

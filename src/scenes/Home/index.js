@@ -51,6 +51,8 @@ const SUBSCRIPTIONS_QUERY = gql`
  import { HashRouter as Router, Route, Switch } from 'react-router-dom'
  import Orders from './Orders';
 
+ import Home from './Home';
+
  function Copyright() {
    return (
      <Typography variant="body2" color="textSecondary" align="center">
@@ -171,7 +173,7 @@ const SUBSCRIPTIONS_QUERY = gql`
   }
  }));
  
- export default function Home() {
+ export default function AppHome() {
    const classes = useStyles();
    const [open, setOpen] = React.useState(true);
    const handleDrawerOpen = () => {
@@ -195,15 +197,15 @@ const SUBSCRIPTIONS_QUERY = gql`
   }} color="inherit">
     {'Home'}
   </Link>
-  <Link to="/newproject" className={classes.toolbarLink} onClick={() => {
+  <Link to="/stepper" className={classes.toolbarLink} onClick={() => {
     console.info("I'm a button.");
   }} color="inherit">
     {'Stepper'}
   </Link>
-  <Link href="#" className={classes.toolbarLink} onClick={() => {
+  <Link to="/orders" className={classes.toolbarLink} onClick={() => {
     console.info("I'm a button.");
   }} color="inherit">
-    {'link'}
+    {'orders'}
   </Link>
 </Typography>
            <IconButton color="inherit">
@@ -240,8 +242,9 @@ const SUBSCRIPTIONS_QUERY = gql`
              {/* Chart */}
              <Grid item xs={12} lg={12}>
                <Switch>
-        <Route path="/" component={Orders} exact />
-        <Route path="/newproject" component={VerticalLinearStepper} />
+        <Route path="/" component={Home} exact />
+        <Route path="/orders" component={Orders} exact />
+        <Route path="/stepper" component={VerticalLinearStepper} />
       </Switch>
                {/*<Paper className={fixedHeightPaper}>
                  <VerticalLinearStepper />

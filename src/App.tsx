@@ -2,7 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom'
-import Home from './scenes/Home';
+import AppHome from './scenes/Home';
 import { RouteComponentProps, withRouter } from "react-router-dom";
 
 
@@ -13,7 +13,7 @@ import { RouteComponentProps, withRouter } from "react-router-dom";
 render() {
   return (
     <main>
-      <Home />
+      <AppHome />
     </main>
   );
 }}
