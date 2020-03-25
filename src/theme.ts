@@ -3,6 +3,15 @@ import { createMuiTheme } from '@material-ui/core/styles';
 const newtheme = createMuiTheme({
     typography: {
       fontFamily: 'adelle',
+      h1: {
+        color: '#7171a6',
+      fontSize: '30px',
+      marginBottom: 0,
+      fontweight: 400,
+      overFlow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap'
+      },
       h2: {
         color: '#7171a6',
       fontSize: '18px',

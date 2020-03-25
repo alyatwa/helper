@@ -31,7 +31,7 @@ const SUBSCRIPTIONS_QUERY = gql`
  import { makeStyles } from '@material-ui/core/styles';
  import CssBaseline from '@material-ui/core/CssBaseline';
  import Drawer from '@material-ui/core/Drawer';
- import Box from '@material-ui/core/Box';
+
  import AppBar from '@material-ui/core/AppBar';
  import Toolbar from '@material-ui/core/Toolbar';
  import List from '@material-ui/core/List';
@@ -50,21 +50,11 @@ const SUBSCRIPTIONS_QUERY = gql`
  import sharedStyles from "../../components/sharedStyles";
  import { HashRouter as Router, Route, Switch } from 'react-router-dom'
  import Orders from './Orders';
+ import Footer from './Footer';
 
  import Home from './Home';
 
- function Copyright() {
-   return (
-     <Typography variant="body2" color="textSecondary" align="center">
-       {'Copyright © '}
-       <Linka color="inherit" href="https://material-ui.com/">
-         Your Website
-       </Linka>{' '}
-       {new Date().getFullYear()}
-       {'.'}
-     </Typography>
-   );
- }
+ 
 
  const drawerWidth = 240;
  console.log(sharedStyles)
@@ -72,8 +62,12 @@ const SUBSCRIPTIONS_QUERY = gql`
   ...sharedStyles,
 
    root: {
-     display: 'flex',
+     display: 'flex'
    },
+  footer: {
+   bottom: 0
+},
+  
    toolbar: {
      paddingRight: 24, // keep right padding when drawer closed
    },
@@ -141,6 +135,7 @@ const SUBSCRIPTIONS_QUERY = gql`
    container: {
      paddingTop: theme.spacing(4),
      paddingBottom: theme.spacing(4),
+     minHeight: 'calc(100vh - 153px)'
    },
    papers: {
      display: 'flex',
@@ -189,8 +184,6 @@ const SUBSCRIPTIONS_QUERY = gql`
        <CssBaseline />
        <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
          <Toolbar className={classes.toolbarSecondary}>
-           
-
            <Typography className={classes.men}>
            <Link to="/" className={classes.toolbarLink} onClick={() => {
     console.info("I'm a button.");
@@ -263,10 +256,12 @@ const SUBSCRIPTIONS_QUERY = gql`
                </Paper>
              </Grid>*/}
            </Grid>
-           <Box pt={4}>
-             <Copyright />
-           </Box>
+
+            
          </Container>
+         <div className={classes.footer}>
+            <Footer />
+            </div>
        </main>
      </div>
    );

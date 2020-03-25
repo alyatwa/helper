@@ -79,7 +79,7 @@ export default function VerticalLinearStepper() {
   return (
     <React.Fragment>
     <Paper className={fixedHeightPaper}>
-    <Title>How to setup</Title>
+    <Title>How to setup Vodafone router?</Title>
     <Typography>For each ad campaign that you create, you can control how much
               you're willing</Typography>
       <Stepper activeStep={activeStep} orientation="vertical">
