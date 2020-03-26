@@ -50,6 +50,8 @@ const SUBSCRIPTIONS_QUERY = gql`
  import sharedStyles from "../../components/sharedStyles";
  import { HashRouter as Router, Route, Switch } from 'react-router-dom'
  import Orders from './Orders';
+ import Solver from './Solver';
+ import ControlledExpansionPanels from './Settings';
  import Footer from './Footer';
 
  import Home from './Home';
@@ -106,8 +108,12 @@ const SUBSCRIPTIONS_QUERY = gql`
    title: {
      flexGrow: 1,
    },
+   drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+  },
    drawerPaper: {
-     position: 'relative',
+     //position: 'relative',
      whiteSpace: 'nowrap',
      width: drawerWidth,
      transition: theme.transitions.create('width', {
@@ -182,8 +188,8 @@ const SUBSCRIPTIONS_QUERY = gql`
      <div className={classes.root}>
         
        <CssBaseline />
-       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
-         <Toolbar className={classes.toolbarSecondary}>
+       <AppBar position="fixed" className={clsx(classes.appBar, open && classes.appBarShift)}>
+         <Toolbar>
            <Typography className={classes.men}>
            <Link to="/" className={classes.toolbarLink} onClick={() => {
     console.info("I'm a button.");
@@ -209,7 +215,8 @@ const SUBSCRIPTIONS_QUERY = gql`
          </Toolbar>
        </AppBar>
        <Drawer
-         variant="permanent"
+       className={classes.drawer}
+         variant="persistent"
          classes={{
            paper: classes.drawerPaper
          }}
@@ -232,29 +239,17 @@ const SUBSCRIPTIONS_QUERY = gql`
          <Container maxWidth="lg" className={classes.container}>
          
            <Grid container spacing={3}>
-             {/* Chart */}
              <Grid item xs={12} lg={12}>
                <Switch>
         <Route path="/" component={Home} exact />
-        <Route path="/orders" component={Orders} exact />
+        <Route path="/orders" component={Orders} />
+        <Route path="/solver" component={Solver} />
         <Route path="/stepper" component={VerticalLinearStepper} />
+        <Route path="/settings" component={ControlledExpansionPanels} />
       </Switch>
-               {/*<Paper className={fixedHeightPaper}>
-                 <VerticalLinearStepper />
-               </Paper>*/}
+              
              </Grid>
-             {/* Recent Deposits
-             <Grid item xs={12} md={4} lg={3}>
-               <Paper className={fixedHeightPaper}>
-                 <Deposits />
-               </Paper>
-             </Grid> 
-              Recent Orders 
-             <Grid item xs={12}>
-               <Paper className={classes.paper}>
-                 <Orders />
-               </Paper>
-             </Grid>*/}
+            
            </Grid>
 
             

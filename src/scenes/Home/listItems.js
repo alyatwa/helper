@@ -11,7 +11,7 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import { Link } from 'react-router-dom';
-
+import Divider from '@material-ui/core/Divider';
 
 export const mainListItems = (
   <div>
@@ -24,19 +24,19 @@ export const mainListItems = (
     <ListItem button
     to="/orders" 
     component={Link}>
-      <ListItemText primary="Orders" />
+      <ListItemText primary="Subscription" />
+    </ListItem>
+    <ListItem button
+    to="/solver" 
+    component={Link}>
+      <ListItemText primary="Solver" />
     </ListItem>
     <ListItem button
     to="/stepper" 
     component={Link}>
       <ListItemText primary="Stepper" />
     </ListItem>
-    <ListItem button>
-      <ListItemText primary="Reports" />
-    </ListItem>
-    <ListItem button>
-      <ListItemText primary="Integrations" />
-    </ListItem>
+
   </div>
 );
 
@@ -47,27 +47,41 @@ export const secondaryListItems = (
       aria-labelledby="nested-list-subheader"
       subheader={
         <ListSubheader component="div" id="nested-list-subheader">
-          Nested List Items
+          Routers Settings
+        </ListSubheader>
+      }
+    >
+      <ListItem button
+    to="/settings" 
+    component={Link}>
+      <ListItemText primary="ZTE" />
+    </ListItem>
+    
+    <ListItem button>
+      <ListItemText primary="Huawei" />
+    </ListItem>
+    <ListItem button>
+      <ListItemText primary="Vdsl" />
+    </ListItem>
+    </List>
+    <Divider />
+    <List
+      component="nav"
+      aria-labelledby="nested-list-subheader"
+      subheader={
+        <ListSubheader component="div" id="nested-list-subheader">
+          Troubleshooting Internet
         </ListSubheader>
       }
     >
     <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Current month" />
+      <ListItemText primary="Internet Not Working" />
     </ListItem>
     <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Last quarter" />
+      <ListItemText primary="Monitor bandwidth usage" />
     </ListItem>
     <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Year-end sale" />
+      <ListItemText primary="Limit internet speed" />
     </ListItem>
     </List>
   </div>
