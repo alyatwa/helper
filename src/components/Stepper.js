@@ -22,6 +22,8 @@ import Typography from '@material-ui/core/Typography';
 import Title from '../scenes/Home/Title';
 import Link from '@material-ui/core/Link';
 import CardMedia from '@material-ui/core/CardMedia';
+import Markdown from './Markdown';
+
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
@@ -84,12 +86,8 @@ export default function StepperCard(props) {
             </StepButton>
             {/*<StepLabel  onClick={handleStep(index)}>{step.label}</StepLabel>*/}
             <StepContent>
-              <Typography>{step.description}</Typography>
-              <CardMedia
-              image={step.img.link}
-              style={{height:step.img.height}}
-          className={classes.media}
-        />
+              
+              <Typography><Markdown className={classes.markdown}>{step.description}</Markdown></Typography>
               <div className={classes.actionsContainer}>
                 <div>
                   <Button

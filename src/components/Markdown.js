@@ -3,6 +3,7 @@ import ReactMarkdown from 'markdown-to-jsx';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Link from '@material-ui/core/Link';
+import Title from '../scenes/Home/Title';
 
 const styles = (theme) => ({
   listItem: {
@@ -16,10 +17,10 @@ const options = {
       component: Typography,
       props: {
         gutterBottom: true,
-        variant: 'h5',
+        variant: 'h6',
       },
     },
-    h2: { component: Typography, props: { gutterBottom: true, variant: 'h6' } },
+    h2: { component: Title, props: { gutterBottom: true, variant: 'h2' } },
     h3: { component: Typography, props: { gutterBottom: true, variant: 'subtitle1' } },
     h4: {
       component: Typography,

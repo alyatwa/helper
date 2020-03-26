@@ -45,7 +45,8 @@ const SUBSCRIPTIONS_QUERY = gql`
  import { Link } from 'react-router-dom';
  import NotificationsIcon from '@material-ui/icons/Notifications';
  import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
- import { mainListItems, secondaryListItems } from './listItems';
+ import {mainListItems}  from './listItems';
+ import NestedList  from './DrawerList';
  import VerticalLinearStepper from './Stepper';
  import sharedStyles from "../../components/sharedStyles";
  import { HashRouter as Router, Route, Switch } from 'react-router-dom'
@@ -229,9 +230,8 @@ const SUBSCRIPTIONS_QUERY = gql`
            
          </div>
          <Divider />
-         <List>{mainListItems}</List>
-         <Divider />
-         <List>{secondaryListItems}</List>
+         {/*<List>{mainListItems}</List>*/}
+         <NestedList/>
        </Drawer>
 
        <main className={classes.content}>
