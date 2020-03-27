@@ -196,6 +196,65 @@ function allLinks() {
       external: false,
       text: 'Stepper',
     }],
+    drawer:[{
+      subheader: 'Vodafone',
+      items:[{
+        href:'/',
+        external: false,
+        text:'Home'
+      },
+      {
+        href:'/stepper',
+        external: false,
+        text:'Stepper'
+      },
+      {
+        href:'/solver',
+        external: false,
+        text:'Solver'
+      },
+      {
+        href:'https://google.com',
+        external: true,
+        text:'Orders'
+      } ]
+    },{
+      subheader: 'Router settings',
+      items:[{
+        href:'/',
+        external: false,
+        text:'ZTE'
+      },
+      {
+        href:'/stepper',
+        external: false,
+        text:'Huawei'
+      },
+      {
+        href:'/solver',
+        external: false,
+        text:'Vdsl'
+      }]
+    },{
+      subheader: 'Troubleshooting Internet',
+      items:[{
+        href:'/',
+        external: false,
+        text:'Internet Not Working'
+      },
+      {
+        href:'/stepper',
+        external: false,
+        text:'Monitor bandwidth usage'
+      },
+      {
+        href:'/solver',
+        external: false,
+        text:'Limit internet speed'
+      }]
+    }
+
+  ],
     footer: {
       copyright:'Copyright © [Your Website](https://google.com) 2020.',
       linkstext:[{
@@ -275,20 +334,20 @@ export default function AppHome() {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+  
+  const links = allLinks();
   const drawer = (
     <>
     <div className={classes.toolbarIcon}>
           <Container className={classes.box}>
             <ShoppingCartIcon />
           </Container>
-
         </div>
         <Divider />
-        {/*<List>{mainListItems}</List>*/}
-        <NestedList />
+        <NestedList links={links.drawer} />
         </>
   )
-  const links = allLinks();
+  
   return (
     <div className={classes.root}>
 
@@ -354,7 +413,7 @@ export default function AppHome() {
           </Drawer>
         </Hidden>
       </nav>
-      <Drawer
+      {/*<Drawer
         className={classes.drawer}
         variant="temporary"
         ModalProps={{
@@ -373,9 +432,8 @@ export default function AppHome() {
 
         </div>
         <Divider />
-        {/*<List>{mainListItems}</List>*/}
         <NestedList />
-      </Drawer>
+      </Drawer>*/}
 
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
