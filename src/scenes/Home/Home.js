@@ -95,7 +95,7 @@ function getCards() {
       description: 'Everything you need to know to get started and get to work in Slack.',
       link: {
         href: 'https://google.com',
-        external: false,
+        external: true,
         text: 'Learn More',
       },
       img: 'https://a.slack-edge.com/80588/helpcenter/img/icon_book_new_2x.png'

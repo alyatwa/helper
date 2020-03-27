@@ -74,7 +74,7 @@ console.log(props)
                 <>
                   {link.external ?
                     <ListItem  >
-                      <Linka className={classes.listItem} href={link.href}>{link.text}</Linka>
+                      <Linka target="_blank" className={classes.listItem} href={link.href}>{link.text}</Linka>
                     </ListItem>
                     :
                     <ListItem  >

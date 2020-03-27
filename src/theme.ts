@@ -38,11 +38,11 @@ const newtheme = createMuiTheme({
         fontFeatureSettings:'tnum'
       }
     },
-    palette: {
+    /*palette: {
       background: {
         default: "#f7f7fc"
       }
-    },
+    },*/
     overrides: {
       MuiTypography:{
         body1: {

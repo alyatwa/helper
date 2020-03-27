@@ -368,6 +368,9 @@ export default function AppHome() {
       },
       label: {
         color: colors.secondary
+      },
+      background: {
+        default: "#000000"
       }
     },
     typography:{
@@ -442,7 +445,7 @@ export default function AppHome() {
             {links.header.map((link, index) => (
               <>
                 {link.external ?
-                  <Button href={link.href} size="small" color="inherit">
+                  <Button target="_blank" href={link.href} size="small" color="inherit">
                     {link.text}
                   </Button>
                   :
@@ -495,8 +498,8 @@ export default function AppHome() {
       <main className={classes.content}>
 
         <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
         <MuiThemeProvider theme={muiTheme}>
+        <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
             <Grid item xs={12} lg={12}>
               <Switch>
@@ -516,8 +519,8 @@ export default function AppHome() {
               </Switch>
             </Grid>
           </Grid>
-          </MuiThemeProvider>
-        </Container>
+          
+        </Container></MuiThemeProvider>
         <div className={classes.footer}>
           <Footer links={links.footer} />
         </div>

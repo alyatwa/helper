@@ -9,7 +9,8 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import sharedStyles from "../../components/sharedStyles";
 import clsx from 'clsx';
- import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import Linka from '@material-ui/core/Link';
 
 const useStyles = makeStyles((theme) => ({
   ...sharedStyles,
@@ -31,11 +32,22 @@ export default function HomeCard(props) {
 
   return (
     <Card className={clsx(classes.root && classes.paper)}>
+      {props.link.external ?
       <CardMedia
         className={classes.media}
         image={props.img}
         title={props.title}
-      />
+        component={Linka}
+        target="_blank" 
+        href={props.link.href}
+      />:
+      <CardMedia
+        className={classes.media}
+        image={props.img}
+        title={props.title}
+        component={Link}
+        to={props.link.href}
+      />}
       <CardContent>
         <Typography gutterBottom color="primary" variant="h5" component="h1">
           {props.title}
@@ -47,7 +59,7 @@ export default function HomeCard(props) {
 
       <CardActions>
       {props.link.external ?
-      <Button href={props.link.href} size="small" color="primary">
+      <Button href={props.link.href} target="_blank" size="small" color="primary">
       {props.link.text}
       </Button>
         :
