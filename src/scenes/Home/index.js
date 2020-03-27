@@ -45,7 +45,6 @@ import Linka from '@material-ui/core/Link';
 import { Link } from 'react-router-dom';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import { mainListItems } from './listItems';
 import NestedList from './DrawerList';
 import VerticalLinearStepper from './Stepper';
 import sharedStyles from "../../components/sharedStyles";
@@ -58,6 +57,7 @@ import Hidden from '@material-ui/core/Hidden';
 import Button from '@material-ui/core/Button';
 import Home from './Home';
 import MenuIcon from '@material-ui/icons/Menu';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -86,9 +86,9 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     [theme.breakpoints.up('sm')]: {
-        width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: drawerWidth,
-      }
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+    }
   },
   /*appBarShift: {
     marginLeft: drawerWidth,
@@ -143,7 +143,8 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
     [theme.breakpoints.up('sm')]: {
       display: 'none',
-    }},
+    }
+  },
   container: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
@@ -196,129 +197,130 @@ function allLinks() {
       external: false,
       text: 'Stepper',
     }],
-    drawer:[{
+    drawer: [{
       subheader: 'Vodafone',
-      items:[{
-        href:'/',
+      items: [{
+        href: '/',
         external: false,
-        text:'Home'
+        text: 'Home'
       },
       {
-        href:'/stepper',
+        href: '/stepper',
         external: false,
-        text:'Stepper'
+        text: 'Stepper'
       },
       {
-        href:'/solver',
+        href: '/solver',
         external: false,
-        text:'Solver'
+        text: 'Solver'
       },
       {
-        href:'https://google.com',
+        href: 'https://google.com',
         external: true,
-        text:'Orders'
-      } ]
-    },{
-      subheader: 'Router settings',
-      items:[{
-        href:'/',
-        external: false,
-        text:'ZTE'
-      },
-      {
-        href:'/stepper',
-        external: false,
-        text:'Huawei'
-      },
-      {
-        href:'/solver',
-        external: false,
-        text:'Vdsl'
+        text: 'Orders'
       }]
-    },{
+    }, {
+      subheader: 'Router settings',
+      items: [{
+        href: '/',
+        external: false,
+        text: 'ZTE'
+      },
+      {
+        href: '/stepper',
+        external: false,
+        text: 'Huawei'
+      },
+      {
+        href: '/solver',
+        external: false,
+        text: 'Vdsl'
+      }]
+    }, {
       subheader: 'Troubleshooting Internet',
-      items:[{
-        href:'/',
+      items: [{
+        href: '/',
         external: false,
-        text:'Internet Not Working'
+        text: 'Internet Not Working'
       },
       {
-        href:'/stepper',
+        href: '/stepper',
         external: false,
-        text:'Monitor bandwidth usage'
+        text: 'Monitor bandwidth usage'
       },
       {
-        href:'/solver',
+        href: '/solver',
         external: false,
-        text:'Limit internet speed'
+        text: 'Limit internet speed'
       }]
     }
 
-  ],
+    ],
     footer: {
-      copyright:'Copyright © [Your Website](https://google.com) 2020.',
-      linkstext:[{
-      size: 4,
-      title: 'Services',
-      links: [
-        {
-          href: '/',
-          external: false,
-          text: 'Home',
-        },
-        {
-          href: 'https://google.com',
-          external: true,
-          text: 'External',
-        },
-        {
-          href: '/stepper',
-          external: false,
-          text: 'Stepper',
-        }]
-     },
-     {
-      size: 4,
-      title: 'Packages',
-      links: [
-        {
-          href: '/',
-          external: false,
-          text: 'Home',
-        },
-        {
-          href: 'https://google.com',
-          external: true,
-          text: 'External',
-        },
-        {
-          href: '/stepper',
-          external: false,
-          text: 'Stepper',
-        }]
-    },
-    {
-      size: 4,
-      title: 'Services',
-      links: [
-        {
-          href: '/',
-          external: false,
-          text: 'Home',
-        },
-        {
-          href: 'https://google.com',
-          external: true,
-          text: 'External',
-        },
-        {
-          href: '/stepper',
-          external: false,
-          text: 'Stepper',
-        }]}
-    
-  ]
-}
+      copyright: 'Copyright © [Your Website](https://google.com) 2020.',
+      linkstext: [{
+        size: 4,
+        title: 'Services',
+        links: [
+          {
+            href: '/',
+            external: false,
+            text: 'Home',
+          },
+          {
+            href: 'https://google.com',
+            external: true,
+            text: 'External',
+          },
+          {
+            href: '/stepper',
+            external: false,
+            text: 'Stepper',
+          }]
+      },
+      {
+        size: 4,
+        title: 'Packages',
+        links: [
+          {
+            href: '/',
+            external: false,
+            text: 'Home',
+          },
+          {
+            href: 'https://google.com',
+            external: true,
+            text: 'External',
+          },
+          {
+            href: '/stepper',
+            external: false,
+            text: 'Stepper',
+          }]
+      },
+      {
+        size: 4,
+        title: 'Services',
+        links: [
+          {
+            href: '/',
+            external: false,
+            text: 'Home',
+          },
+          {
+            href: 'https://google.com',
+            external: true,
+            text: 'External',
+          },
+          {
+            href: '/stepper',
+            external: false,
+            text: 'Stepper',
+          }]
+      }
+
+      ]
+    }
   }
 }
 export default function AppHome() {
@@ -334,27 +336,27 @@ export default function AppHome() {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  
+
   const links = allLinks();
   const drawer = (
-    <>
-    <div className={classes.toolbarIcon}>
-          <Container className={classes.box}>
-            <ShoppingCartIcon />
-          </Container>
-        </div>
-        <Divider />
-        <NestedList links={links.drawer} />
-        </>
+    <Scrollbars autoHide universal autoHideDuration={200}>
+      <div className={classes.toolbarIcon}>
+        <Container className={classes.box}>
+          <ShoppingCartIcon />
+        </Container>
+      </div>
+      
+      <NestedList links={links.drawer} />
+      </Scrollbars>
   )
-  
+
   return (
     <div className={classes.root}>
-
       <CssBaseline />
+      
       <AppBar position="fixed" className={clsx(classes.appBar)}>
         <Toolbar>
-        <IconButton
+          <IconButton
             color="inherit"
             aria-label="open drawer"
             edge="start"
@@ -384,9 +386,11 @@ export default function AppHome() {
           </IconButton>
         </Toolbar>
       </AppBar>
+      
       <nav className={classes.drawer} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
+        
           <Drawer
             variant="temporary"
             open={mobileOpen}
@@ -398,10 +402,12 @@ export default function AppHome() {
               keepMounted: true, // Better open performance on mobile.
             }}
           >
-            {drawer}
+           {drawer}
           </Drawer>
+          
         </Hidden>
         <Hidden xsDown implementation="css">
+       
           <Drawer
             classes={{
               paper: classes.drawerPaper,
@@ -409,7 +415,7 @@ export default function AppHome() {
             variant="permanent"
             open
           >
-            {drawer}
+             {drawer}
           </Drawer>
         </Hidden>
       </nav>
@@ -434,11 +440,11 @@ export default function AppHome() {
         <Divider />
         <NestedList />
       </Drawer>*/}
-
       <main className={classes.content}>
+
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-
+        
           <Grid container spacing={3}>
             <Grid item xs={12} lg={12}>
               <Switch>
@@ -448,12 +454,9 @@ export default function AppHome() {
                 <Route path="/stepper" component={VerticalLinearStepper} />
                 <Route path="/settings" component={ControlledExpansionPanels} />
               </Switch>
-
             </Grid>
-
           </Grid>
-
-
+          
         </Container>
         <div className={classes.footer}>
           <Footer links={links.footer} />

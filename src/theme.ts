@@ -52,6 +52,20 @@ const newtheme = createMuiTheme({
         body1: {
           textDecoration: 'none'
         }
+      },
+        MuiCssBaseline: {
+          '@global': {
+            '*::-webkit-scrollbar': {
+              width: '7px',
+              backgroundColor: 'transparent'
+            },
+            '*::-webkit-scrollbar-thumb':{
+              backgroundColor: '#cccccc',
+              borderRadius: '3px',
+              width: '6px',
+            }
+
+          }
       }
     }
   

@@ -42,10 +42,8 @@ export default function NestedList(props) {
       {props.links.map((data, index) => (
         <>
           <List
-            component="nav"
-            aria-labelledby="nested-list-subheader"
             subheader={
-              <ListSubheader component="div" id="nested-list-subheader">
+              <ListSubheader disableSticky={true}>
                 {data.subheader}
               </ListSubheader>
             }

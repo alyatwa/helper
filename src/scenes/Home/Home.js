@@ -8,6 +8,7 @@ import sharedStyles from "../../components/sharedStyles";
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Markdown from '../../components/Markdown';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 const useStyles = makeStyles(theme => ({
   ...sharedStyles,
@@ -119,7 +120,6 @@ export default function Home() {
   return (
     <div className={classes.root}>
       
-
       <Grid container spacing={3}>
         
         {home.components.map((comp, index) => (
