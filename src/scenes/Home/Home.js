@@ -114,9 +114,10 @@ function getCards() {
     ]
   }
 }
-export default function Home() {
+export default function Home(props) {
   const classes = useStyles();
   const home = getCards();
+
   return (
     <div className={classes.root}>
       
@@ -127,7 +128,7 @@ export default function Home() {
         {comp.name === 'text' ?
         <Grid item xs={12} md={comp.size}>
             <Paper className={classes.paper}>
-            <Typography variant="body2" color="textSecondary" align={comp.align}>
+            <Typography variant="body2" align={comp.align}>
               <Markdown>{comp.title}</Markdown>
               </Typography>
             </Paper>

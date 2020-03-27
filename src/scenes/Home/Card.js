@@ -31,19 +31,17 @@ export default function HomeCard(props) {
 
   return (
     <Card className={clsx(classes.root && classes.paper)}>
-
       <CardMedia
         className={classes.media}
         image={props.img}
         title={props.title}
       />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="h2">
+        <Typography gutterBottom color="primary" variant="h5" component="h1">
           {props.title}
         </Typography>
-        <Typography variant="body2" color="textSecondary" component="p">
+        <Typography variant="body2" component="p">
           {props.description}
-
         </Typography>
       </CardContent>
 

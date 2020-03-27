@@ -4,7 +4,6 @@ const newtheme = createMuiTheme({
     typography: {
       fontFamily: 'adelle',
       h1: {
-        color: '#7171a6',
       fontSize: '30px',
       marginBottom: 0,
       fontweight: 400,
@@ -13,7 +12,6 @@ const newtheme = createMuiTheme({
       whiteSpace: 'nowrap'
       },
       h2: {
-        color: '#7171a6',
       fontSize: '18px',
       marginBottom: 0,
       fontweight: 400,
@@ -22,7 +20,6 @@ const newtheme = createMuiTheme({
       whiteSpace: 'nowrap'
       },
       h6: {
-        color: '#7171a6',
       fontSize: '18px',
       marginBottom: 0,
       fontWeight: 400,
@@ -35,7 +32,6 @@ const newtheme = createMuiTheme({
       },
       h4: {
         fontFamily: 'adelle',
-        color: '#6078ff',
         fontSize: '24px',
         fontWeight: 600,
         marginBottom: '15px',

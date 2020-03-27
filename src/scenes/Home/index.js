@@ -58,6 +58,8 @@ import Button from '@material-ui/core/Button';
 import Home from './Home';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Scrollbars } from 'react-custom-scrollbars';
+import CardMedia from '@material-ui/core/CardMedia';
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -69,7 +71,14 @@ const useStyles = makeStyles((theme) => ({
   footer: {
     bottom: 0
   },
-
+  media: {
+    height: 60,
+    width: '100%',
+    margin: 10,
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'contain',
+    backgroundPosition: 'center center'
+  },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
   },
@@ -182,6 +191,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 function allLinks() {
   return {
+    colors: {
+      primary: '#e70000',
+      secondary: '#333333',
+      buttontext:'#ffffff',
+      linkcard: 'red',
+      cardtext:'#959090',
+      linkheader: '#ffffff',
+      
+      linkfooter: '#696969'
+    },
     header: [{
       href: '/',
       external: false,
@@ -210,9 +229,9 @@ function allLinks() {
         text: 'Stepper'
       },
       {
-        href: '/solver',
+        href: '/settings',
         external: false,
-        text: 'Solver'
+        text: 'Settings'
       },
       {
         href: 'https://google.com',
@@ -338,26 +357,80 @@ export default function AppHome() {
   };
 
   const links = allLinks();
+  const colors = allLinks().colors;
+  const muiTheme = createMuiTheme({
+    palette: {
+      primary: {
+        main: colors.primary
+      },
+      secondary: {
+        main: colors.secondary
+      },
+      label: {
+        color: colors.secondary
+      }
+    },
+    typography:{
+    h1: {
+      color: colors.secondary
+    },
+    h2: {
+      color: colors.secondary
+    },
+    h3: {
+      color: colors.secondary
+    },
+    h5: {
+      color: colors.primary
+    },
+  },
+    overrides: {
+      MuiButton: {
+        containedPrimary: {
+          color: colors.buttontext
+        }
+      },
+      MuiStepLabel: { //for text only
+        label: {
+          color: '#000000'
+        },
+      },
+      MuiStepIcon: {
+        root: {
+          '&$active': {
+            color: colors.primary,
+          },
+          '&$completed': {
+            color: colors.primary,
+          },
+        },
+      },
+    }
+  });
   const drawer = (
     <Scrollbars autoHide universal autoHideDuration={200}>
       <div className={classes.toolbarIcon}>
         <Container className={classes.box}>
-          <ShoppingCartIcon />
+          <CardMedia
+            className={classes.media}
+            image="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Vodafone_icon.svg/473px-Vodafone_icon.svg.png"
+            title="Vodafone"
+          />
         </Container>
       </div>
-      
+
       <NestedList links={links.drawer} />
-      </Scrollbars>
+    </Scrollbars>
   )
 
   return (
     <div className={classes.root}>
       <CssBaseline />
-      
-      <AppBar position="fixed" className={clsx(classes.appBar)}>
+
+      <AppBar style={{ background: links.colors.primary }} position="fixed" className={clsx(classes.appBar)}>
         <Toolbar>
           <IconButton
-            color="inherit"
+            color={links.colors.linkheader}
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
@@ -365,7 +438,7 @@ export default function AppHome() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography className={classes.men}>
+          <Typography style={{ color: links.colors.linkheader }} className={classes.men}>
             {links.header.map((link, index) => (
               <>
                 {link.external ?
@@ -386,11 +459,11 @@ export default function AppHome() {
           </IconButton>
         </Toolbar>
       </AppBar>
-      
+
       <nav className={classes.drawer} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
-        
+
           <Drawer
             variant="temporary"
             open={mobileOpen}
@@ -402,12 +475,12 @@ export default function AppHome() {
               keepMounted: true, // Better open performance on mobile.
             }}
           >
-           {drawer}
+            {drawer}
           </Drawer>
-          
+
         </Hidden>
         <Hidden xsDown implementation="css">
-       
+
           <Drawer
             classes={{
               paper: classes.drawerPaper,
@@ -415,48 +488,35 @@ export default function AppHome() {
             variant="permanent"
             open
           >
-             {drawer}
+            {drawer}
           </Drawer>
         </Hidden>
       </nav>
-      {/*<Drawer
-        className={classes.drawer}
-        variant="temporary"
-        ModalProps={{
-          keepMounted: true, // Better open performance on mobile.
-        }}
-        classes={{
-          paper: classes.drawerPaper
-        }}
-        open={mobileOpen}
-        onClose={handleDrawerToggle}
-      >
-        <div className={classes.toolbarIcon}>
-          <Container className={classes.box}>
-            <ShoppingCartIcon />
-          </Container>
-
-        </div>
-        <Divider />
-        <NestedList />
-      </Drawer>*/}
       <main className={classes.content}>
 
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-        
+        <MuiThemeProvider theme={muiTheme}>
           <Grid container spacing={3}>
             <Grid item xs={12} lg={12}>
               <Switch>
-                <Route path="/" component={Home} exact />
+                <Route
+                  path='/'
+                  exact
+                  render={(routeProps) => <Home {...routeProps} colors={links.colors} />}
+                />
                 <Route path="/orders" component={Orders} />
                 <Route path="/solver" component={Solver} />
                 <Route path="/stepper" component={VerticalLinearStepper} />
-                <Route path="/settings" component={ControlledExpansionPanels} />
+                <Route
+                  path='/settings'
+                  exact
+                  render={(routeProps) => <ControlledExpansionPanels {...routeProps} colors={links.colors} />}
+                />
               </Switch>
             </Grid>
           </Grid>
-          
+          </MuiThemeProvider>
         </Container>
         <div className={classes.footer}>
           <Footer links={links.footer} />

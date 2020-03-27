@@ -24,6 +24,7 @@ import Link from '@material-ui/core/Link';
 import CardMedia from '@material-ui/core/CardMedia';
 import Markdown from './Markdown';
 
+
 const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
@@ -73,20 +74,18 @@ export default function StepperCard(props) {
   const handleReset = () => {
     setActiveStep(0);
   };
+
   return (
     <React.Fragment>
-    {/*<Title>Troubleshooting Your Internet Connection</Title>
-    <Typography>For each ad campaign that you create, you can control how much
-              you're willing</Typography>*/}
+      
       <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((step, index) => (
-          <Step key={step.label}>
+          <Step key={step.label} >
             <StepButton onClick={handleStep(index)}>
             {step.label}
             </StepButton>
             {/*<StepLabel  onClick={handleStep(index)}>{step.label}</StepLabel>*/}
             <StepContent>
-              
               <Typography><Markdown className={classes.markdown}>{step.description}</Markdown></Typography>
               <div className={classes.actionsContainer}>
                 <div>

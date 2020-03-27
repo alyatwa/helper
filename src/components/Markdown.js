@@ -13,19 +13,22 @@ const styles = (theme) => ({
 
 const options = {
   overrides: {
-    h1: {
+    /*h1: {
       component: Typography,
       props: {
         gutterBottom: true,
         variant: 'h6',
       },
-    },
-    h2: { component: Title, props: { gutterBottom: true, variant: 'h2' } },
-    h3: { component: Typography, props: { gutterBottom: true, variant: 'subtitle1' } },
-    h4: {
+    },*/
+
+    h1: { component: Title, props: { gutterBottom: true, variant: 'h5' } },
+    h2: { component: Typography, props: { gutterBottom: true, variant: 'h6' } },
+    h3: { component: Typography, props: { gutterBottom: true, variant: 'h6' } },
+    h4: { component: Typography, props: { gutterBottom: true, variant: 'h6' } },
+    /*h4: {
       component: Typography,
       props: { gutterBottom: true, variant: 'caption', paragraph: true },
-    },
+    },*/
     p: { component: Typography, props: { paragraph: true } },
     a: { component: Link },
     li: {
