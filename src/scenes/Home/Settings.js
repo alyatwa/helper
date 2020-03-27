@@ -70,7 +70,7 @@ function getAll() {
     },
     {
       id:'fgrxcdelolo',
-      heading:'General settings',
+      heading:'Wifi settings',
       secondaryHeading:'I am an expansion panel',
       Details: `## Table of Contents  
       jjhh`

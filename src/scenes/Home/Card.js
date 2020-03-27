@@ -9,50 +9,54 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import sharedStyles from "../../components/sharedStyles";
 import clsx from 'clsx';
+ import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
-    ...sharedStyles,
-    root: {
-      maxWidth: 345
-    },
-    media: {
-      height: 120,
-      width: '100%',
-      backgroundRepeat: 'no-repeat',
-      backgroundSize: 'contain',
-      backgroundPosition: 'center center'
-    }
+  ...sharedStyles,
+  root: {
+    maxWidth: 345
+  },
+  media: {
+    height: 120,
+    width: '100%',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'contain',
+    backgroundPosition: 'center center'
   }
-  ))
+}
+))
 
 export default function HomeCard(props) {
-    const classes = useStyles();
-      
+  const classes = useStyles();
+
   return (
     <Card className={clsx(classes.root && classes.paper)}>
-      
-        <CardMedia
-          className={classes.media}
-          image={props.img}
-          title={props.title}
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
+
+      <CardMedia
+        className={classes.media}
+        image={props.img}
+        title={props.title}
+      />
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="h2">
           {props.title}
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
+        </Typography>
+        <Typography variant="body2" color="textSecondary" component="p">
           {props.description}
-          
-          </Typography>
-        </CardContent>
-       
+
+        </Typography>
+      </CardContent>
+
       <CardActions>
-        <Button size="small" color="primary">
-          Share
+      {props.link.external ?
+      <Button href={props.link.href} size="small" color="primary">
+      {props.link.text}
+      </Button>
+        :
+      <Button component={Link} to={props.link.href} size="small" color="primary">
+          {props.link.text}
         </Button>
-        <Button size="small" color="primary">
-          Learn More
-        </Button>
+         }
       </CardActions>
     </Card>
   );

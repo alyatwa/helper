@@ -14,129 +14,84 @@ import Grid from '@material-ui/core/Grid';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Box from '@material-ui/core/Box';
 import Linka from '@material-ui/core/Link';
+import Markdown from '../../components/Markdown';
 
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.paper,
-    fontSize:14
+    fontSize: 14
   },
-  listText:{
-      color: '#696969',
-      fontSize:14,
+  listText: {
+    color: '#696969',
+    fontSize: 14,
+
   },
-  list:{
-    padding: 0,
-    paddingLeft: 25
-},
-  listTitle:{
+  listItem: {
+    padding: '0px 0px 0 10px',
+    color: '#696969',
+    fontSize: 14,
+    //textDecoration: 'none !important'
+  },
+  listTitle: {
     color: '#454545'
   }
 }));
 
 
 function Copyright() {
-    return (
-      <Typography variant="body2" color="textSecondary" align="center">
-        {'Copyright © '}
-        <Linka color="inherit" href="https://material-ui.com/">
-          Your Website
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      
+      {'Copyright © '}
+      <Linka color="inherit" href="https://material-ui.com/">
+        Your Website
         </Linka>{' '}
-        {new Date().getFullYear()}
-        {'.'}
-      </Typography>
-    );
-  }
-export default function Footer() {
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
+export default function Footer(props) {
   const classes = useStyles();
-
+console.log(props)
   return (
     <div className={classes.root}>
-        <Grid container>
-        <Grid item xs={4}>
-        <List
-      component="nav"
-      aria-labelledby="nested-list-subheader"
-      subheader={
-        <ListSubheader className={classes.listTitle} component="div" id="nested-list-subheader">
-          Nested List Items
-        </ListSubheader>
-      }
-      className={classes.root}
-    >
-      <ListItem 
-    to="/" 
-    component={Link}
-    className={classes.list}
-    >
-      <ListItemText classes={{primary:classes.listText}} primary="Dashboard" />
-    </ListItem>
-      <ListItem 
-    to="/stepper" 
-    component={Link}
-    className={classes.list}>
-      <ListItemText classes={{primary:classes.listText}} primary="Stepper" />
-    </ListItem>
-      </List>
-        </Grid>
-        <Grid item xs={4}>
-        <List
-      component="nav"
-      aria-labelledby="nested-list-subheader"
-      subheader={
-        <ListSubheader className={classes.listTitle} component="div" id="nested-list-subheader">
-          Nested List Items
-        </ListSubheader>
-      }
-      className={classes.root}
-    >
-    
-      <ListItem 
-    to="/" 
-    component={Link}
-    className={classes.list}
-    
-    >
-      <ListItemText classes={{primary:classes.listText}} primary="Dashboard" />
-    </ListItem>
-      <ListItem 
-    to="/stepper" 
-    component={Link}
-    className={classes.list}>
-      <ListItemText classes={{primary:classes.listText}} primary="Stepper" />
-    </ListItem>
-      </List>
-        </Grid>
-        <Grid item xs={4}>
-        <List
-      component="nav"
-      aria-labelledby="nested-list-subheader"
-      subheader={
-        <ListSubheader className={classes.listTitle} component="div" id="nested-list-subheader">
-          Nested List Items
-        </ListSubheader>
-      }
-      className={classes.root}
-    >
-    
-      <ListItem 
-    to="/" 
-    component={Link}
-    className={classes.list}
-    
-    >
-      <ListItemText classes={{primary:classes.listText}} primary="Dashboard" />
-    </ListItem>
-      <ListItem 
-    to="/stepper" 
-    component={Link}
-    className={classes.list}>
-      <ListItemText classes={{primary:classes.listText}} primary="Stepper" />
-    </ListItem>
-      </List>
-        </Grid>
-        </Grid>
-        <Box my={2}>
-<Copyright/></Box>
+      <Grid container>
+        {props.links.linkstext.map((data, index) => (
+          <Grid item xs={data.size}>
+            <List
+              component="nav"
+              key={index}
+              aria-labelledby="nested-list-subheader"
+              subheader={
+                <ListSubheader className={classes.listTitle} component="div" id="nested-list-subheader">
+                  {data.title}
+                </ListSubheader>
+              }
+              className={classes.root}
+            >
+              {data.links.map((link, index) => (
+                <>
+                  {link.external ?
+                    <ListItem  >
+                      <Linka className={classes.listItem} href={link.href}>{link.text}</Linka>
+                    </ListItem>
+                    :
+                    <ListItem  >
+                      <Linka component={Link} className={classes.listItem} to={link.href}>{link.text}</Linka>
+                    </ListItem>
+                  }
+                </>
+              ))}
+            </List>
+          </Grid>
+        ))}
+      </Grid>
+      <Box my={2}>
+      <Typography variant="body2" color="textSecondary" align="center">
+      <Markdown>{props.links.copyright}</Markdown>
+      </Typography>
+        </Box>
     </div>
   );
 }
