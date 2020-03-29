@@ -71,6 +71,9 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import CardMedia from '@material-ui/core/CardMedia';
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import Avatar from '@material-ui/core/Avatar';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Paper from '@material-ui/core/Paper';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -203,11 +206,11 @@ function allLinks() {
     colors: {
       primary: '#e70000',
       secondary: '#333333',
-      buttontext:'#ffffff',
+      buttontext: '#ffffff',
       linkcard: 'red',
-      cardtext:'#959090',
+      cardtext: '#959090',
       linkheader: '#ffffff',
-      
+
       linkfooter: '#696969'
     },
     header: [{
@@ -355,17 +358,26 @@ export default function Project() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const handleDrawerOpen = () => {
+  /*const handleDrawerOpen = () => {
     setOpen(true);
   };
   const handleDrawerClose = () => {
     setOpen(false);
+  };*/
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
   };
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  
-  
+
+
   const links = allLinks();
   const colors = allLinks().colors;
   const muiTheme = createMuiTheme({
@@ -383,20 +395,20 @@ export default function Project() {
         default: "#000000"
       }
     },
-    typography:{
-    h1: {
-      color: colors.secondary
+    typography: {
+      h1: {
+        color: colors.secondary
+      },
+      h2: {
+        color: colors.secondary
+      },
+      h3: {
+        color: colors.secondary
+      },
+      h5: {
+        color: colors.primary
+      },
     },
-    h2: {
-      color: colors.secondary
-    },
-    h3: {
-      color: colors.secondary
-    },
-    h5: {
-      color: colors.primary
-    },
-  },
     overrides: {
       MuiButton: {
         containedPrimary: {
@@ -451,20 +463,31 @@ export default function Project() {
             <MenuIcon />
           </IconButton>
           <Typography style={{ color: links.colors.linkheader }} className={classes.men}>
-            
+
             <Button component={Link} to={'/dashboard'} size="small" color="inherit">
-                    {'Dashboard'}
+              {'Dashboard'}
             </Button>
             <Button component={Link} to={'/dashboard/feedback'} size="small" color="inherit">
-                    {'Feedback'}
+              {'Feedback'}
             </Button>
             <Button component={Link} to={'/dashboard/help'} size="small" color="inherit">
-                    {'Help'}
+              {'Help'}
             </Button>
           </Typography>
-          <IconButton color="inherit">
-          <Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/1.jpg" />
+          <IconButton aria-controls="avatar-menu" onClick={handleClick} color="inherit">
+            <Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/1.jpg" />
           </IconButton>
+          <Menu
+            id="avatar-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={handleClose}>Profile</MenuItem>
+            <MenuItem onClick={handleClose}>My account</MenuItem>
+            <MenuItem onClick={handleClose}>Logout</MenuItem>
+          </Menu>
         </Toolbar>
       </AppBar>
 
@@ -503,9 +526,9 @@ export default function Project() {
 
         <div className={classes.appBarSpacer} />
         <MuiThemeProvider theme={muiTheme}>
-        <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} lg={12}>
+          <Container maxWidth="lg" className={classes.container}>
+            <Grid container spacing={3}>
+              <Grid item xs={12} lg={12}>
                 <Route
                   path='/dashboard'
                   exact
@@ -543,12 +566,12 @@ export default function Project() {
                   exact
                   render={(routeProps) => <ControlledExpansionPanels {...routeProps} colors={links.colors} />}
                 />*/}
+              </Grid>
             </Grid>
-          </Grid>
-          
-        </Container>
-        
-        
+
+          </Container>
+
+
         </MuiThemeProvider>
         <div className={classes.footer}>
           <Footer links={links.footer} />
