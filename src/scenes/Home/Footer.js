@@ -38,22 +38,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      
-      {'Copyright © '}
-      <Linka color="inherit" href="https://material-ui.com/">
-        Your Website
-        </Linka>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 export default function Footer(props) {
   const classes = useStyles();
-console.log(props)
   return (
     <div className={classes.root}>
       <Grid container>

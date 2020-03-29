@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) =>
 export default function StepperCard(props) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
-  const steps = props.steps;
+  const steps = props.steps.steps;
 
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
@@ -74,7 +74,7 @@ export default function StepperCard(props) {
   const handleReset = () => {
     setActiveStep(0);
   };
-
+console.log(props);
   return (
     <React.Fragment>
       
@@ -112,7 +112,7 @@ export default function StepperCard(props) {
       </Stepper>
       {activeStep === steps.length && (
         <Paper square elevation={0} className={classes.resetContainer}>
-          <Typography>All steps completed - you&apos;re finished</Typography>
+          <Typography>{props.steps.finish}</Typography>
           <Button onClick={handleReset} className={classes.button}>
             Reset
           </Button>

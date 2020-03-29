@@ -1,29 +1,45 @@
-/*import React,{ Component } from 'react';
-import gql from 'graphql-tag';
-import { useQuery } from '@apollo/react-hooks';
+/*import React from "react";
+import gql from "graphql-tag";
+import { ChildDataProps, graphql } from "@apollo/react-hoc";
 
-const SUBSCRIPTIONS_QUERY = gql`
-  query Character($id: ID!) {
-   character(id: $id) {
-        id
-        name
-      }
+const HERO_QUERY = gql`
+query Character($id: ID!) {
+ character(id: $id) {
+      id
+      name
     }
+  }
 `;
+type Character = {
+  name: string;
+  id: number;
+};
 
- 
- const Home = () => {
-  const { data, loading, error } = useQuery(SUBSCRIPTIONS_QUERY, {
-    variables: { "id":5 }
-  });
+type Response = {
+  character: Character;
+};
+
+type Variables = {
+  id: number;
+};
+
+type ChildProps = ChildDataProps<{}, Response, Variables>;
+//Typing Higher Order Components
+
+const withCharacter = graphql<{}, Response, Variables, ChildProps>(HERO_QUERY, {
+  options: () => ({
+    variables: { id:4 }
+  })
+});
+
+export default withCharacter(({ data: { loading,character, error } }) => {
   if (loading) return <>Loading...</>;
   if (error) return <>{`Error! ${error.message}`}</>;
   return (
-    <div>{JSON.stringify(data.character)}</div>
+    <div>{JSON.stringify(character)}</div>
   );
- }
+});*/
 
- export default Home;*/
 
 
 import React from 'react';
@@ -42,29 +58,22 @@ import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Linka from '@material-ui/core/Link';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import NestedList from './DrawerList';
-import VerticalLinearStepper from './Stepper';
-import sharedStyles from "../../components/sharedStyles";
+import DashboardList from './DashboardList';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom'
-import Orders from './Orders';
-import Solver from './Solver';
-import ContentPage from './Settings';
-import Footer from './Footer';
+import Projects from './projects';
+import Footer from '../Home/Footer';
 import Hidden from '@material-ui/core/Hidden';
 import Button from '@material-ui/core/Button';
-import Home from './Home';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Scrollbars } from 'react-custom-scrollbars';
 import CardMedia from '@material-ui/core/CardMedia';
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import Avatar from '@material-ui/core/Avatar';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
-  ...sharedStyles,
-
   root: {
     display: 'flex'
   },
@@ -194,27 +203,13 @@ function allLinks() {
     colors: {
       primary: '#e70000',
       secondary: '#333333',
-      buttontext: '#ffffff',
+      buttontext:'#ffffff',
       linkcard: 'red',
-      cardtext: '#959090',
+      cardtext:'#959090',
       linkheader: '#ffffff',
-
+      
       linkfooter: '#696969'
     },
-    pages: [
-      {
-        title: 'Home',
-        href: '/vodafone',
-      },
-      {
-        title: 'Settings',
-        href: '/vodafone/settings',
-      },
-      {
-        title: 'Stepper',
-        href: '/vodafone/stepper',
-      }
-    ],
     header: [{
       href: '/',
       external: false,
@@ -226,7 +221,7 @@ function allLinks() {
       text: 'External',
     },
     {
-      href: '/vodafone/stepper',
+      href: '/stepper',
       external: false,
       text: 'Stepper',
     }],
@@ -356,7 +351,7 @@ function allLinks() {
     }
   }
 }
-export default function AppHome() {
+export default function Project() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -369,7 +364,8 @@ export default function AppHome() {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
+  
+  
   const links = allLinks();
   const colors = allLinks().colors;
   const muiTheme = createMuiTheme({
@@ -387,20 +383,20 @@ export default function AppHome() {
         default: "#000000"
       }
     },
-    typography: {
-      h1: {
-        color: colors.secondary
-      },
-      h2: {
-        color: colors.secondary
-      },
-      h3: {
-        color: colors.secondary
-      },
-      h5: {
-        color: colors.primary
-      },
+    typography:{
+    h1: {
+      color: colors.secondary
     },
+    h2: {
+      color: colors.secondary
+    },
+    h3: {
+      color: colors.secondary
+    },
+    h5: {
+      color: colors.primary
+    },
+  },
     overrides: {
       MuiButton: {
         containedPrimary: {
@@ -436,43 +432,38 @@ export default function AppHome() {
         </Container>
       </div>
 
-      <NestedList links={links.drawer} />
+      <DashboardList />
     </Scrollbars>
   )
 
   return (
     <div className={classes.root}>
       <CssBaseline />
-
       <AppBar style={{ background: links.colors.primary }} position="fixed" className={clsx(classes.appBar)}>
         <Toolbar>
           <IconButton
-            color={links.colors.linkheader}
             aria-label="open drawer"
             edge="start"
+            color="inherit"
             onClick={handleDrawerToggle}
             className={classes.menuButton}
           >
             <MenuIcon />
           </IconButton>
           <Typography style={{ color: links.colors.linkheader }} className={classes.men}>
-            {links.header.map((link, index) => (
-              <>
-                {link.external ?
-                  <Button target="_blank" href={link.href} size="small" color="inherit">
-                    {link.text}
-                  </Button>
-                  :
-                  <Button component={Link} to={link.href} size="small" color="inherit">
-                    {link.text}
-                  </Button>
-                }</>))}
-
+            
+            <Button component={Link} to={'/dashboard'} size="small" color="inherit">
+                    {'Dashboard'}
+            </Button>
+            <Button component={Link} to={'/dashboard/feedback'} size="small" color="inherit">
+                    {'Feedback'}
+            </Button>
+            <Button component={Link} to={'/dashboard/help'} size="small" color="inherit">
+                    {'Help'}
+            </Button>
           </Typography>
           <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
+          <Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/1.jpg" />
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -480,7 +471,6 @@ export default function AppHome() {
       <nav className={classes.drawer} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
-
           <Drawer
             variant="temporary"
             open={mobileOpen}
@@ -513,26 +503,53 @@ export default function AppHome() {
 
         <div className={classes.appBarSpacer} />
         <MuiThemeProvider theme={muiTheme}>
-          <Container maxWidth="lg" className={classes.container}>
-            <Grid container spacing={3}>
-              <Grid item xs={12} lg={12}>
-                {/*<Route exact path="/">
-                    <Redirect to="/vodafone" />
-          </Route>*/}
-
-                <Switch>
-                  <Route path='/vodafone/:page'>
-                    <ContentPage colors={links.colors} />
-                  </Route>
-                  <Route exact path='/'>
-                    <Home colors={links.colors} />
-                  </Route>
-                  
-                </Switch>
-              </Grid>
+        <Container maxWidth="lg" className={classes.container}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} lg={12}>
+                <Route
+                  path='/dashboard'
+                  exact
+                  render={(routeProps) => <Projects {...routeProps} colors={links.colors} />}
+                />
+                <Route
+                  path='/dashboard/help'
+                  render={(routeProps) => <Projects {...routeProps} colors={links.colors} />}
+                />
+                <Route
+                  path='/dashboard/profile'
+                  render={(routeProps) => <Projects {...routeProps} colors={links.colors} />}
+                />
+                <Route
+                  path='/dashboard/feedback'
+                  render={(routeProps) => <Projects {...routeProps} colors={links.colors} />}
+                />
+                <Route
+                  path='/dashboard/subscription'
+                  render={(routeProps) => <Projects {...routeProps} colors={links.colors} />}
+                />
+                <Route
+                  path='/dashboard/project/:project'
+                  render={(routeProps) => <Projects {...routeProps} colors={links.colors} />}
+                />
+                {/*<Route
+                  path='/vodafone/dashboard'
+                  exact
+                  render={(routeProps) => <Home {...routeProps} colors={links.colors} />}
+                />
+                <Route path="/vodafone/team" component={Orders} />
+                
+                <Route
+                  path='/settings'
+                  exact
+                  render={(routeProps) => <ControlledExpansionPanels {...routeProps} colors={links.colors} />}
+                />*/}
             </Grid>
-
-          </Container></MuiThemeProvider>
+          </Grid>
+          
+        </Container>
+        
+        
+        </MuiThemeProvider>
         <div className={classes.footer}>
           <Footer links={links.footer} />
         </div>

@@ -39,42 +39,50 @@ export default function NestedList(props) {
 
   return (
     <div>
-      {props.links.map((data, index) => (
-        <>
           <List
             subheader={
               <ListSubheader disableSticky={true}>
-                {data.subheader}
+                {'Profile'}
               </ListSubheader>
             }
             className={classes.root}
           >
-            {data.items.map((item) => (
-              item.external ?
                 <ListItem button
-                  target="_blank"
-                  href={item.href}
-                  component={Linka}>
-
-                  <ListItemText primary={item.text} />
-                  <ListItemIcon>
-                    <Launch fontSize="small" />
-                  </ListItemIcon>
-                </ListItem>
-                :
-                <ListItem button
-                  to={item.href}
+                  to={'/dashboard/profile'}
                   component={Link}>
-                  <ListItemText primary={item.text} />
+                  <ListItemText primary={'Profile'} />
                 </ListItem>
-            ))}
           </List>
-          {props.links[index+1] ? <Divider />: ''}
-        </>
-      ))}
+          <Divider/>
+          <List
+            subheader={
+              <ListSubheader disableSticky={true}>
+                {'Subscription'}
+              </ListSubheader>
+            }
+            className={classes.root}
+          >
+                <ListItem button
+                  to={'/dashboard/subscription'}
+                  component={Link}>
+                  <ListItemText primary={'Renew'} />
+                </ListItem>
+          </List>
+          <Divider/>
+          <List
+            subheader={
+              <ListSubheader disableSticky={true}>
+                {'Team'}
+              </ListSubheader>
+            }
+            className={classes.root}
+          >
+                <ListItem button
+                  to={'/dashboard/addmember'}
+                  component={Link}>
+                  <ListItemText primary={'Add Member'} />
+                </ListItem>
+          </List>
     </div>
-
-
-
   );
 }

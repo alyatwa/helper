@@ -35,6 +35,7 @@ function getAll() {
     },
     {
       name: 'stepper',
+      finish:'All steps completed - you*re finished',
       steps: [{
         label: 'Restart router',
         description: 
@@ -98,7 +99,7 @@ function getAll() {
     ]
   }
 }
-export default function ControlledExpansionPanels(props) {
+export default function ContentPage(props) {
   const classes = useStyles();
   const page = getAll();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
@@ -110,7 +111,7 @@ export default function ControlledExpansionPanels(props) {
             <div className={classes.root}>
               {component.name === 'markdown' ? <Markdown className={classes.markdown}>{component.content}</Markdown>
                 : component.name === 'expansion' ? <ExpansionCard data={component.panels} />
-                  : <StepperCard steps={component.steps} />
+                  : <StepperCard steps={component} />
               }
             </div>
           ))}
