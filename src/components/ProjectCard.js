@@ -49,25 +49,25 @@ export default function ProjectCard(props) {
   };
 const dialog = React.useRef(null);
 const remove = React.useRef(null);
-  const handleClose = event => {
+const handleClose = event => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
     setOpen(false);
-    console.log(event);
-    if (event === 'rename'){
+    //console.log('---',event,'***');
+    if (event.event === 'rename'){
       
       dialog.current.getAlert()
     }
-    else if (event === 'remove'){
+    else if (event.event === 'remove'){
       remove.current.getAlert()
     }
   };
 function setNewName(name) {
-  console.log(name)
+  props.rename(name);
 }
 function doRemove(remove) {
-  console.log(remove)
+  props.remove(remove);
 }
   function handleListKeyDown(event) {
     if (event.key === 'Tab') {
@@ -82,7 +82,6 @@ function doRemove(remove) {
     if (prevOpen.current === true && open === false) {
       anchorRef.current.focus();
     }
-
     prevOpen.current = open;
   }, [open]);
   return (
@@ -117,12 +116,12 @@ function doRemove(remove) {
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList  autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
 
-                  <MenuItem onClick={() => handleClose('rename')}>
+                  <MenuItem onClick={() => handleClose({'event':'rename','id':props.id})}>
                     <ListItemIcon style={{ minWidth: '30px' }}>
                       <TextFields fontSize="small" />
                     </ListItemIcon>
                     <ListItemText primary="Rename" /></MenuItem>
-                  <MenuItem onClick={() => handleClose('remove')}>
+                  <MenuItem onClick={() => handleClose({'event':'remove','id':props.id})}>
                     <ListItemIcon style={{ minWidth: '30px' }}>
                       <Delete fontSize="small" />
                     </ListItemIcon>
@@ -133,8 +132,8 @@ function doRemove(remove) {
           </Grow>
         )}
       </Popper>
-      <RenameDialog description={'Please enter a new name for the project'} title={'Rename'} newName={setNewName} value={props.title} ref={dialog}/>
-      <MsgDialog sure={doRemove} name={props.title} ref={remove}/>
+      <RenameDialog description={'Please enter a new name for the project'} title={'Rename'} newName={setNewName} id={props.id} value={props.title} ref={dialog}/>
+      <MsgDialog sure={doRemove} id={props.id} name={props.title} ref={remove}/>
       </>
   );
 }

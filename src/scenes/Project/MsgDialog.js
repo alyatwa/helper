@@ -34,7 +34,7 @@ const MsgDialog = forwardRef((props, ref) => {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={() => handleClose(true)} color="primary">
+          <Button onClick={() => handleClose({doAction:true, id:props.id})} color="primary">
             Sure
           </Button>
         </DialogActions>

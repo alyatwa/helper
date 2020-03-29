@@ -573,9 +573,9 @@ export default function Project() {
 
 
         </MuiThemeProvider>
-        <div className={classes.footer}>
+        {/*<div className={classes.footer}>
           <Footer links={links.footer} />
-        </div>
+        </div>*/}
       </main>
     </div>
   );

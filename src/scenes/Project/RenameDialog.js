@@ -25,7 +25,7 @@ const RenameDialog = forwardRef((props, ref) => {
   }));
   const handleClose = () => {
     setOpen(false);
-    props.newName(name);
+    props.newName({name,id:props.id});
   };
 
   return (
