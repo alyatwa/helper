@@ -38,7 +38,13 @@ class Projects extends Component {
     super(props);
     this.namedialog = React.createRef();
     this.state = {
-      projects: []
+      projects: [],
+      event: {
+        name: '',
+        title: '',
+        description: '',
+        value: ''
+      }
     }
     // To use the 'this' keyword, we need to bind it to our function
     //this.onChange = this.onChange.bind(this);
@@ -117,19 +123,58 @@ class Projects extends Component {
       projects: this.state.projects.filter(item => item.id !== id)
     })
   }
-  renameAction = (name) => {
-    console.log('name project ', name)
+  renameProject = (project) => {
+    let name = project.name
+    let id = project.id
+    this.setState(state => {
+      var index = state.projects.findIndex(obj => obj.id === id);
+      console.log('name project ', index)
+      const list = state.projects[index].title = name;
+      return {
+        list
+      }
+    })
+  }
+  newProjectDialog = (project) => {
+    this.setState({
+      event: {
+        action: 'newproject',
+        id: '',
+        title: 'Project Title',
+        description: 'Please enter a name for new the project',
+        value: ''
+      }
+    })
+    this.namedialog.current.getAlert('', '', 'newproject')
+  }
+  renameProjectDialog = (project) => {
+    //console.log(project)
+    this.setState({
+      event: {
+        action: 'rename',
+        title: 'Rename',
+        description: 'Please enter a new name for the project',
+        value: project.title
+      }
+    })
+    this.namedialog.current.getAlert(project.title, project.id, 'rename')
+  }
+  func = (data) => {
+    console.log(data)
+    if (data.event === "rename" && data.name.length>1) {
+      this.renameProject(data)
+    } else if (data.event === "newproject" && data.name.length>1) {
+      this.addProject(data)
+    }
   }
   componentDidUpdate() {
   }
   componentDidMount() {
     let projects = this.getProjects()
-    this.setState({projects})
+    this.setState({ projects })
   }
   render() {
     const { classes } = this.props;
-    const projects = this.state.projects;
-    console.log('render  ' + projects)
     return (
       <div className={classes.root}>
 
@@ -140,16 +185,17 @@ class Projects extends Component {
                 id={this.state.projects[project].id}
                 key={this.state.projects[project].id}
                 remove={this.removeProject}
-                rename={this.renameAction}
+                rename={this.renameProjectDialog}
                 title={this.state.projects[project].title}
                 date={this.state.projects[project].date}
                 link={'dashboard' + this.state.projects[project].link}
                 img={this.state.projects[project].img} />
-            </Grid>)}
+            </Grid>
+          )}
 
         </Grid>
-        <RenameDialog ref={this.namedialog} newName={this.addProject} title={'Name Project'} description={'Please enter a name for new the project'} value={''} />
-        <Fab onClick={() => this.namedialog.current.getAlert()} className={classes.fab} size="small" color="primary" aria-label="add">
+        <RenameDialog ref={this.namedialog} func={this.func} action={this.state.event.action} title={this.state.event.title} description={this.state.event.description} value={this.state.event.value} />
+        <Fab onClick={this.newProjectDialog} className={classes.fab} size="small" color="primary" aria-label="add">
           <AddIcon />
         </Fab>
       </div>

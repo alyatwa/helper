@@ -9,23 +9,29 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 
 const RenameDialog = forwardRef((props, ref) => {
-//export default function RenameDialog(props) {
+  //export default function RenameDialog(props) {
   const [open, setOpen] = React.useState(false);
   const [name, setName] = React.useState(props.value);
+  const [id, setId] = React.useState(props.value);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
   useImperativeHandle(ref, () => ({
+    getAlert(name, id, event) {
+      setOpen(true);
+      if (event === 'rename') {
+        setName(name)
+        setId(id)
+      } 
+      else if (event === 'newproject') {
 
-    getAlert() {
-        setOpen(true);
+      }
     }
-
   }));
-  const handleClose = () => {
+  const handleClose = (data) => {
     setOpen(false);
-    props.newName({name,id:props.id});
+    props.func({ name, id, event: props.action });
   };
 
   return (
@@ -34,13 +40,13 @@ const RenameDialog = forwardRef((props, ref) => {
         <DialogTitle id="form-dialog-title">{props.title}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-          {props.description}
+            {props.description}
           </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             id="name"
-            onChange={evt=>setName(evt.target.value)}
+            onChange={evt => setName(evt.target.value)}
             value={name}
             type="title"
             fullWidth

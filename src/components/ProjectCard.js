@@ -21,7 +21,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import TextFields from '@material-ui/icons/TextFields';
 import Delete from '@material-ui/icons/Delete';
-import RenameDialog from '../scenes/Project/RenameDialog';
 import MsgDialog from '../scenes/Project/MsgDialog';
 const useStyles = makeStyles((theme) => ({
   ...sharedStyles,
@@ -47,7 +46,6 @@ export default function ProjectCard(props) {
   const handleToggle = () => {
     setOpen(prevOpen => !prevOpen);
   };
-const dialog = React.useRef(null);
 const remove = React.useRef(null);
 const handleClose = event => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
@@ -56,16 +54,15 @@ const handleClose = event => {
     setOpen(false);
     //console.log('---',event,'***');
     if (event.event === 'rename'){
-      
-      dialog.current.getAlert()
+      props.rename(props)
     }
     else if (event.event === 'remove'){
       remove.current.getAlert()
     }
   };
-function setNewName(name) {
+/*function setNewName(name) {
   props.rename(name);
-}
+}*/
 function doRemove(remove) {
   props.remove(remove);
 }
@@ -132,7 +129,6 @@ function doRemove(remove) {
           </Grow>
         )}
       </Popper>
-      <RenameDialog description={'Please enter a new name for the project'} title={'Rename'} newName={setNewName} id={props.id} value={props.title} ref={dialog}/>
       <MsgDialog sure={doRemove} id={props.id} name={props.title} ref={remove}/>
       </>
   );
