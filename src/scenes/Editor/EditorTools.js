@@ -22,7 +22,7 @@ function TabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box py={5}>{children}</Box>}
+      {value === index && <Box pt={4}>{children}</Box>}
     </Typography>
   );
 }
@@ -48,15 +48,15 @@ const useStyles = makeStyles((theme) => ({
   tab: {
     minWidth: `calc(100% / 2)`, // a number of your choice
     width: `calc(100% / 2)`, // a number of your choice
-},
-subheader: {
-    position:'fixed',
+  },
+  subheader: {
+    position: 'fixed',
     boxShadow: 'unset'
   },
-  tablist:{
+  tablist: {
     width: '15%'
   },
-  list:{
+  list: {
     marginTop: 20,
   }
 }));
@@ -64,25 +64,27 @@ subheader: {
 export default function EditorTools(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-  
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   return (
     <div className={classes.root}>
-      <AppBar position="static"  className={classes.subheader}>
+      <AppBar position="static" className={classes.subheader}>
         <Tabs indicatorColor="primary" className={classes.tablist}
-        textColor="inherit" value={value} onChange={handleChange} aria-label="simple tabs example">
+          textColor="inherit" value={value} onChange={handleChange} aria-label="simple tabs example">
           <Tab classes={{ root: classes.tab }} key={'6hj7j'} label="Pages" {...a11yProps(0)} />
           <Tab classes={{ root: classes.tab }} key={'f4fg5'} label="Tools" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
-     <Scrollbars> <TabPanel value={value} className={classes.list} key={'dggt5'} index={0}>
-   
-        <PagesList key={'ghghg'} renamePage={props.RenamePage} links={props.pages}/>
-       
-      </TabPanel></Scrollbars>
+      <Scrollbars hideTracksWhenNotNeeded  renderTrackHorizontal={() => <div></div>} renderThumbHorizontal={() => <div></div>}>
+        <TabPanel value={value} className={classes.list} key={'dggt5'} index={0}>
+
+          <PagesList key={'ghghg'} renamePage={props.RenamePage} links={props.pages} />
+
+        </TabPanel>
+      </Scrollbars>
       <TabPanel value={value} key={'fbj3'} index={1}>
         Item Two
       </TabPanel>
