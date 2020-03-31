@@ -49,8 +49,6 @@ import NestedList from './DrawerList';
 import VerticalLinearStepper from './Stepper';
 import sharedStyles from "../../components/sharedStyles";
 import { HashRouter as Router, Route, Switch } from 'react-router-dom'
-import Orders from './Orders';
-import Solver from './Solver';
 import ContentPage from './Settings';
 import Footer from './Footer';
 import Hidden from '@material-ui/core/Hidden';

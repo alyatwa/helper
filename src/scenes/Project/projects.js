@@ -128,7 +128,7 @@ class Projects extends Component {
     let id = project.id
     this.setState(state => {
       var index = state.projects.findIndex(obj => obj.id === id);
-      console.log('name project ', index)
+      //console.log('name project ', index)
       const list = state.projects[index].title = name;
       return {
         list
@@ -160,7 +160,7 @@ class Projects extends Component {
     this.namedialog.current.getAlert(project.title, project.id, 'rename')
   }
   func = (data) => {
-    console.log(data)
+    //console.log(data)
     if (data.event === "rename" && data.name.length>1) {
       this.renameProject(data)
     } else if (data.event === "newproject" && data.name.length>1) {
@@ -180,7 +180,7 @@ class Projects extends Component {
 
         <Grid container spacing={3}>
           {Object.keys(this.state.projects).map((project, index) =>
-            <Grid key={this.state.projects[project].id + index} item lg={project.size} md={6} sm={12} xs={12}>
+            <Grid key={this.state.projects[project].id + index} item lg={3} md={6} sm={12} xs={12}>
               <ProjectCard
                 id={this.state.projects[project].id}
                 key={this.state.projects[project].id}
@@ -188,7 +188,7 @@ class Projects extends Component {
                 rename={this.renameProjectDialog}
                 title={this.state.projects[project].title}
                 date={this.state.projects[project].date}
-                link={'dashboard' + this.state.projects[project].link}
+                link={'dashboard/project' + this.state.projects[project].link}
                 img={this.state.projects[project].img} />
             </Grid>
           )}

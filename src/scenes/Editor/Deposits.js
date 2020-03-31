@@ -2,8 +2,7 @@ import React from 'react';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import Title from './Title';
-
+import Paper from '@material-ui/core/Paper';
 function preventDefault(event) {
   event.preventDefault();
 }
@@ -17,8 +16,7 @@ const useStyles = makeStyles({
 export default function Deposits() {
   const classes = useStyles();
   return (
-    <React.Fragment>
-      <Title>Recent Deposits</Title>
+    <Paper>
       <Typography component="p" variant="h4">
     $108,502</Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
@@ -29,6 +27,6 @@ export default function Deposits() {
           View balance
         </Link>
       </div>
-    </React.Fragment>
+      </Paper>
   );
 }

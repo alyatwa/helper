@@ -42,7 +42,7 @@ export default withCharacter(({ data: { loading,character, error } }) => {
 
 
 
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -61,7 +61,7 @@ import Linka from '@material-ui/core/Link';
 import { Link } from 'react-router-dom';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import DashboardList from './DashboardList';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom'
+import { HashRouter as Router, Route, matchPath, useLocation, withRouter } from 'react-router-dom'
 import Projects from './projects';
 import Footer from '../Home/Footer';
 import Hidden from '@material-ui/core/Hidden';
@@ -74,6 +74,8 @@ import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Paper from '@material-ui/core/Paper';
+import Deposits from '../Editor/Deposits';
+import EditorTools from '../Editor/EditorTools';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -92,7 +94,22 @@ const useStyles = makeStyles((theme) => ({
     backgroundPosition: 'center center'
   },
   toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
+   // paddingRight: 24, // keep right padding when drawer closed
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+  },
+  toolbarr: {
+    //marginTop: 24, // keep right padding when drawer closed
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    //padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
   },
   toolbarSecondary: {
     justifyContent: 'space-between',
@@ -107,9 +124,11 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
-    }
+     // width: `calc(100% - ${drawerWidth}px)`,
+     // marginLeft: drawerWidth,
+     
+    },
+    zIndex: theme.zIndex.drawer + 1,
   },
   /*appBarShift: {
     marginLeft: drawerWidth,
@@ -120,6 +139,44 @@ const useStyles = makeStyles((theme) => ({
     }),
   },*/
 
+  main: {
+    position: 'relative',
+    flex: 1,
+    height: '100%',
+    overflow: 'hidden',
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    //marginRight: drawerWidth,
+  },
+  mainRightOpen: {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginRight: 0,
+  },
+  rightDrawerPaper: {
+    position: 'relative',
+    whiteSpace: 'nowrap',
+    width: drawerWidth,
+    transition: theme.transitions.create('width', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    overflowX: 'hidden',
+    overflowY: 'hidden',
+    '&:hover': {
+      overflowY: 'auto',
+    },
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
+  },
+
+
+
   menuButtonHidden: {
     display: 'none',
   },
@@ -127,8 +184,8 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   drawer: {
-    /*width: drawerWidth,
-    flexShrink: 0,*/
+    //width: drawerWidth,
+    flexShrink: 0,
     [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
       flexShrink: 0,
@@ -136,7 +193,7 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     //position: 'relative',
-    whiteSpace: 'nowrap',
+    //whiteSpace: 'nowrap',
     width: drawerWidth,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
@@ -199,6 +256,26 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
     marginLeft: 0,
     width: '100%',
+  },
+  contentShift: {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: 0,
+    //marginRight: 0,
+  },
+  shiftTextLeft: {
+    marginRight: '0px'
+  },
+  shiftTextRight: {
+    marginRight: drawerWidth,
+  },
+  shiftTexLeft: {
+   marginLeft: -drawerWidth,
+  },
+  shiftTexRight: {
+    marginRight: -drawerWidth,
   }
 }));
 function allLinks() {
@@ -354,16 +431,60 @@ function allLinks() {
     }
   }
 }
-export default function Project() {
+function Project(props) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [openleft, setOpenleft] = React.useState(true);
+  const [openright, setOpenright] = React.useState(false);
   const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  /*console.log(props)
+  props.history.listen((location, action) => {
+    //console.log(location, action);
+  });*/
+
   /*const handleDrawerOpen = () => {
     setOpen(true);
   };
   const handleDrawerClose = () => {
     setOpen(false);
   };*/
+  let location = useLocation();
+  console.log(location.pathname);
+  const isPathActive = !!matchPath(
+    props.location.pathname,
+    '/dashboard/project/:project'
+  );
+ 
+
+  function useDidUpdate (callback, deps) {
+    const hasMount = useRef(false)
+  
+    useEffect(() => {
+      if (hasMount.current) {
+        callback()
+      } else {
+        hasMount.current = true
+      }
+    }, deps)
+  }
+  useDidUpdate(() => {
+    console.log('useDidUpdate');
+    if(isPathActive){
+    setOpenleft(false); 
+    setOpenright(true)
+  }/*else{
+      setOpenleft(true);
+      setOpenright(false)
+    }*/
+  }
+  )
+  useEffect(() => {
+    console.log('DidMount');
+    if(isPathActive){
+      setOpenleft(false); 
+      setOpenright(true)
+    }
+  }, [])
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -376,7 +497,6 @@ export default function Project() {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
 
   const links = allLinks();
   const colors = allLinks().colors;
@@ -434,15 +554,9 @@ export default function Project() {
   });
   const drawer = (
     <Scrollbars autoHide universal autoHideDuration={200}>
-      <div className={classes.toolbarIcon}>
-        <Container className={classes.box}>
-          <CardMedia
-            className={classes.media}
-            image="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Vodafone_icon.svg/473px-Vodafone_icon.svg.png"
-            title="Vodafone"
-          />
-        </Container>
-      </div>
+        <div className={classes.toolbar}>
+        </div>
+        <Divider />
 
       <DashboardList />
     </Scrollbars>
@@ -464,10 +578,10 @@ export default function Project() {
           </IconButton>
           <Typography style={{ color: links.colors.linkheader }} className={classes.men}>
 
-            <Button component={Link} to={'/dashboard'} size="small" color="inherit">
+            <Button component={Link} onClick={() => {setOpenleft(true);setOpenright(false)}} to={'/dashboard'} size="small" color="inherit">
               {'Dashboard'}
             </Button>
-            <Button component={Link} to={'/dashboard/feedback'} size="small" color="inherit">
+            <Button component={Link} onClick={() => {setOpenleft(false); setOpenright(true)}} to={'/dashboard/feedback'} size="small" color="inherit">
               {'Feedback'}
             </Button>
             <Button component={Link} to={'/dashboard/help'} size="small" color="inherit">
@@ -490,71 +604,54 @@ export default function Project() {
           </Menu>
         </Toolbar>
       </AppBar>
+      <MuiThemeProvider theme={muiTheme}>
+      <Drawer
+        className={classes.drawer}
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+        variant="persistent"
+        open={openleft}
+      >
+        {drawer}
+      </Drawer>
 
-      <nav className={classes.drawer} aria-label="mailbox folders">
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Hidden smUp implementation="css">
-          <Drawer
-            variant="temporary"
-            open={mobileOpen}
-            onClose={handleDrawerToggle}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
-            }}
-          >
-            {drawer}
-          </Drawer>
+     <main className={clsx(classes.content, classes.contentShift)}>
+        <div className={(openleft) ? classes.shiftTexRight : (openright ? classes.shiftTexLeft : classes.shiftTexLeft) }>
+        
+          
+          <div className={classes.appBarSpacer} />
+          
+            <Container maxWidth="lg" className={classes.container}>
+              <Grid container spacing={3}>
+                <Grid item xs={12} lg={12}>
+                  <Route
+                    path='/dashboard'
+                    exact
+                    render={(routeProps) => <Projects {...routeProps} colors={links.colors} />}
+                  />
+                  <Route
+                    path='/dashboard/project/:project'
+                    render={(routeProps) => <Deposits {...routeProps} colors={links.colors} />}
+                  />
+                  <Route
+                    path='/dashboard/help'
+                    render={(routeProps) => <Projects {...routeProps} colors={links.colors} />}
+                  />
+                  <Route
+                    path='/dashboard/profile'
+                    render={(routeProps) => <Projects {...routeProps} colors={links.colors} />}
+                  />
+                  <Route
+                    path='/dashboard/feedback'
+                    render={(routeProps) => <Projects {...routeProps} colors={links.colors} />}
+                  />
+                  <Route
+                    path='/dashboard/subscription'
+                    render={(routeProps) => (<Projects {...routeProps} colors={links.colors} />)}
+                  />
 
-        </Hidden>
-        <Hidden xsDown implementation="css">
-
-          <Drawer
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            variant="permanent"
-            open
-          >
-            {drawer}
-          </Drawer>
-        </Hidden>
-      </nav>
-      <main className={classes.content}>
-
-        <div className={classes.appBarSpacer} />
-        <MuiThemeProvider theme={muiTheme}>
-          <Container maxWidth="lg" className={classes.container}>
-            <Grid container spacing={3}>
-              <Grid item xs={12} lg={12}>
-                <Route
-                  path='/dashboard'
-                  exact
-                  render={(routeProps) => <Projects {...routeProps} colors={links.colors} />}
-                />
-                <Route
-                  path='/dashboard/help'
-                  render={(routeProps) => <Projects {...routeProps} colors={links.colors} />}
-                />
-                <Route
-                  path='/dashboard/profile'
-                  render={(routeProps) => <Projects {...routeProps} colors={links.colors} />}
-                />
-                <Route
-                  path='/dashboard/feedback'
-                  render={(routeProps) => <Projects {...routeProps} colors={links.colors} />}
-                />
-                <Route
-                  path='/dashboard/subscription'
-                  render={(routeProps) => <Projects {...routeProps} colors={links.colors} />}
-                />
-                <Route
-                  path='/dashboard/project/:project'
-                  render={(routeProps) => <Projects {...routeProps} colors={links.colors} />}
-                />
-                {/*<Route
+                  {/*<Route
                   path='/vodafone/dashboard'
                   exact
                   render={(routeProps) => <Home {...routeProps} colors={links.colors} />}
@@ -566,17 +663,34 @@ export default function Project() {
                   exact
                   render={(routeProps) => <ControlledExpansionPanels {...routeProps} colors={links.colors} />}
                 />*/}
+                </Grid>
               </Grid>
-            </Grid>
 
-          </Container>
+            </Container>
 
 
-        </MuiThemeProvider>
-        {/*<div className={classes.footer}>
+        
+          {/*<div className={classes.footer}>
           <Footer links={links.footer} />
         </div>*/}
+        </div>
       </main>
+      {/*left*/}
+      <Drawer
+        className={classes.rightDrawerPaper}
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+        variant="persistent"
+        anchor="right"
+        open={openright}
+      >
+        <div className={classes.toolbarr}>
+        </div>
+         <EditorTools />
+      </Drawer>
+      </MuiThemeProvider>
     </div>
   );
 }
+export default withRouter(Project);
