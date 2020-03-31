@@ -13,7 +13,7 @@ import EditorTools from '../Editor/EditorTools'
 import Drawer from '@material-ui/core/Drawer';
 import RenameDialog from '../../components/RenameDialog';
 
-function TabPanel(props) {
+/*function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
@@ -41,7 +41,7 @@ function a11yProps(index) {
     id: `simple-tab-${index}`,
     'aria-controls': `simple-tabpanel-${index}`,
   };
-}
+}*/
 const drawerWidth = 240;
 const styles = theme => ({
   ...sharedStyles,
@@ -94,6 +94,8 @@ class Editor extends Component {
     this.state = {
       pages: [],
       event: {
+        itemId:'',
+        subId:'',
         name: '',
         title: '',
         description: '',
@@ -282,18 +284,36 @@ class Editor extends Component {
       }
     }
     RenamePage = (data) => {
-      console.log(data)
-      /*if (data.event === "rename" && data.name.length>1) {
-        this.renameProject(data)
-      } else if (data.event === "newproject" && data.name.length>1) {
-        this.addProject(data)
-        {event: "rename", title: "ZTE", id: "iji5"}
-      }*/
+      let pagetype = this.state.event.pageType
+      let SubId = this.state.event.subId
+      let itemId = this.state.event.pageId
+      let name = data.name
+
+      if (pagetype === 'Subheader') { 
+        this.setState(state => {
+        var index = state.pages.findIndex(obj => obj.id === SubId);
+        const list = state.pages[index].subheader = name;
+        return {
+          list
+        }
+      })
+     } else if (pagetype === 'Page'){
+      this.setState(state => {
+        var subIndex = state.pages.findIndex(obj => obj.id === SubId);
+        var itemIndex = state.pages[subIndex].items.findIndex(obj => obj.id === itemId);
+        const list = state.pages[subIndex].items[itemIndex].text = name;
+        return {
+          list
+        }
+      })
+      }
     }
     renamePageDialog = (page) => {
       console.log(page)
       this.setState({
         event: {
+          pageId:page.pageId,
+          subId:page.subId,
           action: page.event,
           title:(page.event ==='rename' ? 'Rename ' : 'Add ')+page.type,
           description:`Please enter a new name for the ${page.type}`,
@@ -304,12 +324,19 @@ class Editor extends Component {
       this.namedialog.current.getAlert(page.title, page.id, page.event)
     }
     func = (data) => {
-      console.log(data)
-      //this.setState({event:{value:''}})
+      //console.log(data)
+      
+      if (data.event === "rename" && data.name.length>1) {
+        this.RenamePage(data)
+      }
+    }
+    componentDidMount() {
+      let pages = this.allLinks().drawer
+      this.setState({ pages })
     }
 
     render() {
-      const pages = this.allLinks().drawer
+      const pages = this.state.pages
       const { classes } = this.props;
       return (
         <div className={classes.root}>

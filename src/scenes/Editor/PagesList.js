@@ -76,10 +76,10 @@ export default function PagesList(props) {
                  {data.subheader}
                 </div>
                 <ListItemSecondaryAction>
-                  <IconButton onClick={()=>props.renamePage({event:'add', type:'Page', id:data.id})} edge="end" aria-label="add">
+                  <IconButton onClick={()=>props.renamePage({event:'add', type:'Page', subId:data.id})} edge="end" aria-label="add">
                     <AddIcon fontSize="small" />
                   </IconButton>
-                  <IconButton onClick={()=>props.renamePage({event:'rename', type:'Subheader', title:data.subheader, id:data.id})} edge="end" aria-label="rename">
+                  <IconButton onClick={()=>props.renamePage({event:'rename', type:'Subheader', title:data.subheader, pageId:0, subId:data.id})} edge="end" aria-label="rename">
                     <TextFieldsIcon fontSize="small" />
                   </IconButton>
                   <IconButton edge="end" aria-label="remove">
@@ -103,7 +103,7 @@ export default function PagesList(props) {
                 <div className={classes.ListItemText}>
                   {item.text}</div>
                 <ListItemSecondaryAction>
-                  <IconButton onClick={()=>props.renamePage({event:'rename', type:'Page', title:item.text, id:item.id})} edge="end" aria-label="rename">
+                  <IconButton onClick={()=>props.renamePage({event:'rename', type:'Page', title:item.text, subId:data.id, pageId:item.id})} edge="end" aria-label="rename">
                     <TextFieldsIcon fontSize="small" />
                   </IconButton>
                   <IconButton edge="end" aria-label="delete">
