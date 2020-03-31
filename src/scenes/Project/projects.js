@@ -9,7 +9,7 @@ import Container from '@material-ui/core/Container';
 import { Scrollbars } from 'react-custom-scrollbars';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import RenameDialog from './RenameDialog';
+import RenameDialog from '../../components/RenameDialog';
 
 const styles = theme => ({
   ...sharedStyles,

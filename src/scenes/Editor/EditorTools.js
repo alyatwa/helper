@@ -80,7 +80,7 @@ export default function EditorTools(props) {
       </AppBar>
      <Scrollbars> <TabPanel value={value} className={classes.list} key={'dggt5'} index={0}>
    
-        <PagesList key={'ghghg'} links={props.pages}/>
+        <PagesList key={'ghghg'} renamePage={props.RenamePage} links={props.pages}/>
        
       </TabPanel></Scrollbars>
       <TabPanel value={value} key={'fbj3'} index={1}>

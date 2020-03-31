@@ -103,7 +103,7 @@ export default function PagesList(props) {
                 <div className={classes.ListItemText}>
                   {item.text}</div>
                 <ListItemSecondaryAction>
-                  <IconButton edge="end" aria-label="rename">
+                  <IconButton onClick={()=>props.renamePage({event:'rename', title:item.text, id:item.id})} edge="end" aria-label="rename">
                     <TextFieldsIcon fontSize="small" />
                   </IconButton>
                   <IconButton edge="end" aria-label="delete">
