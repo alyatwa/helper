@@ -15,6 +15,13 @@ import StarBorder from '@material-ui/icons/StarBorder';
 import { Link } from 'react-router-dom';
 import Linka from '@material-ui/core/Link';
 import Divider from '@material-ui/core/Divider';
+import DeleteIcon from '@material-ui/icons/Delete';
+import IconButton from '@material-ui/core/IconButton';
+import AddIcon from '@material-ui/icons/Add';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import TextFieldsIcon from '@material-ui/icons/TextFields';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -26,6 +33,23 @@ const useStyles = makeStyles((theme) =>
     nested: {
       paddingLeft: theme.spacing(4),
     },
+    ListItem: {
+      //paddingLeft: 0,
+      paddingRight: 0,
+    },
+    ListItemText: {
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      width: '66%'
+
+    },
+    subheader: {
+      paddingLeft: 0,
+      paddingRight: 0,
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      width: '85%'
+    }
   }),
 );
 
@@ -36,30 +60,61 @@ export default function PagesList(props) {
     setOpen(!open);
   };
   const pages = props.links
-//console.log(pages)
+  //console.log(pages)
   return (
     <>
       {pages.map((data, index) => (
         <>
           <List
-          key={data.id+index}
+            key={data.id + index}
             subheader={
-              <ListSubheader key={data.id} disableSticky={true}>
-                {data.subheader}
-              </ListSubheader>
+              <ListItem
+                className={classes.ListItem} 
+                key={data.id}>
+
+                <div className={classes.ListItemText}>
+                  <ListSubheader className={classes.subheader}>{data.subheader}</ListSubheader>
+                </div>
+                <ListItemSecondaryAction>
+                  <IconButton edge="end" aria-label="add">
+                    <AddIcon fontSize="small" />
+                  </IconButton>
+                  <IconButton edge="end" aria-label="rename">
+                    <TextFieldsIcon fontSize="small" />
+                  </IconButton>
+                  <IconButton edge="end" aria-label="remove">
+                    <DeleteIcon fontSize="small" />
+                  </IconButton></ListItemSecondaryAction>
+              </ListItem>
             }
             className={classes.root}
           >
             {data.items.map((item, indx) => (
-                <ListItem button
-                  to={item.href}
-                  key={item.id}
-                  component={Link}>
-                  <ListItemText key={item.id+item.text} primary={item.text} />
-                </ListItem>
+              <ListItem button
+                className={classes.ListItem}
+                to={item.href}
+                key={item.id}>
+                {/* <ListItemAvatar>
+                    <IconButton edge="end" aria-label="open">
+                      <ChevronLeftIcon />
+                    </IconButton>
+                    
+                   </ListItemAvatar>*/}
+                <div className={classes.ListItemText}>
+                  {item.text}</div>
+                <ListItemSecondaryAction>
+                  <IconButton edge="end" aria-label="rename">
+                    <TextFieldsIcon fontSize="small" />
+                  </IconButton>
+                  <IconButton edge="end" aria-label="delete">
+                    <DeleteIcon fontSize="small" />
+                  </IconButton>
+
+                </ListItemSecondaryAction>
+              </ListItem>
             ))}
           </List>
-          {props.links[index+1] ? <Divider key={data.id+'c'+index} />: ''}
+          {props.links[index + 1] ? <Divider key={data.id + 'c' + index} /> : ''}
         </>
       ))}
     </>

@@ -42,7 +42,7 @@ export default withCharacter(({ data: { loading,character, error } }) => {
 
 
 
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -50,32 +50,25 @@ import Drawer from '@material-ui/core/Drawer';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Linka from '@material-ui/core/Link';
 import { Link } from 'react-router-dom';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import DashboardList from './DashboardList';
 import { HashRouter as Router, Route, matchPath, useLocation, withRouter } from 'react-router-dom'
 import Projects from './projects';
 import Footer from '../Home/Footer';
-import Hidden from '@material-ui/core/Hidden';
 import Button from '@material-ui/core/Button';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Scrollbars } from 'react-custom-scrollbars';
-import CardMedia from '@material-ui/core/CardMedia';
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import Avatar from '@material-ui/core/Avatar';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import Paper from '@material-ui/core/Paper';
-import Deposits from '../Editor/Deposits';
-import EditorTools from '../Editor/EditorTools';
+import Editor from '../Editor';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -269,10 +262,12 @@ const useStyles = makeStyles((theme) => ({
     marginRight: '0px'
   },
   shiftTextRight: {
-    marginRight: drawerWidth,
+    marginRight: 0,
+
   },
   shiftTexLeft: {
    marginLeft: -drawerWidth,
+   marginRight: drawerWidth,
   },
   shiftTexRight: {
     marginRight: -drawerWidth,
@@ -433,23 +428,23 @@ function allLinks() {
 }
 function Project(props) {
   const classes = useStyles();
-  const [openleft, setOpenleft] = React.useState(true);
-  const [openright, setOpenright] = React.useState(false);
+  const [openleft, setOpenleft] = React.useState(false);
+  //const [openright, setOpenright] = React.useState(false);
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   /*console.log(props)
   props.history.listen((location, action) => {
     //console.log(location, action);
-  });*/
+  });
 
-  /*const handleDrawerOpen = () => {
+  const handleDrawerOpen = () => {
     setOpen(true);
   };
   const handleDrawerClose = () => {
     setOpen(false);
-  };*/
+  };
   let location = useLocation();
-  console.log(location.pathname);
+  console.log(location.pathname);*/
   const isPathActive = !!matchPath(
     props.location.pathname,
     '/dashboard/project/:project'
@@ -468,21 +463,19 @@ function Project(props) {
     }, deps)
   }
   useDidUpdate(() => {
-    console.log('useDidUpdate');
-    if(isPathActive){
-    setOpenleft(false); 
-    setOpenright(true)
-  }/*else{
-      setOpenleft(true);
-      setOpenright(false)
-    }*/
+    console.log('DidUpdate!');
+    if(isPathActive) {
+    setOpenleft(false);
+  }else{
+    setOpenleft(true);
   }
-  )
+  })
   useEffect(() => {
-    console.log('DidMount');
-    if(isPathActive){
-      setOpenleft(false); 
-      setOpenright(true)
+    console.log('DidMount!');
+    if(!isPathActive){
+      setOpenleft(true);
+    }else{
+      setOpenleft(false);
     }
   }, [])
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -578,10 +571,10 @@ function Project(props) {
           </IconButton>
           <Typography style={{ color: links.colors.linkheader }} className={classes.men}>
 
-            <Button component={Link} onClick={() => {setOpenleft(true);setOpenright(false)}} to={'/dashboard'} size="small" color="inherit">
+            <Button component={Link} to={'/dashboard'} size="small" color="inherit">
               {'Dashboard'}
             </Button>
-            <Button component={Link} onClick={() => {setOpenleft(false); setOpenright(true)}} to={'/dashboard/feedback'} size="small" color="inherit">
+            <Button component={Link} to={'/dashboard/feedback'} size="small" color="inherit">
               {'Feedback'}
             </Button>
             <Button component={Link} to={'/dashboard/help'} size="small" color="inherit">
@@ -617,11 +610,8 @@ function Project(props) {
       </Drawer>
 
      <main className={clsx(classes.content, classes.contentShift)}>
-        <div className={(openleft) ? classes.shiftTexRight : (openright ? classes.shiftTexLeft : classes.shiftTexLeft) }>
-        
-          
+        <div className={(openleft) ? classes.shiftTextLeft : classes.shiftTexLeft}>
           <div className={classes.appBarSpacer} />
-          
             <Container maxWidth="lg" className={classes.container}>
               <Grid container spacing={3}>
                 <Grid item xs={12} lg={12}>
@@ -632,7 +622,7 @@ function Project(props) {
                   />
                   <Route
                     path='/dashboard/project/:project'
-                    render={(routeProps) => <Deposits {...routeProps} colors={links.colors} />}
+                    render={(routeProps) => <Editor {...routeProps} colors={links.colors} />}
                   />
                   <Route
                     path='/dashboard/help'
@@ -676,19 +666,6 @@ function Project(props) {
         </div>
       </main>
       {/*left*/}
-      <Drawer
-        className={classes.rightDrawerPaper}
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-        variant="persistent"
-        anchor="right"
-        open={openright}
-      >
-        <div className={classes.toolbarr}>
-        </div>
-         <EditorTools />
-      </Drawer>
       </MuiThemeProvider>
     </div>
   );

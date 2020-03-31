@@ -22,7 +22,7 @@ function TabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box py={3}>{children}</Box>}
+      {value === index && <Box py={5}>{children}</Box>}
     </Typography>
   );
 }
@@ -54,195 +54,17 @@ subheader: {
     boxShadow: 'unset'
   },
   tablist:{
-    width: '25%'
+    width: '15%'
   },
   list:{
     marginTop: 20,
   }
 }));
-function allLinks() {
-    return {
-      colors: {
-        primary: '#e70000',
-        secondary: '#333333',
-        buttontext: '#ffffff',
-        linkcard: 'red',
-        cardtext: '#959090',
-        linkheader: '#ffffff',
-  
-        linkfooter: '#696969'
-      },
-      pages: [
-        {
-          title: 'Home',
-          href: '/vodafone',
-        },
-        {
-          title: 'Settings',
-          href: '/vodafone/settings',
-        },
-        {
-          title: 'Stepper',
-          href: '/vodafone/stepper',
-        }
-      ],
-      header: [{
-        href: '/',
-        external: false,
-        text: 'Home',
-      },
-      {
-        href: 'https://google.com',
-        external: true,
-        text: 'External',
-      },
-      {
-        href: '/vodafone/stepper',
-        external: false,
-        text: 'Stepper',
-      }],
-      drawer: [{
-        subheader: 'Vodafone',
-        id:'frggt',
-        items: [{
-            id:'jies54',
-          href: '/',
-          external: false,
-          text: 'Home'
-        },
-        {
-            id:'54yg',
-          href: '/stepper',
-          external: false,
-          text: 'Stepper'
-        },
-        {id:'589gy',
-          href: '/settings',
-          external: false,
-          text: 'Settings'
-        },
-        {
-            id:'58rde',
-          href: 'https://google.com',
-          external: true,
-          text: 'Orders'
-        }]
-      }, {
-        subheader: 'Router settings',
-        id:'hjhjhj',
-        items: [{
-            id:'iji5',
-          href: '/',
-          external: false,
-          text: 'ZTE'
-        },
-        {
-            id:'jh884wx',
-          href: '/stepper',
-          external: false,
-          text: 'Huawei'
-        },
-        {
-            id:'485srt',
-          href: '/solver',
-          external: false,
-          text: 'Vdsl'
-        }]
-      }, {
-        subheader: 'Troubleshooting Internet',
-        id:'jkjkfe',
-        items: [{
-          href: '/',
-          id:'452nk',
-          external: false,
-          text: 'Internet Not Working'
-        },
-        {
-            id:'124r6g',
-          href: '/stepper',
-          external: false,
-          text: 'Monitor bandwidth usage'
-        },
-        {
-            id:'124tf',
-          href: '/solver',
-          external: false,
-          text: 'Limit internet speed'
-        }]
-      }
-  
-      ],
-      footer: {
-        copyright: 'Copyright © [Your Website](https://google.com) 2020.',
-        linkstext: [{
-          size: 4,
-          title: 'Services',
-          links: [
-            {
-              href: '/',
-              external: false,
-              text: 'Home',
-            },
-            {
-              href: 'https://google.com',
-              external: true,
-              text: 'External',
-            },
-            {
-              href: '/stepper',
-              external: false,
-              text: 'Stepper',
-            }]
-        },
-        {
-          size: 4,
-          title: 'Packages',
-          links: [
-            {
-              href: '/',
-              external: false,
-              text: 'Home',
-            },
-            {
-              href: 'https://google.com',
-              external: true,
-              text: 'External',
-            },
-            {
-              href: '/stepper',
-              external: false,
-              text: 'Stepper',
-            }]
-        },
-        {
-          size: 4,
-          title: 'Services',
-          links: [
-            {
-              href: '/',
-              external: false,
-              text: 'Home',
-            },
-            {
-              href: 'https://google.com',
-              external: true,
-              text: 'External',
-            },
-            {
-              href: '/stepper',
-              external: false,
-              text: 'Stepper',
-            }]
-        }
-  
-        ]
-      }
-    }
-  }
-export default function EditorTools() {
+
+export default function EditorTools(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-  const pages = allLinks().drawer
+  
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -258,7 +80,7 @@ export default function EditorTools() {
       </AppBar>
      <Scrollbars> <TabPanel value={value} className={classes.list} key={'dggt5'} index={0}>
    
-        <PagesList key={'ghghg'} links={pages}/>
+        <PagesList key={'ghghg'} links={props.pages}/>
        
       </TabPanel></Scrollbars>
       <TabPanel value={value} key={'fbj3'} index={1}>
