@@ -97,7 +97,8 @@ class Editor extends Component {
         name: '',
         title: '',
         description: '',
-        value: ''
+        value: '',
+        pageType: ''
       }
     }}
     allLinks = (data) => {
@@ -290,19 +291,21 @@ class Editor extends Component {
       }*/
     }
     renamePageDialog = (page) => {
-      //console.log(project)
+      console.log(page)
       this.setState({
         event: {
-          action: 'rename',
-          title: 'Rename',
-          description: 'Please enter a new name for the page',
-          value: page.title
+          action: page.event,
+          title:(page.event ==='rename' ? 'Rename ' : 'Add ')+page.type,
+          description:`Please enter a new name for the ${page.type}`,
+          value: (page.event ==='add' ? '' : page.title),
+          pageType: page.type
         }
       })
       this.namedialog.current.getAlert(page.title, page.id, page.event)
     }
     func = (data) => {
       console.log(data)
+      //this.setState({event:{value:''}})
     }
 
     render() {

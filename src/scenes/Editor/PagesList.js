@@ -44,11 +44,13 @@ const useStyles = makeStyles((theme) =>
 
     },
     subheader: {
+      color: 'rgba(0, 0, 0, 0.54)',
+    fontSize: '0.875rem',
       paddingLeft: 0,
       paddingRight: 0,
       overflow: 'hidden',
       textOverflow: 'ellipsis',
-      width: '85%'
+      width: '53%'
     }
   }),
 );
@@ -64,22 +66,20 @@ export default function PagesList(props) {
   return (
     <>
       {pages.map((data, index) => (
-        <>
           <List
             key={data.id + index}
             subheader={
               <ListItem
                 className={classes.ListItem} 
                 key={data.id}>
-
-                <div className={classes.ListItemText}>
-                  <ListSubheader className={classes.subheader}>{data.subheader}</ListSubheader>
+                <div className={classes.subheader}>
+                 {data.subheader}
                 </div>
                 <ListItemSecondaryAction>
-                  <IconButton edge="end" aria-label="add">
+                  <IconButton onClick={()=>props.renamePage({event:'add', type:'Page', id:data.id})} edge="end" aria-label="add">
                     <AddIcon fontSize="small" />
                   </IconButton>
-                  <IconButton edge="end" aria-label="rename">
+                  <IconButton onClick={()=>props.renamePage({event:'rename', type:'Subheader', title:data.subheader, id:data.id})} edge="end" aria-label="rename">
                     <TextFieldsIcon fontSize="small" />
                   </IconButton>
                   <IconButton edge="end" aria-label="remove">
@@ -103,7 +103,7 @@ export default function PagesList(props) {
                 <div className={classes.ListItemText}>
                   {item.text}</div>
                 <ListItemSecondaryAction>
-                  <IconButton onClick={()=>props.renamePage({event:'rename', title:item.text, id:item.id})} edge="end" aria-label="rename">
+                  <IconButton onClick={()=>props.renamePage({event:'rename', type:'Page', title:item.text, id:item.id})} edge="end" aria-label="rename">
                     <TextFieldsIcon fontSize="small" />
                   </IconButton>
                   <IconButton edge="end" aria-label="delete">
@@ -113,9 +113,9 @@ export default function PagesList(props) {
                 </ListItemSecondaryAction>
               </ListItem>
             ))}
+            {props.links[index + 1] ? <Divider key={data.id + 'c' + index} /> : ''}
           </List>
-          {props.links[index + 1] ? <Divider key={data.id + 'c' + index} /> : ''}
-        </>
+         
       ))}
     </>
 

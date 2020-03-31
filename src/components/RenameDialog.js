@@ -19,19 +19,21 @@ const RenameDialog = forwardRef((props, ref) => {
   };
   useImperativeHandle(ref, () => ({
     getAlert(name, id, event) {
+      //console.log(name, id, event)
       setOpen(true);
       if (event === 'rename') {
         setName(name)
         setId(id)
       } 
       else if (event === 'newproject') {
-
+        //setName('')
       }
     }
   }));
   const handleClose = (data) => {
     setOpen(false);
     props.func({ name, id, event: props.action });
+    setName('')
   };
 
   return (
