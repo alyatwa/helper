@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) =>
     },
     subheader: {
       color: 'rgba(0, 0, 0, 0.54)',
-    fontSize: '0.875rem',
+      fontSize: '0.875rem',
       paddingLeft: 0,
       paddingRight: 0,
       overflow: 'hidden',
@@ -66,57 +66,64 @@ export default function PagesList(props) {
   return (
     <>
       {pages.map((data, index) => (
-          <List 
-            key={data.id + index}
-            subheader={
-              <ListItem
-                className={classes.ListItem} 
-                key={data.id}>
-                <div className={classes.subheader}>
-                 {data.subheader}
-                </div>
-                <ListItemSecondaryAction>
-                  <IconButton onClick={()=>props.renamePage({event:'add', type:'Page', subId:data.id})} edge="end" aria-label="add">
-                    <AddIcon fontSize="small" />
-                  </IconButton>
-                  <IconButton onClick={()=>props.renamePage({event:'rename', type:'Subheader', title:data.subheader, pageId:0, subId:data.id})} edge="end" aria-label="rename">
-                    <TextFieldsIcon fontSize="small" />
-                  </IconButton>
-                  <IconButton edge="end" aria-label="remove">
-                    <DeleteIcon fontSize="small" />
-                  </IconButton></ListItemSecondaryAction>
-              </ListItem>
-            }
-            className={classes.root}
-          >
-            {data.items.map((item, indx) => (
-              <ListItem button
-                className={classes.ListItem}
-                to={item.href}
-                key={item.id}>
-                {/* <ListItemAvatar>
+        <List
+          key={data.id + index}
+          subheader={
+            <ListItem
+              className={classes.ListItem}
+              key={data.id}>
+              <div className={classes.subheader}>
+                {data.subheader}
+              </div>
+              <ListItemSecondaryAction>
+                <IconButton onClick={() => props.renamePage({ event: 'addPage', type: 'Page', subId: data.id })} edge="end" aria-label="add">
+                  <AddIcon fontSize="small" />
+                </IconButton>
+                <IconButton onClick={() => props.renamePage({ event: 'rename', type: 'Subheader', title: data.subheader, pageId: 0, subId: data.id })} edge="end" aria-label="rename">
+                  <TextFieldsIcon fontSize="small" />
+                </IconButton>
+                <IconButton edge="end" aria-label="remove">
+                  <DeleteIcon fontSize="small" />
+                </IconButton></ListItemSecondaryAction>
+            </ListItem>
+          }
+          className={classes.root}
+        >
+          {data.items.map((item, indx) => (
+            <ListItem button
+              className={classes.ListItem}
+              to={item.href}
+              key={item.id}>
+              {/* <ListItemAvatar>
                     <IconButton edge="end" aria-label="open">
                       <ChevronLeftIcon />
                     </IconButton>
                     
                    </ListItemAvatar>*/}
-                <div className={classes.ListItemText}>
-                  {item.text}</div>
-                <ListItemSecondaryAction>
-                  <IconButton onClick={()=>props.renamePage({event:'rename', type:'Page', title:item.text, subId:data.id, pageId:item.id})} edge="end" aria-label="rename">
-                    <TextFieldsIcon fontSize="small" />
-                  </IconButton>
-                  <IconButton edge="end" aria-label="delete">
-                    <DeleteIcon fontSize="small" />
-                  </IconButton>
+              <div className={classes.ListItemText}>
+                {item.text}</div>
+              <ListItemSecondaryAction>
+                <IconButton onClick={() => props.renamePage({ event: 'rename', type: 'Page', title: item.text, subId: data.id, pageId: item.id })} edge="end" aria-label="rename">
+                  <TextFieldsIcon fontSize="small" />
+                </IconButton>
+                <IconButton edge="end" aria-label="delete">
+                  <DeleteIcon fontSize="small" />
+                </IconButton>
 
-                </ListItemSecondaryAction>
-              </ListItem>
-            ))}
-            {props.links[index + 1] ? <Divider key={data.id + 'c' + index} /> : ''}
-          </List>
-         
+              </ListItemSecondaryAction>
+            </ListItem>
+          ))}
+          {props.links[index + 1] ? <Divider key={data.id + 'c' + index} /> : ''}
+        </List>
+
       ))}
+      <List>
+        <ListItem button onClick={() => props.renamePage({ event: 'addSubheader', type: 'Subheader'})}>
+        <ListItemText>
+                {'Add New Header'}</ListItemText>
+              <AddIcon fontSize="small" />
+        </ListItem>
+      </List>
     </>
 
 

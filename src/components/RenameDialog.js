@@ -28,6 +28,9 @@ const RenameDialog = forwardRef((props, ref) => {
       else if (event === 'newproject') {
         //setName('')
       }
+      else if (event === "addSubheader") {
+        setId(id)
+      }
     }
   }));
   const handleClose = (data) => {

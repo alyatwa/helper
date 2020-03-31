@@ -315,19 +315,52 @@ class Editor extends Component {
           pageId:page.pageId,
           subId:page.subId,
           action: page.event,
-          title:(page.event ==='rename' ? 'Rename ' : 'Add ')+page.type,
+          title:(page.event === 'rename' ? 'Rename ' : 'Add ')+page.type,
           description:`Please enter a new name for the ${page.type}`,
-          value: (page.event ==='add' ? '' : page.title),
+          value: (page.event ==='addPage' ? '' : page.title),
           pageType: page.type
         }
       })
-      this.namedialog.current.getAlert(page.title, page.id, page.event)
+      this.namedialog.current.getAlert(page.title, page.pageId, page.event)
+    }
+    addSubHeader = (Subheader) => {
+      console.log(Subheader)
+      const newSubheader = {
+      subheader: Subheader.name,
+      id: 'newtestID',
+      items: []
+    }
+      this.setState(state => {
+        const list = state.pages.push(newSubheader)
+        return {
+          list
+        }
+      })
+    }
+    addPage = (data) => {
+      let SubId = this.state.event.subId
+      var index = this.state.pages.findIndex(obj => obj.id === SubId);
+      const newPage = {
+        id: 'frg',
+        href: '/',
+        external: false,
+        text: data.name
+      }
+      this.setState(state => {
+        const list = state.pages[index].items.push(newPage)
+        return {
+          list
+        }
+      })
     }
     func = (data) => {
-      //console.log(data)
-      
+      console.log(data)
       if (data.event === "rename" && data.name.length>1) {
         this.RenamePage(data)
+      } else if (data.event === "addPage" && data.name.length>1) {
+        this.addPage(data)
+      } else if (data.event === "addSubheader" && data.name.length>1) {
+        this.addSubHeader(data)
       }
     }
     componentDidMount() {
