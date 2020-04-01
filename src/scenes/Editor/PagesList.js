@@ -64,7 +64,6 @@ export default function PagesList(props) {
     setOpen(!open);
   };
   const pages = props.links
-  console.log(props)
   return (
     <>
       {pages.map((data, index) => (
@@ -94,6 +93,7 @@ export default function PagesList(props) {
         >
           {data.items.map((item, indx) => (
             <ListItem button
+            onClick={() => props.OpenPage({ event: 'openPage', subId: data.id, pageId: item.id, type: 'Page'})}
               className={classes.ListItem}
               to={item.href}
               key={item.id}>

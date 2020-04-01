@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Paper from '@material-ui/core/Paper';
 import sharedStyles from '../../components/sharedStyles'
-import EditorTools from '../Editor/EditorTools'
+import EditorDrawer from '../Editor/EditorDrawer'
 import Drawer from '@material-ui/core/Drawer';
 import RenameDialog from '../../components/RenameDialog';
 import MsgDialog from '../../components/MsgDialog';
@@ -95,6 +95,7 @@ class Editor extends Component {
     this.remove = React.createRef();
     this.state = {
       pages: [],
+      currentPage:{},
       event: {
         itemId: '',
         subId: '',
@@ -405,14 +406,20 @@ class Editor extends Component {
     let pages = this.allLinks().drawer
     this.setState({ pages })
   }
+  openPage = (data) => {
+    //console.log(data)
+    this.setState({
+      currentPage:{
+      pageId:data.pageId,
+    }})
+  }
 
   render() {
     const pagesList = this.state.pages
     const { classes } = this.props;
-    console.log(this.state.pages)
     return (
       <div className={classes.root}>
-        <Paper className={classes.paper}>{'Grid with col with tools'}</Paper>
+        <Paper className={classes.paper}>{this.state.currentPage.pageId}</Paper>
         <MsgDialog sure={this.doRemove} id={'0'} name={'props.title'} ref={this.remove} />
         <RenameDialog ref={this.namedialog} func={this.func} action={this.state.event.action} title={this.state.event.title} description={this.state.event.description} value={this.state.event.value} />
         <Drawer
@@ -425,7 +432,7 @@ class Editor extends Component {
           open={true}
         ><div className={classes.toolbarr}>
           </div>
-          <EditorTools openPage={''} RemovePage={this.removeDialog} RenamePage={this.renamePageDialog} pages={pagesList} />
+          <EditorDrawer OpenPage={this.openPage} RemovePage={this.removeDialog} RenamePage={this.renamePageDialog} pages={pagesList} />
         </Drawer>
       </div>
     )

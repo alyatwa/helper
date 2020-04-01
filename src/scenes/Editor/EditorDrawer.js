@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function EditorTools(props) {
+export default function EditorDrawer(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -81,7 +81,7 @@ export default function EditorTools(props) {
       <Scrollbars hideTracksWhenNotNeeded  renderTrackHorizontal={() => <div></div>} renderThumbHorizontal={() => <div></div>}>
         <TabPanel value={value} className={classes.list} key={'dggt5'} index={0}>
 
-          <PagesList key={'ghghg'} RemovePage={props.RemovePage} renamePage={props.RenamePage} links={props.pages} />
+          <PagesList key={'ghghg'} OpenPage={props.OpenPage} RemovePage={props.RemovePage} renamePage={props.RenamePage} links={props.pages} />
 
         </TabPanel>
       </Scrollbars>
