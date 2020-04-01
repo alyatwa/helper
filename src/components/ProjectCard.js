@@ -21,7 +21,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import TextFields from '@material-ui/icons/TextFields';
 import Delete from '@material-ui/icons/Delete';
-import MsgDialog from '../scenes/Project/MsgDialog';
+import MsgDialog from './MsgDialog';
 const useStyles = makeStyles((theme) => ({
   ...sharedStyles,
   root: {

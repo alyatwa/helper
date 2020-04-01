@@ -22,6 +22,8 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import TextFieldsIcon from '@material-ui/icons/TextFields';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import Tooltip from '@material-ui/core/Tooltip';
+import Zoom from '@material-ui/core/Zoom';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -62,7 +64,7 @@ export default function PagesList(props) {
     setOpen(!open);
   };
   const pages = props.links
-  //console.log(pages)
+  console.log(props)
   return (
     <>
       {pages.map((data, index) => (
@@ -76,13 +78,14 @@ export default function PagesList(props) {
                 {data.subheader}
               </div>
               <ListItemSecondaryAction>
+              <Tooltip TransitionComponent={Zoom} title="Add Page" placement="top">
                 <IconButton onClick={() => props.renamePage({ event: 'addPage', type: 'Page', subId: data.id })} edge="end" aria-label="add">
                   <AddIcon fontSize="small" />
-                </IconButton>
+                </IconButton></Tooltip>
                 <IconButton onClick={() => props.renamePage({ event: 'rename', type: 'Subheader', title: data.subheader, pageId: 0, subId: data.id })} edge="end" aria-label="rename">
                   <TextFieldsIcon fontSize="small" />
                 </IconButton>
-                <IconButton edge="end" aria-label="remove">
+                <IconButton onClick={() => props.RemovePage({ event: 'removeSubheader', type: 'Subheader', pageId: 0, subId: data.id })} edge="end" aria-label="remove">
                   <DeleteIcon fontSize="small" />
                 </IconButton></ListItemSecondaryAction>
             </ListItem>
@@ -106,7 +109,7 @@ export default function PagesList(props) {
                 <IconButton onClick={() => props.renamePage({ event: 'rename', type: 'Page', title: item.text, subId: data.id, pageId: item.id })} edge="end" aria-label="rename">
                   <TextFieldsIcon fontSize="small" />
                 </IconButton>
-                <IconButton edge="end" aria-label="delete">
+                <IconButton onClick={() => props.RemovePage({ event: 'removePage', subId: data.id, pageId: item.id, type: 'Page'})} edge="end" aria-label="delete">
                   <DeleteIcon fontSize="small" />
                 </IconButton>
 

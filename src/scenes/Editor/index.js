@@ -1,4 +1,4 @@
-import React,{ Component }  from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles'
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,6 +12,7 @@ import sharedStyles from '../../components/sharedStyles'
 import EditorTools from '../Editor/EditorTools'
 import Drawer from '@material-ui/core/Drawer';
 import RenameDialog from '../../components/RenameDialog';
+import MsgDialog from '../../components/MsgDialog';
 
 /*function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -91,213 +92,215 @@ class Editor extends Component {
   constructor(props) {
     super(props);
     this.namedialog = React.createRef();
+    this.remove = React.createRef();
     this.state = {
       pages: [],
       event: {
-        itemId:'',
-        subId:'',
+        itemId: '',
+        subId: '',
         name: '',
         title: '',
         description: '',
         value: '',
         pageType: ''
       }
-    }}
-    allLinks = (data) => {
-      return {
-        colors: {
-          primary: '#e70000',
-          secondary: '#333333',
-          buttontext: '#ffffff',
-          linkcard: 'red',
-          cardtext: '#959090',
-          linkheader: '#ffffff',
+    }
+  }
+  allLinks = (data) => {
+    return {
+      colors: {
+        primary: '#e70000',
+        secondary: '#333333',
+        buttontext: '#ffffff',
+        linkcard: 'red',
+        cardtext: '#959090',
+        linkheader: '#ffffff',
 
-          linkfooter: '#696969'
+        linkfooter: '#696969'
+      },
+      pages: [
+        {
+          title: 'Home',
+          href: '/vodafone',
         },
-        pages: [
-          {
-            title: 'Home',
-            href: '/vodafone',
-          },
-          {
-            title: 'Settings',
-            href: '/vodafone/settings',
-          },
-          {
-            title: 'Stepper',
-            href: '/vodafone/stepper',
-          }
-        ],
-        header: [{
+        {
+          title: 'Settings',
+          href: '/vodafone/settings',
+        },
+        {
+          title: 'Stepper',
+          href: '/vodafone/stepper',
+        }
+      ],
+      header: [{
+        href: '/',
+        external: false,
+        text: 'Home',
+      },
+      {
+        href: 'https://google.com',
+        external: true,
+        text: 'External',
+      },
+      {
+        href: '/vodafone/stepper',
+        external: false,
+        text: 'Stepper',
+      }],
+      drawer: [{
+        subheader: 'Vodafone',
+        id: 'frggt',
+        items: [{
+          id: 'jies54',
           href: '/',
           external: false,
-          text: 'Home',
+          text: 'Home'
         },
         {
+          id: '54yg',
+          href: '/stepper',
+          external: false,
+          text: 'Stepper'
+        },
+        {
+          id: '589gy',
+          href: '/settings',
+          external: false,
+          text: 'Settings'
+        },
+        {
+          id: '58rde',
           href: 'https://google.com',
           external: true,
-          text: 'External',
+          text: 'Orders'
+        }]
+      }, {
+        subheader: 'Router settings',
+        id: 'hjhjhj',
+        items: [{
+          id: 'iji5',
+          href: '/',
+          external: false,
+          text: 'ZTE'
         },
         {
-          href: '/vodafone/stepper',
+          id: 'jh884wx',
+          href: '/stepper',
           external: false,
-          text: 'Stepper',
-        }],
-        drawer: [{
-          subheader: 'Vodafone',
-          id: 'frggt',
-          items: [{
-            id: 'jies54',
-            href: '/',
-            external: false,
-            text: 'Home'
-          },
-          {
-            id: '54yg',
-            href: '/stepper',
-            external: false,
-            text: 'Stepper'
-          },
-          {
-            id: '589gy',
-            href: '/settings',
-            external: false,
-            text: 'Settings'
-          },
-          {
-            id: '58rde',
-            href: 'https://google.com',
-            external: true,
-            text: 'Orders'
-          }]
-        }, {
-          subheader: 'Router settings',
-          id: 'hjhjhj',
-          items: [{
-            id: 'iji5',
-            href: '/',
-            external: false,
-            text: 'ZTE'
-          },
-          {
-            id: 'jh884wx',
-            href: '/stepper',
-            external: false,
-            text: 'Huawei'
-          },
-          {
-            id: '485srt',
-            href: '/solver',
-            external: false,
-            text: 'Vdsl'
-          }]
-        }, {
-          subheader: 'Troubleshooting Internet',
-          id: 'jkjkfe',
-          items: [{
-            href: '/',
-            id: '452nk',
-            external: false,
-            text: 'Internet Not Working'
-          },
-          {
-            id: '124r6g',
-            href: '/stepper',
-            external: false,
-            text: 'Monitor bandwidth usage'
-          },
-          {
-            id: '124tf',
-            href: '/solver',
-            external: false,
-            text: 'Limit internet speed'
-          }]
+          text: 'Huawei'
+        },
+        {
+          id: '485srt',
+          href: '/solver',
+          external: false,
+          text: 'Vdsl'
+        }]
+      }, {
+        subheader: 'Troubleshooting Internet',
+        id: 'jkjkfe',
+        items: [{
+          href: '/',
+          id: '452nk',
+          external: false,
+          text: 'Internet Not Working'
+        },
+        {
+          id: '124r6g',
+          href: '/stepper',
+          external: false,
+          text: 'Monitor bandwidth usage'
+        },
+        {
+          id: '124tf',
+          href: '/solver',
+          external: false,
+          text: 'Limit internet speed'
+        }]
+      }
+
+      ],
+      footer: {
+        copyright: 'Copyright © [Your Website](https://google.com) 2020.',
+        linkstext: [{
+          size: 4,
+          title: 'Services',
+          links: [
+            {
+              href: '/',
+              external: false,
+              text: 'Home',
+            },
+            {
+              href: 'https://google.com',
+              external: true,
+              text: 'External',
+            },
+            {
+              href: '/stepper',
+              external: false,
+              text: 'Stepper',
+            }]
+        },
+        {
+          size: 4,
+          title: 'Packages',
+          links: [
+            {
+              href: '/',
+              external: false,
+              text: 'Home',
+            },
+            {
+              href: 'https://google.com',
+              external: true,
+              text: 'External',
+            },
+            {
+              href: '/stepper',
+              external: false,
+              text: 'Stepper',
+            }]
+        },
+        {
+          size: 4,
+          title: 'Services',
+          links: [
+            {
+              href: '/',
+              external: false,
+              text: 'Home',
+            },
+            {
+              href: 'https://google.com',
+              external: true,
+              text: 'External',
+            },
+            {
+              href: '/stepper',
+              external: false,
+              text: 'Stepper',
+            }]
         }
 
-        ],
-        footer: {
-          copyright: 'Copyright © [Your Website](https://google.com) 2020.',
-          linkstext: [{
-            size: 4,
-            title: 'Services',
-            links: [
-              {
-                href: '/',
-                external: false,
-                text: 'Home',
-              },
-              {
-                href: 'https://google.com',
-                external: true,
-                text: 'External',
-              },
-              {
-                href: '/stepper',
-                external: false,
-                text: 'Stepper',
-              }]
-          },
-          {
-            size: 4,
-            title: 'Packages',
-            links: [
-              {
-                href: '/',
-                external: false,
-                text: 'Home',
-              },
-              {
-                href: 'https://google.com',
-                external: true,
-                text: 'External',
-              },
-              {
-                href: '/stepper',
-                external: false,
-                text: 'Stepper',
-              }]
-          },
-          {
-            size: 4,
-            title: 'Services',
-            links: [
-              {
-                href: '/',
-                external: false,
-                text: 'Home',
-              },
-              {
-                href: 'https://google.com',
-                external: true,
-                text: 'External',
-              },
-              {
-                href: '/stepper',
-                external: false,
-                text: 'Stepper',
-              }]
-          }
-
-          ]
-        }
+        ]
       }
     }
-    RenamePage = (data) => {
-      let pagetype = this.state.event.pageType
-      let SubId = this.state.event.subId
-      let itemId = this.state.event.pageId
-      let name = data.name
+  }
+  RenamePage = (data) => {
+    let pagetype = this.state.event.pageType
+    let SubId = this.state.event.subId
+    let itemId = this.state.event.pageId
+    let name = data.name
 
-      if (pagetype === 'Subheader') { 
-        this.setState(state => {
+    if (pagetype === 'Subheader') {
+      this.setState(state => {
         var index = state.pages.findIndex(obj => obj.id === SubId);
         const list = state.pages[index].subheader = name;
         return {
           list
         }
       })
-     } else if (pagetype === 'Page'){
+    } else if (pagetype === 'Page') {
       this.setState(state => {
         var subIndex = state.pages.findIndex(obj => obj.id === SubId);
         var itemIndex = state.pages[subIndex].items.findIndex(obj => obj.id === itemId);
@@ -306,90 +309,126 @@ class Editor extends Component {
           list
         }
       })
+    }
+  }
+  renamePageDialog = (page) => {
+    console.log(page)
+    this.setState({
+      event: {
+        pageId: page.pageId,
+        subId: page.subId,
+        action: page.event,
+        title: (page.event === 'rename' ? 'Rename ' : 'Add ') + page.type,
+        description: `Please enter a new name for the ${page.type}`,
+        value: (page.event === 'addPage' ? '' : page.title),
+        pageType: page.type
       }
-    }
-    renamePageDialog = (page) => {
-      console.log(page)
-      this.setState({
-        event: {
-          pageId:page.pageId,
-          subId:page.subId,
-          action: page.event,
-          title:(page.event === 'rename' ? 'Rename ' : 'Add ')+page.type,
-          description:`Please enter a new name for the ${page.type}`,
-          value: (page.event ==='addPage' ? '' : page.title),
-          pageType: page.type
-        }
-      })
-      this.namedialog.current.getAlert(page.title, page.pageId, page.event)
-    }
-    addSubHeader = (Subheader) => {
-      console.log(Subheader)
-      const newSubheader = {
+    })
+    this.namedialog.current.getAlert(page.title, page.pageId, page.event)
+  }
+  addSubHeader = (Subheader) => {
+    console.log(Subheader)
+    const newSubheader = {
       subheader: Subheader.name,
       id: 'newtestID',
       items: []
     }
+    this.setState(state => {
+      const list = state.pages.push(newSubheader)
+      return {
+        list
+      }
+    })
+  }
+  addPage = (data) => {
+    let SubId = this.state.event.subId
+    var index = this.state.pages.findIndex(obj => obj.id === SubId);
+    const newPage = {
+      id: 'frg',
+      href: '/',
+      external: false,
+      text: data.name
+    }
+    this.setState(state => {
+      const list = state.pages[index].items.push(newPage)
+      return {
+        list
+      }
+    })
+  }
+  removeDialog = (page) => {
+    console.log(page)
+    this.setState({
+      event: {
+        pageId: page.pageId,
+        subId: page.subId,
+        action: page.event,
+        pageType: page.type
+      }
+    })
+    this.remove.current.getAlert()
+  }
+  doRemove = (data) => {
+    let pagetype = this.state.event.pageType
+    let SubId = this.state.event.subId
+    let itemId = this.state.event.pageId
+    //let name = data.name
+    //console.log(data)
+    if (pagetype === 'Subheader') {
+      this.setState({
+        pages: this.state.pages.filter(item => item.id !== SubId)
+      })
+    } else if(pagetype === 'Page') {
+      var subIndex = this.state.pages.findIndex(obj => obj.id === SubId);
+      var itemIndex = this.state.pages[subIndex].items.findIndex(obj => obj.id === itemId);
       this.setState(state => {
-        const list = state.pages.push(newSubheader)
+        const list = this.state.pages[subIndex].items.splice(itemIndex, 1)
         return {
           list
         }
       })
-    }
-    addPage = (data) => {
-      let SubId = this.state.event.subId
-      var index = this.state.pages.findIndex(obj => obj.id === SubId);
-      const newPage = {
-        id: 'frg',
-        href: '/',
-        external: false,
-        text: data.name
-      }
-      this.setState(state => {
-        const list = state.pages[index].items.push(newPage)
-        return {
-          list
-        }
-      })
-    }
-    func = (data) => {
-      console.log(data)
-      if (data.event === "rename" && data.name.length>1) {
-        this.RenamePage(data)
-      } else if (data.event === "addPage" && data.name.length>1) {
-        this.addPage(data)
-      } else if (data.event === "addSubheader" && data.name.length>1) {
-        this.addSubHeader(data)
-      }
-    }
-    componentDidMount() {
-      let pages = this.allLinks().drawer
-      this.setState({ pages })
+
     }
 
-    render() {
-      const pages = this.state.pages
-      const { classes } = this.props;
-      return (
-        <div className={classes.root}>
-          <Paper className={classes.paper}>{'Grid with col with tools'}</Paper>
-
-          <RenameDialog ref={this.namedialog} func={this.func} action={this.state.event.action} title={this.state.event.title} description={this.state.event.description} value={this.state.event.value} />
-          <Drawer
-            className={classes.rightDrawerPaper}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            anchor="right"
-            variant="persistent"
-            open={true}
-          ><div className={classes.toolbarr}>
-            </div>
-            <EditorTools openPage={''} removePage={''} RenamePage={this.renamePageDialog} pages={pages} />
-          </Drawer>
-        </div>
-      )
+  }
+  func = (data) => {
+    console.log(data)
+    if (data.event === "rename" && data.name.length > 1) {
+      this.RenamePage(data)
+    } else if (data.event === "addPage" && data.name.length > 1) {
+      this.addPage(data)
+    } else if (data.event === "addSubheader" && data.name.length > 1) {
+      this.addSubHeader(data)
     }
   }
-  export default withStyles(styles)(Editor);
+  componentDidMount() {
+    let pages = this.allLinks().drawer
+    this.setState({ pages })
+  }
+
+  render() {
+    const pagesList = this.state.pages
+    const { classes } = this.props;
+    console.log(this.state.pages)
+    return (
+      <div className={classes.root}>
+        <Paper className={classes.paper}>{'Grid with col with tools'}</Paper>
+        <MsgDialog sure={this.doRemove} id={'0'} name={'props.title'} ref={this.remove} />
+        <RenameDialog ref={this.namedialog} func={this.func} action={this.state.event.action} title={this.state.event.title} description={this.state.event.description} value={this.state.event.value} />
+        <Drawer
+          className={classes.rightDrawerPaper}
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+          anchor="right"
+          variant="persistent"
+          open={true}
+        ><div className={classes.toolbarr}>
+          </div>
+          <EditorTools openPage={''} RemovePage={this.removeDialog} RenamePage={this.renamePageDialog} pages={pagesList} />
+        </Drawer>
+      </div>
+    )
+  }
+}
+export default withStyles(styles)(Editor);

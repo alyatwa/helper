@@ -81,7 +81,7 @@ export default function EditorTools(props) {
       <Scrollbars hideTracksWhenNotNeeded  renderTrackHorizontal={() => <div></div>} renderThumbHorizontal={() => <div></div>}>
         <TabPanel value={value} className={classes.list} key={'dggt5'} index={0}>
 
-          <PagesList key={'ghghg'} renamePage={props.RenamePage} links={props.pages} />
+          <PagesList key={'ghghg'} RemovePage={props.RemovePage} renamePage={props.RenamePage} links={props.pages} />
 
         </TabPanel>
       </Scrollbars>
