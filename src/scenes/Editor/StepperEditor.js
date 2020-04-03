@@ -17,11 +17,14 @@ import AddIcon from '@material-ui/icons/Add';
 import ReactMde from "react-mde";
 import "react-mde/lib/styles/css/react-mde-all.css";
 import { withStyles } from '@material-ui/core/styles'
+import ControlCameraIcon from '@material-ui/icons/ControlCamera';
+import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
 
 
 const styles = theme => ({
   root: {
-    width: '100%',
+    width: '100%'
   },
   fixedHeight: {
     height: '100%',
@@ -30,8 +33,7 @@ const styles = theme => ({
     marginTop: theme.spacing(3),
   },
   button: {
-    marginTop: theme.spacing(1),
-    marginRight: theme.spacing(1),
+    //marginRight: theme.spacing(1),
   },
   actionsContainer: {
     marginBottom: theme.spacing(2),
@@ -74,53 +76,41 @@ class StepperEditor extends Component {
   handleReset() {
     this.setState({ activeStep: 0 })
   };
-  componentWillMount() {
-    this.setState({ stepper: this.props[0] })
-  }
-  removeStep(id, index) {
-    
-    var itemIndex = this.state.stepper.steps.findIndex(obj => obj.id === id);
-    this.setState(state => {
-      const list = this.state.stepper.steps.splice(itemIndex, 1)
-      return {
-        list
-      }
-    })
-  }
-  addStep(step) {
-    let newStep = {
-      id: 65678,
-      label: 'step 3',
-      description: 'des'
-    }
-    this.setState(state => {
-      //const list = state.stepper.steps.push(newStep)
-      const list = state.stepper.steps.splice(step+1, 0, newStep);
-      
-      return {
-        list
-      }
-    })
-  }
+
 
   render() {
-    //const steps = this.props[0].steps;
-    const steps = this.state.stepper.steps;
-    console.log(this.state.stepper);
+    const stepper = this.props
+    const steps = stepper.steps;
+    //const steps = this.state.stepper.steps;
     const { classes } = this.props;
     return (
       <React.Fragment>
 
+        <Grid container direction="row" alignItems="center">
+          <Grid item>
+            <IconButton className={classes.button} aria-label="delete">
+              <ControlCameraIcon />
+            </IconButton>
+          </Grid>
+          <Grid item>
+            <IconButton className={classes.button} aria-label="delete">
+              <DeleteIcon />
+            </IconButton>
+          </Grid>
+          <Grid item>
+            <Typography variant="h4">Stepper</Typography>
+          </Grid>
+        </Grid>
         <Stepper activeStep={this.state.activeStep} orientation="vertical">
           {steps.map((step, index) => (
             <Step key={step.label} >
               <StepLabel>
 
-                <TextField onClick={() => this.handleStep(index)} id="outlined-basic" value={step.label} label="Step Title"  />
-                <IconButton onClick={() => this.addStep(index)} className={classes.button} aria-label="delete">
+                <TextField onClick={() => this.handleStep(index)} id="outlined-basic" value={step.label} label="Step Title" />
+                <IconButton onClick={() => stepper.addStep(index)} className={classes.button} aria-label="delete">
                   <AddIcon />
                 </IconButton>
-                <IconButton onClick={() => this.removeStep(step.id, index)} className={classes.button} disabled={index === 0 || index === 1} aria-label="delete">
+                <IconButton onClick={() => stepper.removeStep(step.id, index)} className={classes.button} disabled={index === 0} aria-label="delete">
                   <DeleteIcon />
                 </IconButton>
               </StepLabel>
@@ -157,7 +147,7 @@ class StepperEditor extends Component {
         </Stepper>
         {this.state.activeStep === steps.length && (
           <Paper square elevation={0} className={classes.resetContainer}>
-            <TextField id="outlined-basic" value={this.props[0].finish} label="Last Step" variant="outlined" />
+            <TextField id="outlined-basic" value={this.props.finish} label="Last Step" variant="outlined" />
 
             <Button onClick={() => this.handleReset()} className={classes.button}>
               Reset

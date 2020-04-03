@@ -12,6 +12,10 @@ import Drawer from '@material-ui/core/Drawer';
 import RenameDialog from '../../components/RenameDialog';
 import MsgDialog from '../../components/MsgDialog';
 import StepperEditor from './StepperEditor';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+
 
 /*function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -84,7 +88,10 @@ const styles = theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
-  }
+  },
+  margin: {
+    margin: theme.spacing(1),
+  },
 });
 
 class Editor extends Component {
@@ -94,7 +101,7 @@ class Editor extends Component {
     this.remove = React.createRef();
     this.state = {
       pages: [],
-      currentPage:{},
+      currentPage: {},
       event: {
         itemId: '',
         subId: '',
@@ -105,6 +112,8 @@ class Editor extends Component {
         pageType: ''
       }
     }
+    this.addStep = this.addStep.bind(this);
+    this.removeStep = this.removeStep.bind(this);
   }
   allLinks = (data) => {
     return {
@@ -155,29 +164,46 @@ class Editor extends Component {
           href: '/',
           external: false,
           text: 'Home',
-          content:[
+          content: [
             {
-              component:'stepper',
-              finish:'finish',
-              steps:[{
-                id:25252,
-                label:'step 1',
+              component: 'stepper',
+              finish: 'finish',
+              steps: [{
+                id: 25252,
+                label: 'step 1',
                 description: 'description.....'
               },
               {
-                id:2525,
-                label:'step 2',
+                id: 2525,
+                label: 'step 2',
                 description: 'description.....'
               }
-            ]
+              ]
             }
           ]
         },
         {
-          id: '54yg',
+          id: '45467676',
           href: '/stepper',
           external: false,
-          text: 'Stepper'
+          text: 'Stepper',
+          content: [
+            {
+              component: 'stepper',
+              finish: 'finish',
+              steps: [{
+                id: 25252,
+                label: 'Tt',
+                description: 'description.....'
+              },
+              {
+                id: 2525,
+                label: 'test',
+                description: 'description.....'
+              }
+              ]
+            }
+          ]
         },
         {
           id: '589gy',
@@ -395,7 +421,7 @@ class Editor extends Component {
       this.setState({
         pages: this.state.pages.filter(item => item.id !== SubId)
       })
-    } else if(pagetype === 'Page') {
+    } else if (pagetype === 'Page') {
       var subIndex = this.state.pages.findIndex(obj => obj.id === SubId);
       var itemIndex = this.state.pages[subIndex].items.findIndex(obj => obj.id === itemId);
       this.setState(state => {
@@ -418,26 +444,64 @@ class Editor extends Component {
       this.addSubHeader(data)
     }
   }
-  componentDidMount() {
+  componentWillMount() {
     let pages = this.allLinks().drawer
-    this.setState({ pages })
+    this.setState({
+      pages,
+      currentPage: { page: pages[0].items[0] }
+    })
   }
   openPage = (data) => {
-    //console.log(data)
+    var { pageId, subId } = data
+    var subIndex = this.state.pages.findIndex(obj => obj.id === subId);
+    var itemIndex = this.state.pages[subIndex].items.findIndex(obj => obj.id === pageId);
+    let page = this.state.pages[subIndex].items[itemIndex]
     this.setState({
-      currentPage:{
-      pageId:data.pageId,
-    }})
-  }
+      currentPage: {
+        pageId,
+        subId,
+        page
+      }
+    })
 
+  }
+  removeStep(id, index) {
+    var itemIndex = this.state.currentPage.page.content[0].steps.findIndex(obj => obj.id === id);
+    this.setState(state => {
+      const list = this.state.currentPage.page.content[0].steps.splice(itemIndex, 1)
+      return {
+        list
+      }
+    })
+  }
+  addStep(step) {
+    let newStep = {
+      id: 65678,
+      label: 'step 3',
+      description: 'des'
+    }
+    this.setState(state => {
+      const list = state.currentPage.page.content[0].steps.splice(step + 1, 0, newStep);
+      //const list = state.stepper.steps.splice(step + 1, 0, newStep);
+      return {
+        list
+      }
+    })
+  }
   render() {
     const pagesList = this.state.pages
     const { classes } = this.props;
-    //console.log(pagesList)
     return (
       <div className={classes.root}>
-        <Paper className={classes.paper}>{this.state.currentPage.pageId}
-        <StepperEditor {...this.allLinks().drawer[0].items[0].content}/>
+        <Paper className={classes.paper}>
+          <FormControl fullWidth className={classes.margin}>
+            <InputLabel htmlFor="standard-adornment-amount">Title</InputLabel>
+            <Input
+              id="standard-adornment-amount"
+              value={this.state.currentPage.page.text || ''}
+            />
+          </FormControl>
+          <StepperEditor addStep={this.addStep} removeStep={this.removeStep} {...this.state.currentPage.page.content[0]} />
         </Paper>
         <MsgDialog sure={this.doRemove} id={'0'} name={'props.title'} ref={this.remove} />
         <RenameDialog ref={this.namedialog} func={this.func} action={this.state.event.action} title={this.state.event.title} description={this.state.event.description} value={this.state.event.value} />
