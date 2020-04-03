@@ -84,9 +84,11 @@ export default function PagesList(props) {
                 <IconButton onClick={() => props.renamePage({ event: 'rename', type: 'Subheader', title: data.subheader, pageId: 0, subId: data.id })} edge="end" aria-label="rename">
                   <TextFieldsIcon fontSize="small" />
                 </IconButton>
+                {index !== 0 && 
                 <IconButton onClick={() => props.RemovePage({ event: 'removeSubheader', type: 'Subheader', pageId: 0, subId: data.id })} edge="end" aria-label="remove">
                   <DeleteIcon fontSize="small" />
-                </IconButton></ListItemSecondaryAction>
+                </IconButton>}
+                </ListItemSecondaryAction>
             </ListItem>
           }
           className={classes.root}
@@ -96,27 +98,22 @@ export default function PagesList(props) {
             onClick={() => props.OpenPage({ event: 'openPage', subId: data.id, pageId: item.id, type: 'Page'})}
               className={classes.ListItem}
               to={item.href}
-              key={item.id}>
-              {/* <ListItemAvatar>
-                    <IconButton edge="end" aria-label="open">
-                      <ChevronLeftIcon />
-                    </IconButton>
-                    
-                   </ListItemAvatar>*/}
+              key={item.id+indx}>
               <div className={classes.ListItemText}>
                 {item.text}</div>
               <ListItemSecondaryAction>
                 <IconButton onClick={() => props.renamePage({ event: 'rename', type: 'Page', title: item.text, subId: data.id, pageId: item.id })} edge="end" aria-label="rename">
                   <TextFieldsIcon fontSize="small" />
                 </IconButton>
+       
                 <IconButton onClick={() => props.RemovePage({ event: 'removePage', subId: data.id, pageId: item.id, type: 'Page'})} edge="end" aria-label="delete">
                   <DeleteIcon fontSize="small" />
                 </IconButton>
-
               </ListItemSecondaryAction>
             </ListItem>
           ))}
-          {props.links[index + 1] ? <Divider key={data.id + 'c' + index} /> : ''}
+          {/*props.links[index + 1] ? <Divider key={data.id + 'c' + index} /> : ''*/}
+          <Divider key={data.id + 'c' + index} />
         </List>
 
       ))}

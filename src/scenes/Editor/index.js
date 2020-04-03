@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles'
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
@@ -13,6 +11,7 @@ import EditorDrawer from '../Editor/EditorDrawer'
 import Drawer from '@material-ui/core/Drawer';
 import RenameDialog from '../../components/RenameDialog';
 import MsgDialog from '../../components/MsgDialog';
+import StepperEditor from './StepperEditor';
 
 /*function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -155,7 +154,24 @@ class Editor extends Component {
           id: 'jies54',
           href: '/',
           external: false,
-          text: 'Home'
+          text: 'Home',
+          content:[
+            {
+              component:'stepper',
+              finish:'finish',
+              steps:[{
+                id:25252,
+                label:'step 1',
+                description: 'description.....'
+              },
+              {
+                id:2525,
+                label:'step 2',
+                description: 'description.....'
+              }
+            ]
+            }
+          ]
         },
         {
           id: '54yg',
@@ -417,9 +433,12 @@ class Editor extends Component {
   render() {
     const pagesList = this.state.pages
     const { classes } = this.props;
+    //console.log(pagesList)
     return (
       <div className={classes.root}>
-        <Paper className={classes.paper}>{this.state.currentPage.pageId}</Paper>
+        <Paper className={classes.paper}>{this.state.currentPage.pageId}
+        <StepperEditor {...this.allLinks().drawer[0].items[0].content}/>
+        </Paper>
         <MsgDialog sure={this.doRemove} id={'0'} name={'props.title'} ref={this.remove} />
         <RenameDialog ref={this.namedialog} func={this.func} action={this.state.event.action} title={this.state.event.title} description={this.state.event.description} value={this.state.event.value} />
         <Drawer

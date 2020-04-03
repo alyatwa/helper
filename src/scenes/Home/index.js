@@ -34,19 +34,14 @@ import Drawer from '@material-ui/core/Drawer';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import Linka from '@material-ui/core/Link';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import NestedList from './DrawerList';
-import VerticalLinearStepper from './Stepper';
 import sharedStyles from "../../components/sharedStyles";
 import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 import ContentPage from './Settings';
