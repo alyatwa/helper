@@ -17,10 +17,10 @@ import AddIcon from '@material-ui/icons/Add';
 import ReactMde from "react-mde";
 import "react-mde/lib/styles/css/react-mde-all.css";
 import { withStyles } from '@material-ui/core/styles'
-import ControlCameraIcon from '@material-ui/icons/ControlCamera';
+
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-
+import ControlCameraIcon from '@material-ui/icons/ControlCamera';
 
 const styles = theme => ({
   root: {
@@ -59,6 +59,7 @@ class StepperEditor extends Component {
       value: '**Hello world!!!**'
     }
     this.handleNext = this.handleNext.bind(this);
+    //this.handleMD = this.handleMD.bind(this);
   }
 
   handleNext() {
@@ -66,6 +67,7 @@ class StepperEditor extends Component {
   };
   handleMD(data) {
     this.setState({ value: data })
+    console.log(this.state.value)
   }
   handleBack() {
     this.setState({ activeStep: this.state.activeStep - 1 })
@@ -86,21 +88,7 @@ class StepperEditor extends Component {
     return (
       <React.Fragment>
 
-        <Grid container direction="row" alignItems="center">
-          <Grid item>
-            <IconButton className={classes.button} aria-label="delete">
-              <ControlCameraIcon />
-            </IconButton>
-          </Grid>
-          <Grid item>
-            <IconButton className={classes.button} aria-label="delete">
-              <DeleteIcon />
-            </IconButton>
-          </Grid>
-          <Grid item>
-            <Typography variant="h4">Stepper</Typography>
-          </Grid>
-        </Grid>
+        
         <Stepper activeStep={this.state.activeStep} orientation="vertical">
           {steps.map((step, index) => (
             <Step key={step.label} >
@@ -116,10 +104,11 @@ class StepperEditor extends Component {
               </StepLabel>
 
               <StepContent>
+                <Box my={2}>
                 <ReactMde
-                  value={step.description}
+                  value={this.state.value}
                   onChange={() => this.handleMD()}
-                />
+                /></Box>
                 <div className={classes.actionsContainer}>
                   <div>
                     <Button

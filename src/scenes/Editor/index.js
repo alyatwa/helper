@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles'
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Paper from '@material-ui/core/Paper';
@@ -12,46 +10,25 @@ import Drawer from '@material-ui/core/Drawer';
 import RenameDialog from '../../components/RenameDialog';
 import MsgDialog from '../../components/MsgDialog';
 import StepperEditor from './StepperEditor';
+import ExpansionEditor from './ExpansionEditor';
 import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
+import Title from '../../components/Title'
+import Grid from '@material-ui/core/Grid';
+import ControlCameraIcon from '@material-ui/icons/ControlCamera';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Alert from './Alert';
+import Switch from '@material-ui/core/Switch';
+import TextField from '@material-ui/core/TextField';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import LinkIcon from '@material-ui/icons/Link';
 
-
-/*function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <Typography
-      component="div"
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && <Box>{children}</Box>}
-    </Typography>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}*/
 const drawerWidth = 240;
 const styles = theme => ({
   ...sharedStyles,
   root: {
     flexGrow: 1,
-    backgroundColor: theme.palette.background.paper,
+    //backgroundColor: theme.palette.background.paper,
   },
   tab: {
     minWidth: `calc(100% / 2)`, // a number of your choice
@@ -166,6 +143,12 @@ class Editor extends Component {
           text: 'Home',
           content: [
             {
+              component: 'Alert',
+              id: 42425,
+              msg: 'msfg new!',
+              severity: 'success'
+            },
+            {
               component: 'stepper',
               finish: 'finish',
               steps: [{
@@ -177,6 +160,23 @@ class Editor extends Component {
                 id: 2525,
                 label: 'step 2',
                 description: 'description.....'
+              }
+              ]
+            },
+            {
+              component: 'expansion',
+              id: 78315497,
+              steps: [{
+                id: 45789,
+                heading: 'step 1',
+                secondaryHeading: 'secondaryHeading.....',
+                Details: 'Details.....'
+              },
+              {
+                id: 25252,
+                heading: 'step 2',
+                secondaryHeading: '2secondaryHeading.....',
+                Details: 'Details.....'
               }
               ]
             }
@@ -490,18 +490,76 @@ class Editor extends Component {
   }
   render() {
     const pagesList = this.state.pages
+    const content = this.state.currentPage.page.content
     const { classes } = this.props;
+    console.log(content[0])
     return (
       <div className={classes.root}>
-        <Paper className={classes.paper}>
-          <FormControl fullWidth className={classes.margin}>
-            <InputLabel htmlFor="standard-adornment-amount">Title</InputLabel>
-            <Input
-              id="standard-adornment-amount"
-              value={this.state.currentPage.page.text || ''}
-            />
-          </FormControl>
-          <StepperEditor addStep={this.addStep} removeStep={this.removeStep} {...this.state.currentPage.page.content[0]} />
+        <Box mb={2}>
+      <Grid container spacing={5} direction="row" alignItems="center">
+           
+            <Grid item>
+              <Typography component="div">
+                <Grid component="label" container alignItems="center" spacing={1}>
+                  <Grid item>External</Grid>
+                  <Grid item>
+                    <Switch color="primary" name="checkedC" />
+                  </Grid>
+                  <Grid item>Internal</Grid>
+                </Grid>
+              </Typography>
+            </Grid>
+            <Grid item>
+              <TextField
+                id="input-with-icon-textfield"
+                label="Link"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LinkIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+          </Grid>  
+          </Box>
+          <Paper className={classes.paper}>
+          <Title>{this.state.currentPage.page.text || ''}</Title>
+          {content.map((comp, index) => (
+            <div key={index}>
+              <Grid container direction="row" alignItems="center">
+                <Grid item>
+                  <IconButton className={classes.button} aria-label="delete">
+                    <ControlCameraIcon />
+                  </IconButton>
+                </Grid>
+                <Grid item>
+                  <IconButton className={classes.button} aria-label="delete">
+                    <DeleteIcon />
+                  </IconButton>
+                </Grid>
+                <Grid item>
+                  <Typography variant="h4">{comp.component}</Typography>
+                </Grid>
+              </Grid>
+              {(() => {
+                switch (comp.component) {
+                  case 'stepper':
+                    return <StepperEditor key={index + 'hjhj'} addStep={this.addStep} removeStep={this.removeStep} {...comp} />
+                    break;
+                  case 'expansion':
+                    return <ExpansionEditor key={index + '76'} {...comp} />
+                  case 'Alert':
+                    return <Alert severity={comp.severity} msg={comp.msg} />
+                    break;
+                  default:
+                    return ''
+                }
+              })()}
+            </div>
+          )
+          )}
         </Paper>
         <MsgDialog sure={this.doRemove} id={'0'} name={'props.title'} ref={this.remove} />
         <RenameDialog ref={this.namedialog} func={this.func} action={this.state.event.action} title={this.state.event.title} description={this.state.event.description} value={this.state.event.value} />
