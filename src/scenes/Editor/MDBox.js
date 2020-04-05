@@ -6,6 +6,7 @@ import Box from '@material-ui/core/Box';
 export default function MDBox(props) {
     const [value, setValue] = React.useState(props.value);
     const [selectedTab, setSelectedTab] = React.useState("write");
+    const [fTime, setfTime] = React.useState(true);
     const timeoutRef = React.useRef(null);
 
 
@@ -15,7 +16,10 @@ export default function MDBox(props) {
         }
         timeoutRef.current = setTimeout(() => {
             timeoutRef.current = null;
-            props.mdb(value)
+            if(!fTime){
+            props.mdb(value)}
+            setfTime(false)
+            console.log('action!!!!!!!',fTime);
         }, 1000);
     }, [value]);
 

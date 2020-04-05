@@ -56,7 +56,7 @@ export default function ExpansionEditor(props) {
     <React.Fragment>
       <div className={classes.root}>
         {data.steps.map((info, index) => (
-          <ExpansionPanel className={classes.shadow} key={info.id + 'jhu'} expanded={expanded === info.id} onChange={handleChange(info.id)}>
+          <ExpansionPanel TransitionProps={{ unmountOnExit: true }} className={classes.shadow} key={info.id + 'jhu'} expanded={expanded === info.id} onChange={handleChange(info.id)}>
             <ExpansionPanelSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1bh-content"

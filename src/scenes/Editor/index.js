@@ -93,9 +93,10 @@ class Editor extends Component {
     this.addStep = this.addStep.bind(this);
     this.removeStep = this.removeStep.bind(this);
     this.stepperText = this.stepperText.bind(this);
-    this.expansionText = this.expansionText.bind(this);
-    this.AlertAction = this.AlertAction.bind(this);
+   /* this.expansionText = this.expansionText.bind(this);*/
     this.TextAction = this.TextAction.bind(this);
+    this.AlertAction = this.AlertAction.bind(this);
+    
   }
   allLinks = (data) => {
     return {
@@ -463,6 +464,7 @@ class Editor extends Component {
       currentPage: { page: pages[0].items[0] }
     })
   }
+  
   openPage = (data) => {
     var { pageId, subId } = data
     var subIndex = this.state.pages.findIndex(obj => obj.id === subId);
@@ -503,23 +505,15 @@ class Editor extends Component {
     })
   }
   TextAction(data) {
-    console.log(data)
     let {value, textId} = data
     let textIndex = this.state.currentPage.page.content.findIndex(obj => obj.id === textId);
-    
     this.setState(state => {
       const list = state.currentPage.page.content[textIndex].text= value;
-      //const list = state.stepper.steps.splice(step + 1, 0, newStep);
       return {
         list
       }
     })
-    /*let newStep = {
-      id: 65678,
-      label: 'new step',
-      description: ''
-    }
-    */
+    console.log(this.state.currentPage.page.content[textIndex])
   }
   expansionText(data){
     let {value, sec, stepId, expansionId} = data
@@ -630,7 +624,7 @@ class Editor extends Component {
                     return <StepperEditor StepperText={this.stepperText} key={index + 'hjhj'} addStep={this.addStep} removeStep={this.removeStep} {...comp} />
                     break;
                   case 'expansion':
-                    return <ExpansionEditor ExpansionText={()=>this.expansionText} key={index + '76'} {...comp} />
+                    return <ExpansionEditor ExpansionText={this.expansionText} key={index + '76'} {...comp} />
                   case 'Text':
                     return <Text TextAction={this.TextAction} {...comp} />
                   case 'Alert':
