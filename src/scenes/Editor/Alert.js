@@ -32,31 +32,36 @@ const useStyles = makeStyles((theme) =>
 export default function Alert(props) {
     const classes = useStyles();
     //console.log(props)
-    const [severity, setSeverity] = React.useState(props.severity);
-    const [value, setValue] = React.useState(props.msg);
-    const handleChange = (newValue) => {
-        setSeverity(newValue);
+    //const [severity, setSeverity] = React.useState(props.severity);
+    //const [value, setValue] = React.useState(props.msg);
+    const severity = props.severity;
+    const handleChange = (value, sec, alertId) => {
+        //setSeverity(value, sec, alertId);
+        props.AlertAction({ value, sec, alertId })
       };
+      const handleChangemsg =(value, sec, alertId) => {
+        props.AlertAction({ value, sec, alertId })
+      }
     return (
         <React.Fragment>
             <MuiAlert elevation={6} classes={{ message: classes.alertp }} className={classes.alertp} variant="filled" severity={severity}>
                 <Grid container direction="row" alignItems="center">
-                    <IconButton className={severity === 'info' ? classes.alert : ''} onClick={()=>handleChange("info")}>
+                    <IconButton className={severity === 'info' ? classes.alert : ''} onClick={()=>handleChange("info", 'severity', props.id)}>
                         <InfoIcon />
                     </IconButton>
-                    <IconButton className={severity === 'warning' ? classes.alert : ''} onClick={()=>handleChange("warning")}>
+                    <IconButton className={severity === 'warning' ? classes.alert : ''} onClick={()=>handleChange("warning", 'severity', props.id)}>
                         <WarningIcon />
                     </IconButton>
-                    <IconButton className={severity === 'error' ? classes.alert : ''} onClick={()=>handleChange("error")}>
+                    <IconButton className={severity === 'error' ? classes.alert : ''} onClick={()=>handleChange("error", 'severity', props.id)}>
                         <ErrorIcon />
                     </IconButton>
-                    <IconButton className={severity === 'success' ? classes.alert : ''} onClick={()=>handleChange("success")}>
+                    <IconButton className={severity === 'success' ? classes.alert : ''} onClick={()=>handleChange("success", 'severity', props.id)}>
                         <CheckCircleIcon />
                     </IconButton></Grid>
 
                 <TextField
-                    value={value}
-                    onChange={e => setValue(e.target.value)}
+                    defaultValue={props.msg}
+                    onBlur={(e) => handleChangemsg(e.target.value, 'msg', props.id)}
                     id="standard-textarea"
                     placeholder="Message Text"
                     multiline
