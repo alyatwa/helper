@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) =>
 
 export default function ExpansionEditor(props) {
   const classes = useStyles();
-  console.log(props)
+  //console.log(props)
   const data = props;
   const [expanded, setExpanded] = React.useState(false);
   const handleChange = panel => (event, isExpanded) => {

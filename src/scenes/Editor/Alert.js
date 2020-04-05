@@ -31,24 +31,26 @@ const useStyles = makeStyles((theme) =>
 
 export default function Alert(props) {
     const classes = useStyles();
-    console.log(props)
+    //console.log(props)
     const [severity, setSeverity] = React.useState(props.severity);
     const [value, setValue] = React.useState(props.msg);
-
+    const handleChange = (newValue) => {
+        setSeverity(newValue);
+      };
     return (
         <React.Fragment>
             <MuiAlert elevation={6} classes={{ message: classes.alertp }} className={classes.alertp} variant="filled" severity={severity}>
                 <Grid container direction="row" alignItems="center">
-                    <IconButton className={severity === 'info' ? classes.alert : ''} onClick={()=>setSeverity("info")}>
+                    <IconButton className={severity === 'info' ? classes.alert : ''} onClick={()=>handleChange("info")}>
                         <InfoIcon />
                     </IconButton>
-                    <IconButton className={severity === 'warning' ? classes.alert : ''} onClick={()=>setSeverity("warning")}>
+                    <IconButton className={severity === 'warning' ? classes.alert : ''} onClick={()=>handleChange("warning")}>
                         <WarningIcon />
                     </IconButton>
-                    <IconButton className={severity === 'error' ? classes.alert : ''} onClick={()=>setSeverity("error")}>
+                    <IconButton className={severity === 'error' ? classes.alert : ''} onClick={()=>handleChange("error")}>
                         <ErrorIcon />
                     </IconButton>
-                    <IconButton className={severity === 'success' ? classes.alert : ''} onClick={()=>setSeverity("success")}>
+                    <IconButton className={severity === 'success' ? classes.alert : ''} onClick={()=>handleChange("success")}>
                         <CheckCircleIcon />
                     </IconButton></Grid>
 

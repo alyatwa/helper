@@ -91,6 +91,7 @@ class Editor extends Component {
     }
     this.addStep = this.addStep.bind(this);
     this.removeStep = this.removeStep.bind(this);
+    this.stepperText = this.stepperText.bind(this);
   }
   allLinks = (data) => {
     return {
@@ -150,9 +151,10 @@ class Editor extends Component {
             },
             {
               component: 'stepper',
+              id:333455,
               finish: 'finish',
               steps: [{
-                id: 25252,
+                id: 2544452,
                 label: 'step 1',
                 description: 'description.....'
               },
@@ -488,11 +490,33 @@ class Editor extends Component {
       }
     })
   }
+  stepperText(data){
+    let {value, sec, stepId, stepperId} = data
+    
+    var componentIndex = this.state.currentPage.page.content.findIndex(obj => obj.id === stepperId);
+    var stepIndex = this.state.currentPage.page.content[componentIndex].steps.findIndex(obj => obj.id === stepId);
+    
+     this.setState(state => {  
+      var list=null
+      if (stepId !== 'finish')
+   {
+       list = state.currentPage.page.content[componentIndex].steps[stepIndex][sec] = value;
+    } else {
+      list = state.currentPage.page.content[componentIndex][sec] = value;
+    }
+      return {
+        list
+      }
+    })
+  
+
+    //console.log(this.state.currentPage.page.content[componentIndex])
+  }
   render() {
     const pagesList = this.state.pages
     const content = this.state.currentPage.page.content
     const { classes } = this.props;
-    console.log(content[0])
+    
     return (
       <div className={classes.root}>
         <Box mb={2}>
@@ -540,13 +564,13 @@ class Editor extends Component {
                   </IconButton>
                 </Grid>
                 <Grid item>
-                  <Typography variant="h4">{comp.component}</Typography>
+                  <Typography variant="h6">{comp.component}</Typography>
                 </Grid>
               </Grid>
               {(() => {
                 switch (comp.component) {
                   case 'stepper':
-                    return <StepperEditor key={index + 'hjhj'} addStep={this.addStep} removeStep={this.removeStep} {...comp} />
+                    return <StepperEditor StepperText={this.stepperText} key={index + 'hjhj'} addStep={this.addStep} removeStep={this.removeStep} {...comp} />
                     break;
                   case 'expansion':
                     return <ExpansionEditor key={index + '76'} {...comp} />

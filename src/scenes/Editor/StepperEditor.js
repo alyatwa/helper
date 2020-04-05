@@ -56,10 +56,11 @@ class StepperEditor extends Component {
     this.state = {
       stepper: {},
       activeStep: 0,
-      value: '**Hello world!!!**'
+      value: '**Hello world!!!**',
+      title: ''
     }
     this.handleNext = this.handleNext.bind(this);
-    //this.handleMD = this.handleMD.bind(this);
+    //this.handleChange = this.handleChange.bind(this);
   }
 
   handleNext() {
@@ -78,6 +79,9 @@ class StepperEditor extends Component {
   handleReset() {
     this.setState({ activeStep: 0 })
   };
+  handleChange(value, sec, stepId, stepperId){
+this.props.StepperText({value, sec, stepId, stepperId})
+  }
 
 
   render() {
@@ -94,7 +98,12 @@ class StepperEditor extends Component {
             <Step key={step.label} >
               <StepLabel>
 
-                <TextField onClick={() => this.handleStep(index)} id="outlined-basic" value={step.label} label="Step Title" />
+                <TextField 
+                key="ijihyg"
+                defaultValue={step.label}
+                onBlur={(e) => this.handleChange(e.target.value,'label',step.id, stepper.id)}
+                onClick={() => this.handleStep(index)} 
+                id="outlined-basic" label="Step Title" />
                 <IconButton onClick={() => stepper.addStep(index)} className={classes.button} aria-label="delete">
                   <AddIcon />
                 </IconButton>
@@ -106,8 +115,8 @@ class StepperEditor extends Component {
               <StepContent>
                 <Box my={2}>
                 <ReactMde
-                  value={this.state.value}
-                  onChange={() => this.handleMD()}
+                  value={step.description}
+                  onChange={(e) => this.handleChange(e,'description',step.id, stepper.id)}
                 /></Box>
                 <div className={classes.actionsContainer}>
                   <div>
@@ -136,11 +145,11 @@ class StepperEditor extends Component {
         </Stepper>
         {this.state.activeStep === steps.length && (
           <Paper square elevation={0} className={classes.resetContainer}>
-            <TextField id="outlined-basic" value={this.props.finish} label="Last Step" variant="outlined" />
+            <TextField id="outlined-basic" 
+            onBlur={(e) => this.handleChange(e.target.value,'finish','finish', stepper.id)}
+            defaultValue={this.props.finish} label="Last Step" variant="outlined" />
 
-            <Button onClick={() => this.handleReset()} className={classes.button}>
-              Reset
-          </Button>
+            
           </Paper>
         )}
       </React.Fragment>
