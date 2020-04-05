@@ -510,7 +510,7 @@ class Editor extends Component {
     })
   
 
-    //console.log(this.state.currentPage.page.content[componentIndex])
+    console.log(this.state.currentPage.page.content[componentIndex])
   }
   render() {
     const pagesList = this.state.pages

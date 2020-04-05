@@ -56,8 +56,8 @@ class StepperEditor extends Component {
     this.state = {
       stepper: {},
       activeStep: 0,
-      value: '**Hello world!!!**',
-      title: ''
+      value: '',
+      steps:[]
     }
     this.handleNext = this.handleNext.bind(this);
     //this.handleChange = this.handleChange.bind(this);
@@ -82,7 +82,33 @@ class StepperEditor extends Component {
   handleChange(value, sec, stepId, stepperId){
 this.props.StepperText({value, sec, stepId, stepperId})
   }
+  componentWillMount() {
+    this.timer = null;
+    var newState = [];
+    for (var i = 0; i < this.props.steps.length; i++) {
+        newState.push({desc:this.props.steps[i].description, stepId:this.props.steps[i].id})
+    }
+    console.log(newState)
+    this.setState({steps:newState})
+}
+handleChangeMD(value, stepId, stepperId) {
+  clearTimeout(this.timer);
+  var stepIndex = this.state.steps.findIndex(obj => obj.stepId === stepId);
+  this.setState(state => {  
+    var list = state.steps[stepIndex].desc = value;
+    return {
+      list
+    }
+  })
+  this.timer = setTimeout(()=>this.triggerChange(value, stepId, stepperId), 1000);
+}
 
+triggerChange(value0, stepId, stepperId) {
+  var stepIndex = this.state.steps.findIndex(obj => obj.stepId === stepId);
+  var value = this.state.steps[stepIndex].desc;
+  //console.log('tig!!', value, stepId, stepperId)
+  this.handleChange(value,'description', stepId, stepperId)
+}
 
   render() {
     const stepper = this.props
@@ -115,8 +141,9 @@ this.props.StepperText({value, sec, stepId, stepperId})
               <StepContent>
                 <Box my={2}>
                 <ReactMde
-                  value={step.description}
-                  onChange={(e) => this.handleChange(e,'description',step.id, stepper.id)}
+                key={index}
+                  value={this.state.steps[index].desc}
+                  onChange={e=> this.handleChangeMD(e,step.id, stepper.id)}
                 /></Box>
                 <div className={classes.actionsContainer}>
                   <div>
