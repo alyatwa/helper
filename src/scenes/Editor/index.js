@@ -476,14 +476,16 @@ class Editor extends Component {
       }
     })
   }
-  addStep(step) {
+  addStep(step, stepperId) {
     let newStep = {
       id: 65678,
-      label: 'step 3',
-      description: 'des'
+      label: 'new step',
+      description: ''
     }
+    let stepperIndex = this.state.currentPage.page.content.findIndex(obj => obj.id === stepperId);
+    console.log(stepperIndex, stepperId)
     this.setState(state => {
-      const list = state.currentPage.page.content[0].steps.splice(step + 1, 0, newStep);
+      const list = state.currentPage.page.content[stepperIndex].steps.splice(step + 1, 0, newStep);
       //const list = state.stepper.steps.splice(step + 1, 0, newStep);
       return {
         list

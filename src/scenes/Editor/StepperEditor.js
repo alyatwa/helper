@@ -57,7 +57,7 @@ class StepperEditor extends Component {
       stepper: {},
       activeStep: 0,
       value: '',
-      steps:[]
+      steps: []
     }
     this.handleNext = this.handleNext.bind(this);
     //this.handleChange = this.handleChange.bind(this);
@@ -79,36 +79,42 @@ class StepperEditor extends Component {
   handleReset() {
     this.setState({ activeStep: 0 })
   };
-  handleChange(value, sec, stepId, stepperId){
-this.props.StepperText({value, sec, stepId, stepperId})
+  handleChange(value, sec, stepId, stepperId) {
+    this.props.StepperText({ value, sec, stepId, stepperId })
   }
   componentWillMount() {
+    this.initFun()
+  }
+  componentWillReceiveProps() {
+    this.initFun()
+  }
+  initFun() {
     this.timer = null;
     var newState = [];
     for (var i = 0; i < this.props.steps.length; i++) {
-        newState.push({desc:this.props.steps[i].description, stepId:this.props.steps[i].id})
+      newState.push({ desc: this.props.steps[i].description, stepId: this.props.steps[i].id })
     }
     console.log(newState)
-    this.setState({steps:newState})
-}
-handleChangeMD(value, stepId, stepperId) {
-  clearTimeout(this.timer);
-  var stepIndex = this.state.steps.findIndex(obj => obj.stepId === stepId);
-  this.setState(state => {  
-    var list = state.steps[stepIndex].desc = value;
-    return {
-      list
-    }
-  })
-  this.timer = setTimeout(()=>this.triggerChange(value, stepId, stepperId), 1000);
-}
+    this.setState({ steps: newState })
+  }
+  handleChangeMD(value, stepId, stepperId) {
+    clearTimeout(this.timer);
+    var stepIndex = this.state.steps.findIndex(obj => obj.stepId === stepId);
+    this.setState(state => {
+      var list = state.steps[stepIndex].desc = value;
+      return {
+        list
+      }
+    })
+    this.timer = setTimeout(() => this.triggerChange(value, stepId, stepperId), 1000);
+  }
 
-triggerChange(value0, stepId, stepperId) {
-  var stepIndex = this.state.steps.findIndex(obj => obj.stepId === stepId);
-  var value = this.state.steps[stepIndex].desc;
-  //console.log('tig!!', value, stepId, stepperId)
-  this.handleChange(value,'description', stepId, stepperId)
-}
+  triggerChange(value0, stepId, stepperId) {
+    var stepIndex = this.state.steps.findIndex(obj => obj.stepId === stepId);
+    var value = this.state.steps[stepIndex].desc;
+    //console.log('tig!!', value, stepId, stepperId)
+    this.handleChange(value, 'description', stepId, stepperId)
+  }
 
   render() {
     const stepper = this.props
@@ -118,19 +124,19 @@ triggerChange(value0, stepId, stepperId) {
     return (
       <React.Fragment>
 
-        
+
         <Stepper activeStep={this.state.activeStep} orientation="vertical">
           {steps.map((step, index) => (
             <Step key={step.label} >
               <StepLabel>
 
-                <TextField 
-                key="ijihyg"
-                defaultValue={step.label}
-                onBlur={(e) => this.handleChange(e.target.value,'label',step.id, stepper.id)}
-                onClick={() => this.handleStep(index)} 
-                id="outlined-basic" label="Step Title" />
-                <IconButton onClick={() => stepper.addStep(index)} className={classes.button} aria-label="delete">
+                <TextField
+                  key="ijihyg"
+                  defaultValue={step.label}
+                  onBlur={(e) => this.handleChange(e.target.value, 'label', step.id, stepper.id)}
+                  onClick={() => this.handleStep(index)}
+                  id="outlined-basic" label="Step Title" />
+                <IconButton onClick={() => stepper.addStep(index, stepper.id)} className={classes.button} aria-label="delete">
                   <AddIcon />
                 </IconButton>
                 <IconButton onClick={() => stepper.removeStep(step.id, index)} className={classes.button} disabled={index === 0} aria-label="delete">
@@ -140,11 +146,11 @@ triggerChange(value0, stepId, stepperId) {
 
               <StepContent>
                 <Box my={2}>
-                <ReactMde
-                key={index}
-                  value={this.state.steps[index].desc}
-                  onChange={e=> this.handleChangeMD(e,step.id, stepper.id)}
-                /></Box>
+                  <ReactMde
+                    key={index}
+                    value={this.state.steps[index].desc}
+                    onChange={e => this.handleChangeMD(e, step.id, stepper.id)}
+                  /></Box>
                 <div className={classes.actionsContainer}>
                   <div>
                     <Button
@@ -172,11 +178,11 @@ triggerChange(value0, stepId, stepperId) {
         </Stepper>
         {this.state.activeStep === steps.length && (
           <Paper square elevation={0} className={classes.resetContainer}>
-            <TextField id="outlined-basic" 
-            onBlur={(e) => this.handleChange(e.target.value,'finish','finish', stepper.id)}
-            defaultValue={this.props.finish} label="Last Step" variant="outlined" />
+            <TextField id="outlined-basic"
+              onBlur={(e) => this.handleChange(e.target.value, 'finish', 'finish', stepper.id)}
+              defaultValue={this.props.finish} label="Last Step" variant="outlined" />
 
-            
+
           </Paper>
         )}
       </React.Fragment>
