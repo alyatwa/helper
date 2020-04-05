@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import clsx from 'clsx';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -14,13 +13,12 @@ import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
-import ReactMde from "react-mde";
 import "react-mde/lib/styles/css/react-mde-all.css";
 import { withStyles } from '@material-ui/core/styles'
 
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-import ControlCameraIcon from '@material-ui/icons/ControlCamera';
+import MDBox from './MDBox';
 
 const styles = theme => ({
   root: {
@@ -57,7 +55,8 @@ class StepperEditor extends Component {
       stepper: {},
       activeStep: 0,
       value: '',
-      steps: []
+      steps: [],
+      selectedTab:'write'
     }
     this.handleNext = this.handleNext.bind(this);
     //this.handleChange = this.handleChange.bind(this);
@@ -79,43 +78,12 @@ class StepperEditor extends Component {
   handleReset() {
     this.setState({ activeStep: 0 })
   };
+  triggerChange(value, stepId, stepperId) {
+    this.props.StepperText({ value, sec:'description', stepId, stepperId })
+  }
   handleChange(value, sec, stepId, stepperId) {
     this.props.StepperText({ value, sec, stepId, stepperId })
   }
-  componentWillMount() {
-    this.initFun()
-  }
-  componentWillReceiveProps() {
-    this.initFun()
-  }
-  initFun() {
-    this.timer = null;
-    var newState = [];
-    for (var i = 0; i < this.props.steps.length; i++) {
-      newState.push({ desc: this.props.steps[i].description, stepId: this.props.steps[i].id })
-    }
-    console.log(newState)
-    this.setState({ steps: newState })
-  }
-  handleChangeMD(value, stepId, stepperId) {
-    clearTimeout(this.timer);
-    var stepIndex = this.state.steps.findIndex(obj => obj.stepId === stepId);
-    this.setState(state => {
-      var list = state.steps[stepIndex].desc = value;
-      return {
-        list
-      }
-    })
-    this.timer = setTimeout(() => this.triggerChange(value, stepId, stepperId), 1000);
-  }
-
-  triggerChange(value0, stepId, stepperId) {
-    var stepIndex = this.state.steps.findIndex(obj => obj.stepId === stepId);
-    var value = this.state.steps[stepIndex].desc;
-    //console.log('tig!!', value, stepId, stepperId)
-    this.handleChange(value, 'description', stepId, stepperId)
-  }
-
   render() {
     const stepper = this.props
     const steps = stepper.steps;
@@ -123,8 +91,6 @@ class StepperEditor extends Component {
     const { classes } = this.props;
     return (
       <React.Fragment>
-
-
         <Stepper activeStep={this.state.activeStep} orientation="vertical">
           {steps.map((step, index) => (
             <Step key={step.label} >
@@ -143,14 +109,10 @@ class StepperEditor extends Component {
                   <DeleteIcon />
                 </IconButton>
               </StepLabel>
-
               <StepContent>
-                <Box my={2}>
-                  <ReactMde
-                    key={index}
-                    value={this.state.steps[index].desc}
-                    onChange={e => this.handleChangeMD(e, step.id, stepper.id)}
-                  /></Box>
+               
+                  <MDBox value={step.description} mdb={(value)=>this.triggerChange(value,step.id, stepper.id)} />
+               
                 <div className={classes.actionsContainer}>
                   <div>
                     <Button

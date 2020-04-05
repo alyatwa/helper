@@ -92,6 +92,7 @@ class Editor extends Component {
     this.addStep = this.addStep.bind(this);
     this.removeStep = this.removeStep.bind(this);
     this.stepperText = this.stepperText.bind(this);
+    this.expansionText = this.expansionText.bind(this);
   }
   allLinks = (data) => {
     return {
@@ -492,6 +493,20 @@ class Editor extends Component {
       }
     })
   }
+  expansionText(data){
+    let {value, sec, stepId, expansionId} = data
+    
+    var componentIndex = this.state.currentPage.page.content.findIndex(obj => obj.id === expansionId);
+  
+    var stepIndex = this.state.currentPage.page.content[componentIndex].steps.findIndex(obj => obj.id === stepId);
+    this.setState(state => {  
+      var list = state.currentPage.page.content[componentIndex].steps[stepIndex][sec] = value;
+      return {
+        list
+      }
+    })
+    console.log(this.state.currentPage.page.content[componentIndex])
+  }
   stepperText(data){
     let {value, sec, stepId, stepperId} = data
     
@@ -575,7 +590,7 @@ class Editor extends Component {
                     return <StepperEditor StepperText={this.stepperText} key={index + 'hjhj'} addStep={this.addStep} removeStep={this.removeStep} {...comp} />
                     break;
                   case 'expansion':
-                    return <ExpansionEditor key={index + '76'} {...comp} />
+                    return <ExpansionEditor ExpansionText={this.expansionText} key={index + '76'} {...comp} />
                   case 'Alert':
                     return <Alert severity={comp.severity} msg={comp.msg} />
                     break;

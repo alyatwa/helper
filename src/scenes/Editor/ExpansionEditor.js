@@ -9,6 +9,8 @@ import Box from '@material-ui/core/Box';
 import ReactMde from "react-mde";
 import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
+import MDBox from './MDBox';
+
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -19,12 +21,12 @@ const useStyles = makeStyles((theme) =>
       ...theme.typography.body2,
       //padding: theme.spacing(3, 0),
     },
-    detail:{
-      padding:'8px 24px 0'
+    detail: {
+      padding: '8px 24px 0'
     },
-    shadow:{
-        boxShadow: 'unset'
-      },
+    shadow: {
+      boxShadow: 'unset'
+    },
     heading: {
       fontSize: theme.typography.pxToRem(15),
       flexBasis: '33.33%',
@@ -45,32 +47,40 @@ export default function ExpansionEditor(props) {
   const handleChange = panel => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
-
+  const triggerChange = (value, sec, stepId, expansionId) => {
+    //console.log({ value, sec, stepId, expansionId })
+    // this.props.StepperText({ value, sec:'description', stepId, stepperId })
+    props.ExpansionText({ value, sec, stepId, expansionId })
+  }
+  const handleChangeTitle =(value, sec, stepId, expansionId) => {
+    props.ExpansionText({ value, sec, stepId, expansionId })
+  }
   return (
     <React.Fragment>
-    <div className={classes.root}>
+      <div className={classes.root}>
         {data.steps.map((info, index) => (
-      <ExpansionPanel className={classes.shadow} key={info.id+'jhu'} expanded={expanded === info.id} onChange={handleChange(info.id)}>
-        <ExpansionPanelSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1bh-content"
-          id="panel1bh-header"
-        >
-            <TextField id="standard-basic" className={classes.heading} value={info.heading} label="Title" />
-            
-          </ExpansionPanelSummary>
-        <ExpansionPanelDetails className={classes.detail}>
-        <Box m={1}>
-        <ReactMde
-                  value={info.Details}
-                /></Box>
-        <Typography>
-        
-         </Typography>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>))}
-      
-    </div>
+          <ExpansionPanel className={classes.shadow} key={info.id + 'jhu'} expanded={expanded === info.id} onChange={handleChange(info.id)}>
+            <ExpansionPanelSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1bh-content"
+              id="panel1bh-header"
+            >
+        <TextField 
+        defaultValue={info.heading}
+        onBlur={(e) => handleChangeTitle(e.target.value, 'heading', info.id, data.id)}
+        id="standard-basic" className={classes.heading} label="Title" />
+
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails className={classes.detail}>
+              <MDBox value={info.Details} mdb={(value) => triggerChange(value, 'Details', info.id, data.id)} />
+
+              <Typography>
+
+              </Typography>
+            </ExpansionPanelDetails>
+          </ExpansionPanel>))}
+
+      </div>
     </React.Fragment>
   );
 }
