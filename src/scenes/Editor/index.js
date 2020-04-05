@@ -18,6 +18,7 @@ import ControlCameraIcon from '@material-ui/icons/ControlCamera';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Alert from './Alert';
+import Text from './Text';
 import Switch from '@material-ui/core/Switch';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
@@ -94,6 +95,7 @@ class Editor extends Component {
     this.stepperText = this.stepperText.bind(this);
     this.expansionText = this.expansionText.bind(this);
     this.AlertAction = this.AlertAction.bind(this);
+    this.TextAction = this.TextAction.bind(this);
   }
   allLinks = (data) => {
     return {
@@ -145,6 +147,11 @@ class Editor extends Component {
           external: false,
           text: 'Home',
           content: [
+            {
+              component: 'Text',
+              id: 12541,
+              text: 'msfg new!',
+            },
             {
               component: 'Alert',
               id: 42425,
@@ -213,7 +220,8 @@ class Editor extends Component {
           id: '589gy',
           href: '/settings',
           external: false,
-          text: 'Settings'
+          text: 'Settings',
+          content:[]
         },
         {
           id: '58rde',
@@ -494,6 +502,25 @@ class Editor extends Component {
       }
     })
   }
+  TextAction(data) {
+    console.log(data)
+    let {value, textId} = data
+    let textIndex = this.state.currentPage.page.content.findIndex(obj => obj.id === textId);
+    
+    this.setState(state => {
+      const list = state.currentPage.page.content[textIndex].text= value;
+      //const list = state.stepper.steps.splice(step + 1, 0, newStep);
+      return {
+        list
+      }
+    })
+    /*let newStep = {
+      id: 65678,
+      label: 'new step',
+      description: ''
+    }
+    */
+  }
   expansionText(data){
     let {value, sec, stepId, expansionId} = data
     
@@ -603,7 +630,9 @@ class Editor extends Component {
                     return <StepperEditor StepperText={this.stepperText} key={index + 'hjhj'} addStep={this.addStep} removeStep={this.removeStep} {...comp} />
                     break;
                   case 'expansion':
-                    return <ExpansionEditor ExpansionText={this.expansionText} key={index + '76'} {...comp} />
+                    return <ExpansionEditor ExpansionText={()=>this.expansionText} key={index + '76'} {...comp} />
+                  case 'Text':
+                    return <Text TextAction={this.TextAction} {...comp} />
                   case 'Alert':
                     return <Alert AlertAction={this.AlertAction} {...comp} />
                     break;

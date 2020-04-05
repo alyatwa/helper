@@ -5,9 +5,6 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Box from '@material-ui/core/Box';
-import ReactMde from "react-mde";
-import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
 import MDBox from './MDBox';
 
