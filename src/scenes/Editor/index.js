@@ -563,6 +563,16 @@ class Editor extends Component {
 
     console.log(this.state.currentPage.page.content[componentIndex])
   }
+  removeComponent(compId){
+    var compIndex = this.state.currentPage.page.content.findIndex(obj => obj.id === compId);
+      this.setState(state => {
+        const list = state.currentPage.page.content.splice(compIndex, 1)
+        return {
+          list
+        }
+      })
+    console.log(this.state.currentPage.page.content)
+  }
   render() {
     const pagesList = this.state.pages
     const content = this.state.currentPage.page.content
@@ -610,7 +620,7 @@ class Editor extends Component {
                   </IconButton>
                 </Grid>
                 <Grid item>
-                  <IconButton className={classes.button} aria-label="delete">
+                  <IconButton onClick={()=>this.removeComponent(comp.id)} className={classes.button} aria-label="delete">
                     <DeleteIcon />
                   </IconButton>
                 </Grid>
@@ -622,14 +632,12 @@ class Editor extends Component {
                 switch (comp.component) {
                   case 'stepper':
                     return <StepperEditor StepperText={this.stepperText} key={index + 'hjhj'} addStep={this.addStep} removeStep={this.removeStep} {...comp} />
-                    break;
                   case 'expansion':
                     return <ExpansionEditor ExpansionText={this.expansionText} key={index + '76'} {...comp} />
                   case 'Text':
                     return <Text TextAction={this.TextAction} {...comp} />
                   case 'Alert':
                     return <Alert AlertAction={this.AlertAction} {...comp} />
-                    break;
                   default:
                     return ''
                 }

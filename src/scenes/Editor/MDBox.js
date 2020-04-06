@@ -12,13 +12,14 @@ export default function MDBox(props) {
 
     React.useEffect(() => {
         if (timeoutRef.current !== null) {
+            setfTime(false)
             clearTimeout(timeoutRef.current);
         }
         timeoutRef.current = setTimeout(() => {
             timeoutRef.current = null;
             if(!fTime){
             props.mdb(value)}
-            setfTime(false)
+            
             console.log('action!!!!!!!',fTime);
         }, 1000);
     }, [value]);
