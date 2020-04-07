@@ -23,6 +23,7 @@
     "graphql-tag": "^2.10.3",
     "markdown-to-jsx": "^6.11.0",
     "react": "^16.13.1",
+    "react-beautiful-dnd": "^10.0.0",
     "react-custom-scrollbars": "^4.2.1",
     "react-dom": "^16.13.1",
     "react-markdown": "^4.3.1",

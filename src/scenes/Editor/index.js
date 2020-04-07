@@ -11,7 +11,6 @@ import RenameDialog from '../../components/RenameDialog';
 import MsgDialog from '../../components/MsgDialog';
 import StepperEditor from './StepperEditor';
 import ExpansionEditor from './ExpansionEditor';
-import Input from '@material-ui/core/Input';
 import Title from '../../components/Title'
 import Grid from '@material-ui/core/Grid';
 import ControlCameraIcon from '@material-ui/icons/ControlCamera';
@@ -23,6 +22,8 @@ import Switch from '@material-ui/core/Switch';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinkIcon from '@material-ui/icons/Link';
+import { Droppable, Draggable, DragDropContext } from 'react-beautiful-dnd';
+import RootRef from "@material-ui/core/RootRef";
 
 const drawerWidth = 240;
 const styles = theme => ({
@@ -71,7 +72,13 @@ const styles = theme => ({
     margin: theme.spacing(1),
   },
 });
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
 
+  return result;
+};
 class Editor extends Component {
   constructor(props) {
     super(props);
@@ -93,10 +100,11 @@ class Editor extends Component {
     this.addStep = this.addStep.bind(this);
     this.removeStep = this.removeStep.bind(this);
     this.stepperText = this.stepperText.bind(this);
-   /* this.expansionText = this.expansionText.bind(this);*/
+    this.expansionText = this.expansionText.bind(this);
     this.TextAction = this.TextAction.bind(this);
+    this.onDragEnd = this.onDragEnd.bind(this);
     this.AlertAction = this.AlertAction.bind(this);
-    
+
   }
   allLinks = (data) => {
     return {
@@ -161,7 +169,7 @@ class Editor extends Component {
             },
             {
               component: 'stepper',
-              id:333455,
+              id: 333455,
               finish: 'finish',
               steps: [{
                 id: 2544452,
@@ -222,7 +230,7 @@ class Editor extends Component {
           href: '/settings',
           external: false,
           text: 'Settings',
-          content:[]
+          content: []
         },
         {
           id: '58rde',
@@ -464,7 +472,6 @@ class Editor extends Component {
       currentPage: { page: pages[0].items[0] }
     })
   }
-  
   openPage = (data) => {
     var { pageId, subId } = data
     var subIndex = this.state.pages.findIndex(obj => obj.id === subId);
@@ -505,23 +512,23 @@ class Editor extends Component {
     })
   }
   TextAction(data) {
-    let {value, textId} = data
+    let { value, textId } = data
     let textIndex = this.state.currentPage.page.content.findIndex(obj => obj.id === textId);
     this.setState(state => {
-      const list = state.currentPage.page.content[textIndex].text= value;
+      const list = state.currentPage.page.content[textIndex].text = value;
       return {
         list
       }
     })
     console.log(this.state.currentPage.page.content[textIndex])
   }
-  expansionText(data){
-    let {value, sec, stepId, expansionId} = data
-    
+  expansionText(data) {
+    let { value, sec, stepId, expansionId } = data
+
     var componentIndex = this.state.currentPage.page.content.findIndex(obj => obj.id === expansionId);
-  
+
     var stepIndex = this.state.currentPage.page.content[componentIndex].steps.findIndex(obj => obj.id === stepId);
-    this.setState(state => {  
+    this.setState(state => {
       var list = state.currentPage.page.content[componentIndex].steps[stepIndex][sec] = value;
       return {
         list
@@ -529,60 +536,100 @@ class Editor extends Component {
     })
     console.log(this.state.currentPage.page.content[componentIndex])
   }
-  AlertAction(data){
+  AlertAction(data) {
     console.log(data)
-    let {value, sec, alertId} = data
+    let { value, sec, alertId } = data
     var index = this.state.currentPage.page.content.findIndex(obj => obj.id === alertId);
     this.setState(state => {
       const list = state.currentPage.page.content[index][sec] = value;
       return {
         list
       }
-    }) 
+    })
     console.log(this.state.currentPage.page.content[index])
   }
-  stepperText(data){
-    let {value, sec, stepId, stepperId} = data
-    
+  stepperText(data) {
+    let { value, sec, stepId, stepperId } = data
+
     var componentIndex = this.state.currentPage.page.content.findIndex(obj => obj.id === stepperId);
     var stepIndex = this.state.currentPage.page.content[componentIndex].steps.findIndex(obj => obj.id === stepId);
-    
-     this.setState(state => {  
-      var list=null
-      if (stepId !== 'finish')
-   {
-       list = state.currentPage.page.content[componentIndex].steps[stepIndex][sec] = value;
-    } else {
-      list = state.currentPage.page.content[componentIndex][sec] = value;
-    }
+
+    this.setState(state => {
+      var list = null
+      if (stepId !== 'finish') {
+        list = state.currentPage.page.content[componentIndex].steps[stepIndex][sec] = value;
+      } else {
+        list = state.currentPage.page.content[componentIndex][sec] = value;
+      }
       return {
         list
       }
     })
-  
+
 
     console.log(this.state.currentPage.page.content[componentIndex])
   }
-  removeComponent(compId){
+  removeComponent(compId) {
     var compIndex = this.state.currentPage.page.content.findIndex(obj => obj.id === compId);
-      this.setState(state => {
-        const list = state.currentPage.page.content.splice(compIndex, 1)
-        return {
-          list
-        }
-      })
+    this.setState(state => {
+      const list = state.currentPage.page.content.splice(compIndex, 1)
+      return {
+        list
+      }
+    })
     console.log(this.state.currentPage.page.content)
   }
+   
+  onDragStart = start => {
+   // console.log(this.state.currentPage.page.content)
+  }
+
+  onDragEnd = result => {
+
+    const { destination, source, draggableId, type } = result;
+    console.log(result)
+    if (!destination) {
+       console.log('destination')
+      return;
+     
+    }
+
+    if (destination.droppableId === source.droppableId && destination.index === source.index) {
+      console.log('droppableId')
+      return;
+    }
+    
+    const files = reorder(
+      this.state.currentPage.page.content,
+      source.index,
+      destination.index
+    );
+    this.setState({
+      currentPage: {
+        ...this.state.currentPage,
+        page: {
+          ...this.state.currentPage.page,
+          content: files
+        }
+      }
+    })
+    
+    console.log(this.state.currentPage.page.content)
+    //return;
+
+  }
+
+
+
   render() {
     const pagesList = this.state.pages
     const content = this.state.currentPage.page.content
     const { classes } = this.props;
-    
+
     return (
       <div className={classes.root}>
         <Box mb={2}>
-      <Grid container spacing={5} direction="row" alignItems="center">
-           
+          <Grid container spacing={5} direction="row" alignItems="center">
             <Grid item>
               <Typography component="div">
                 <Grid component="label" container alignItems="center" spacing={1}>
@@ -607,44 +654,69 @@ class Editor extends Component {
                 }}
               />
             </Grid>
-          </Grid>  
-          </Box>
-          <Paper className={classes.paper}>
+          </Grid>
+        </Box>
+        <Paper className={classes.paper}>
           <Title>{this.state.currentPage.page.text || ''}</Title>
-          {content.map((comp, index) => (
-            <div key={index}>
-              <Grid container direction="row" alignItems="center">
-                <Grid item>
-                  <IconButton className={classes.button} aria-label="delete">
-                    <ControlCameraIcon />
-                  </IconButton>
-                </Grid>
-                <Grid item>
-                  <IconButton onClick={()=>this.removeComponent(comp.id)} className={classes.button} aria-label="delete">
-                    <DeleteIcon />
-                  </IconButton>
-                </Grid>
-                <Grid item>
-                  <Typography variant="h6">{comp.component}</Typography>
-                </Grid>
-              </Grid>
-              {(() => {
+          <DragDropContext
+            onDragEnd={this.onDragEnd}
+            onDragStart={this.onDragStart}
+          >
+            <Droppable
+              droppableId="droppable"
+              type="component" style={{ transform: "none" }}
+            >
+              {(provided) => (
+                <div ref={provided.innerRef} {...provided.droppableProps} >
+                  {content.map((comp, index) => (
+                    <div key={index}>
+                      <Draggable draggableId={comp.id.toString()}
+                        index={index}>
+                        {(provided, snapshot) => (
+                          
+                          <div key={index}
+                          ref={provided.innerRef} 
+                            {...provided.draggableProps}
+                          >
+                            <Grid  {...provided.dragHandleProps} container direction="row" alignItems="center">
+                              <Grid item>
+                                <ControlCameraIcon className={classes.button} />
+                              </Grid>
+                              <Grid item>
+                                <IconButton onClick={() => this.removeComponent(comp.id)} className={classes.button} aria-label="delete">
+                                  <DeleteIcon />
+                                </IconButton>
+                              </Grid>
+                              <Grid item>
+                                <Typography variant="h6">{comp.component}</Typography>
+                              </Grid>
+                            </Grid>
+                            {(() => {
                 switch (comp.component) {
                   case 'stepper':
                     return <StepperEditor StepperText={this.stepperText} key={index + 'hjhj'} addStep={this.addStep} removeStep={this.removeStep} {...comp} />
                   case 'expansion':
                     return <ExpansionEditor ExpansionText={this.expansionText} key={index + '76'} {...comp} />
                   case 'Text':
-                    return <Text TextAction={this.TextAction} {...comp} />
+                    return <Text TextAction={this.TextAction} key={index + 'text'} {...comp} />
                   case 'Alert':
-                    return <Alert AlertAction={this.AlertAction} {...comp} />
+                    return <Alert AlertAction={this.AlertAction} key={index + 'alery'} {...comp} />
                   default:
                     return ''
                 }
               })()}
-            </div>
-          )
-          )}
+                          
+                          </div>
+                        )}
+                      </Draggable>
+                    </div>
+                  )
+                  )}
+                  {provided.placeholder}
+                  </div>
+                  )}
+            </Droppable>
+          </DragDropContext>
         </Paper>
         <MsgDialog sure={this.doRemove} id={'0'} name={'props.title'} ref={this.remove} />
         <RenameDialog ref={this.namedialog} func={this.func} action={this.state.event.action} title={this.state.event.title} description={this.state.event.description} value={this.state.event.value} />
