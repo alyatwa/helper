@@ -22,6 +22,7 @@ import Switch from '@material-ui/core/Switch';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import LinkIcon from '@material-ui/icons/Link';
+import clsx from 'clsx';
 import { Droppable, Draggable, DragDropContext } from 'react-beautiful-dnd';
 import RootRef from "@material-ui/core/RootRef";
 
@@ -71,6 +72,11 @@ const styles = theme => ({
   margin: {
     margin: theme.spacing(1),
   },
+  disabled:{
+     pointerEvents: 'none',
+  opacity: 0.4,
+  background: 'rgba(202, 197, 197, 0.2)'
+  }
 });
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -79,6 +85,10 @@ const reorder = (list, startIndex, endIndex) => {
 
   return result;
 };
+const isUrl = (s) => {
+    var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+    return regexp.test(s);
+}
 class Editor extends Component {
   constructor(props) {
     super(props);
@@ -96,7 +106,7 @@ class Editor extends Component {
         value: '',
         pageType: ''
       }
-    }
+     }
     this.addStep = this.addStep.bind(this);
     this.removeStep = this.removeStep.bind(this);
     this.stepperText = this.stepperText.bind(this);
@@ -104,7 +114,8 @@ class Editor extends Component {
     this.TextAction = this.TextAction.bind(this);
     this.onDragEnd = this.onDragEnd.bind(this);
     this.AlertAction = this.AlertAction.bind(this);
-
+    this.toggleChecked = this.toggleChecked.bind(this);
+    this.exURL = this.exURL.bind(this);
   }
   allLinks = (data) => {
     return {
@@ -138,7 +149,8 @@ class Editor extends Component {
         text: 'Home',
       },
       {
-        href: 'https://google.com',
+        href: '/',
+        hrefOut:'https://google.com',
         external: true,
         text: 'External',
       },
@@ -153,6 +165,7 @@ class Editor extends Component {
         items: [{
           id: 'jies54',
           href: '/',
+          hrefOut: 'https//google.com',
           external: false,
           text: 'Home',
           content: [
@@ -585,20 +598,13 @@ class Editor extends Component {
   }
 
   onDragEnd = result => {
-
     const { destination, source, draggableId, type } = result;
-    console.log(result)
     if (!destination) {
-       console.log('destination')
       return;
-     
     }
-
     if (destination.droppableId === source.droppableId && destination.index === source.index) {
-      console.log('droppableId')
       return;
     }
-    
     const files = reorder(
       this.state.currentPage.page.content,
       source.index,
@@ -614,12 +620,33 @@ class Editor extends Component {
       }
     })
     
-    console.log(this.state.currentPage.page.content)
-    //return;
+   
 
   }
-
-
+  toggleChecked(){
+   this.setState({
+      currentPage: {
+        ...this.state.currentPage,
+        page: {
+          ...this.state.currentPage.page,
+          external: !this.state.currentPage.page.external
+        }
+      }
+    })
+    console.log(this.state.currentPage.page.external)
+  }
+  exURL(e){
+   this.setState({
+      currentPage: {
+        ...this.state.currentPage,
+        page: {
+          ...this.state.currentPage.page,
+          hrefOut: e.target.value
+        }
+      }
+    })
+    console.log(this.state.currentPage.page)
+  }
 
   render() {
     const pagesList = this.state.pages
@@ -633,17 +660,20 @@ class Editor extends Component {
             <Grid item>
               <Typography component="div">
                 <Grid component="label" container alignItems="center" spacing={1}>
-                  <Grid item>External</Grid>
-                  <Grid item>
-                    <Switch color="primary" name="checkedC" />
-                  </Grid>
                   <Grid item>Internal</Grid>
+                  <Grid item>
+                    <Switch onChange={this.toggleChecked} checked={this.state.currentPage.page.external} color="primary" name="checkedC" />
+                  </Grid>
+                  <Grid item>External</Grid>
                 </Grid>
               </Typography>
             </Grid>
             <Grid item>
               <TextField
                 id="input-with-icon-textfield"
+                onBlur={this.exURL}
+                defaultValue={this.state.currentPage.page.hrefOut}
+                disabled={!this.state.currentPage.page.external}
                 label="Link"
                 InputProps={{
                   startAdornment: (
@@ -656,7 +686,7 @@ class Editor extends Component {
             </Grid>
           </Grid>
         </Box>
-        <Paper className={classes.paper}>
+        <Paper className={this.state.currentPage.page.external ? clsx (classes.disabled, classes.paper):classes.paper} >
           <Title>{this.state.currentPage.page.text || ''}</Title>
           <DragDropContext
             onDragEnd={this.onDragEnd}

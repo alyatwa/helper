@@ -20,7 +20,7 @@ export default function MDBox(props) {
             if(!fTime){
             props.mdb(value)}
             
-            console.log('action!!!!!!!',fTime);
+            //console.log('action!!!!!!!',fTime);
         }, 1000);
     }, [value]);
 
