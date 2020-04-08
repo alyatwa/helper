@@ -63,11 +63,11 @@ const useStyles = makeStyles(theme => ({
   list: {
     marginTop: 20
   },
-  drag:{
-    '& + div': {
-   display: 'none!important',
-  },
-}
+  drag: {
+    "& + div": {
+      display: "none!important"
+    }
+  }
 }));
 
 export default function EditorDrawer(props) {
@@ -141,41 +141,126 @@ export default function EditorDrawer(props) {
         </TabPanel>
 
         <TabPanel value={value} key={"TOOLS"} index={1}>
-          <Droppable droppableId="TOOLS" style={{ transform: "none" }} isDropDisabled={true}>
+          {/*<Box my={2}>
+            <Grid
+              container
+              direction="row"
+              justify="center"
+              alignItems="center"
+              spacing={2}
+            >
+              <Grid
+                container
+                justify="center"
+                alignItems="center"
+                item
+                xs={6}
+                className="drag"
+              >
+                <Grid item style={{ textAlign: "center" }}>
+                  <LinkIcon />
+                  <Typography>11111</Typography>
+                </Grid>
+              </Grid>
+              <Grid
+                container
+                justify="center"
+                alignItems="center"
+                item
+                xs={6}
+                className="drag"
+              >
+                <Grid item style={{ textAlign: "center" }}>
+                  <LinkIcon />
+                  <Typography>22222</Typography>
+                </Grid>
+              </Grid>
+              <Grid
+                container
+                justify="center"
+                alignItems="center"
+                item
+                xs={6}
+                className="drag"
+              >
+                <Grid item style={{ textAlign: "center" }}>
+                  <LinkIcon />
+                  <Typography>333333</Typography>
+                </Grid>
+              </Grid>
+              <Grid
+                container
+                justify="center"
+                alignItems="center"
+                item
+                xs={6}
+                className="drag"
+              >
+                <Grid item style={{ textAlign: "center" }}>
+                  <LinkIcon />
+                  <Typography>4444444</Typography>
+                </Grid>
+              </Grid>
+            </Grid>
+          
+          
+          </Box>*/}
+          <Droppable
+            droppableId="TOOLS"
+            style={{ transform: "none" }}
+            isDropDisabled={true}
+          >
             {(provided, snapshot) => (
               <div ref={provided.innerRef} {...provided.droppableProps}>
-                {tools.map((tool, index) => (
-                  <div key={index}>
-                    <Draggable draggableId={tool.id} index={index}>
-                      {(provided, snapshot) => (
-                        <React.Fragment>
-                          <Grid key={index}
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            container   className="drag"
-                            direction="row"
-                            alignItems="center"
-                          >
-                            <LinkIcon />
-                            <Typography>{tool.label}</Typography>
-                          </Grid>
-                          {snapshot.isDragging && 
-                          <Grid key={'4'+index}
-                            container style={{transform: 'none!important'}}
-                            direction="row" className={classes.drag}
-                            alignItems="center"
-                          >
-                            <LinkIcon />
-                            <Typography>{tool.label}</Typography>
-                          </Grid>
-                          }
-                       
-                        </React.Fragment>
-                      )}
-                    </Draggable>
-                  </div>
-                ))}
+                <Box my={2}>
+                  <Grid
+                    container
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                    spacing={2}
+                  >
+                    {tools.map((tool, index) => (
+                      <Grid
+                        key={index}
+                        container
+                        justify="center"
+                        alignItems="center"
+                        item
+                        xs={6}
+                        className="drag"
+                      >
+                        <Draggable draggableId={tool.id} index={index}>
+                          {(provided, snapshot) => (
+                            <>
+                              <div
+                                key={index}
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                              >
+                                <div {...provided.dragHandleProps}>
+                                  <Grid item style={{ textAlign: "center" }}>
+                                    <LinkIcon />
+                                    <Typography>{tool.label}</Typography>
+                                  </Grid>
+                                </div>
+                              </div>
+
+                              {snapshot.isDragging && (
+                                <div key={"4" + index} className={classes.drag}>
+                                  <Grid item style={{ textAlign: "center" }}>
+                                    <LinkIcon />
+                                    <Typography>{tool.label}</Typography>
+                                  </Grid>
+                                </div>
+                              )}
+                            </>
+                          )}
+                        </Draggable>
+                      </Grid>
+                    ))}
+                  </Grid>
+                </Box>
               </div>
             )}
           </Droppable>
